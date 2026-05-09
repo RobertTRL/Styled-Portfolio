@@ -10,34 +10,38 @@ import Skills from './components/Skills.jsx'
 import Contacts from './components/Contacts.jsx';
 
 const App = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('isDark');
+    if (saved !== null) return JSON.parse(saved);
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
   const [isPreload, setIsPreload] = useState(true);
 
   useEffect(() => {
-    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDarkMode) setIsDark(true);
-
     const timeoutId = setTimeout(() => setIsPreload(false), 50);
     return () => clearTimeout(timeoutId);
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('isDark', JSON.stringify(isDark));
+  }, [isDark]);
+
   const handleToggle = () => {
-    console.log("Toggle clicked! Current mode:", isDark ? "Night" : "Day");
-    setIsDark(prevDark => !prevDark);
+    setIsDark(prev => !prev);
   };
 
   return (
     <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
-      <Background/>
-      <div className='items' >
-          <Header isDark={isDark} onToggle={handleToggle} />
-          <Hero isDark={isDark}/>
-          <AboutMe isDark={isDark}/>
-          <Skills isDark={isDark}/>
-          <Contacts isDark={isDark}/>
-          <Navbar isDark={isDark}/>
+      <Background />
+      <div className='items'>
+        <Header isDark={isDark} onToggle={handleToggle} />
+        <Hero isDark={isDark} />
+        <AboutMe isDark={isDark} />
+        <Skills isDark={isDark} />
+        <Contacts isDark={isDark} />
+        <Navbar isDark={isDark} />
       </div>
-      
     </div>
   );
 };
