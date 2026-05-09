@@ -7,6 +7,7 @@ import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import AboutMe from './components/AboutMe.jsx'
 import Skills from './components/Skills.jsx'
+import Contacts from './components/Contacts.jsx';
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -33,6 +34,7 @@ const App = () => {
           <Hero isDark={isDark}/>
           <AboutMe isDark={isDark}/>
           <Skills isDark={isDark}/>
+          <Contacts isDark={isDark}/>
           <Navbar isDark={isDark}/>
       </div>
       
