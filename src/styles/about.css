@@ -1,0 +1,244 @@
+/* ── Theme Variables ── */
+.about-section.dark-mode {
+  --text-main:  #ffffff;
+  --text-sub:   rgba(255, 255, 255, 0.55);
+  --text-label: rgba(255, 255, 255, 0.35);
+  --bg-color:   transparent;
+  --bg-glow:    rgba(100, 120, 255, 0.07);
+  --accent:     #a5b4fc;
+  --divider:    rgba(255, 255, 255, 0.12);
+  --watermark:  rgba(255, 255, 255, 0.04);
+}
+
+.about-section.light-mode {
+  --text-main:  #0f172a;
+  --text-sub:   #475569;
+  --text-label: #94a3b8;
+  --bg-color:   transparent;
+  --bg-glow:    rgba(30, 58, 138, 0.04);
+  --accent:     #4f46e5;
+  --divider:    rgba(15, 23, 42, 0.10);
+  --watermark:  rgba(15, 23, 42, 0.12);
+}
+
+/* ── Layout ── */
+.about-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(1.5rem, 8vw, 8rem);
+  background: var(--bg-color);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.about-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 55% 60% at 75% 55%,
+    var(--bg-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* ── Inner row — watermark + content side by side ── */
+.about-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* both tops align — watermark crown meets "Who I am" */
+  gap: clamp(1rem, 3vw, 3rem);
+  width: 100%;
+}
+
+/* ── Watermark ── */
+.about-watermark {
+  font-size: clamp(5rem, 14vw, 12rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--watermark);
+  -webkit-text-stroke: 1px var(--accent);
+  opacity: 0.55;
+  user-select: none;
+  pointer-events: none;
+  margin: 0;
+  text-align: left;
+  flex-shrink: 0;
+  padding-top: clamp(1.5rem, 4vw, 3.5rem);
+  transform: translateY(-0.12em);
+ 
+}
+
+.about-section.light-mode .about-watermark {
+  -webkit-text-stroke: 1.5px var(--accent);
+  opacity: 0.75;
+}
+
+/* ── Content block ── */
+.about-content {
+  flex: 1;
+  max-width: 680px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.25rem, 3vw, 2.5rem);
+}
+
+/* ── Section label ── */
+.about-label {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  margin: 0 0 1.25rem;
+  transition: color 0.3s ease;
+}
+
+/* ── Display heading ── */
+.about-heading {
+  font-size: clamp(2.2rem, 5.5vw, 5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin: 0 0 2rem;
+  transition: color 0.3s ease;
+}
+
+.serif-word {
+  font-family: Georgia, 'Palatino Linotype', serif;
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* ── Divider ── */
+.about-divider {
+  width: 2.5rem;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin-bottom: 2rem;
+  opacity: 0.6;
+  transition: background 0.3s ease;
+}
+
+/* ── Greeting ── */
+.about-greeting {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 500;
+  color: var(--text-sub);
+  font-family: 'Palatino Linotype', serif;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.emoji-group {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.emoji-group img {
+  height: 1.2em;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ── Body text ── */
+.about-text {
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  color: var(--text-sub);
+  line-height: 1.8;
+  font-family: 'Palatino Linotype', serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* ── Highlights ── */
+.highlight {
+  font-weight: 600;
+  display: inline;
+  transition: color 0.3s ease;
+}
+
+.highlight.name { color: var(--text-main); }
+
+.highlight.role { color: var(--accent); }
+
+.highlight.exp {
+  color: var(--accent);
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .about-inner {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-watermark {
+    font-size: clamp(3rem, 12vw, 5rem);
+    text-align: center;
+    width: 100%;
+    -webkit-text-stroke: 0.5px var(--accent);
+    opacity: 0.4;
+  }
+
+  /* Hide the line break — "About Me" becomes one line */
+  .about-watermark br {
+    display: none;
+  }
+
+  .about-section.light-mode .about-watermark {
+    opacity: 0.6;
+  }
+
+  .about-content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-section {
+    padding: 4rem 1.5rem;
+    align-items: flex-start;
+  }
+
+  .about-watermark {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    opacity: 0.35;
+  }
+
+  .about-heading {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.about-section.dark-mode .about-watermark {
+  transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
+}
+
+.about-section.dark-mode.in-view .about-watermark {
+  color: #4b0082; 
+  -webkit-text-stroke: 1px #4b0082;
+  opacity: 0.8;
+}

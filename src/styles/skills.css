@@ -1,0 +1,371 @@
+/* ── Theme Variables ── */
+.skills-section.dark-mode {
+  --text-main:    #ffffff;
+  --text-sub:     rgba(255, 255, 255, 0.55);
+  --text-label:   rgba(255, 255, 255, 0.35);
+  --bg-color:     transparent;
+  --bg-glow:      rgba(100, 120, 255, 0.07);
+  --accent:       #a5b4fc;
+  --divider:      rgba(255, 255, 255, 0.10);
+  --watermark:    rgba(255, 255, 255, 0.04);
+  --card-bg:      rgba(255, 255, 255, 0.04);
+  --card-border:  rgba(255, 255, 255, 0.10);
+  --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.30);
+  --item-bg:      rgba(255, 255, 255, 0.06);
+  --item-border:  rgba(255, 255, 255, 0.12);
+  --fade-color:   #000000;
+}
+
+.skills-section.light-mode {
+  --text-main:    #0f172a;
+  --text-sub:     #475569;
+  --text-label:   #94a3b8;
+  --bg-color:     transparent;
+  --bg-glow:      rgba(30, 58, 138, 0.04);
+  --accent:       #4f46e5;
+  --divider:      rgba(15, 23, 42, 0.10);
+  --watermark:    rgba(15, 23, 42, 0.12);
+  --card-bg:      rgba(255, 255, 255, 0.55);
+  --card-border:  rgba(15, 23, 42, 0.08);
+  --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.08);
+  --item-bg:      rgba(15, 23, 42, 0.04);
+  --item-border:  rgba(15, 23, 42, 0.10);
+  --fade-color:   #f8fafc;
+}
+
+/* ── Section layout ── */
+.skills-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 clamp(4rem, 8vw, 8rem);
+  background: var(--bg-color);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.skills-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 30%,
+    var(--bg-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* ── Watermark — centered, top ── */
+.skills-watermark {
+  font-size: clamp(5rem, 18vw, 14rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--watermark);
+  -webkit-text-stroke: 1px var(--accent);
+  opacity: 0.55;
+  user-select: none;
+  pointer-events: none;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  padding-top: clamp(2rem, 6vh, 5rem);
+}
+
+.skills-section.light-mode .skills-watermark {
+  -webkit-text-stroke: 1.5px var(--accent);
+  opacity: 0.75;
+}
+
+/* ── Intro block ── */
+.skills-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 8vw, 8rem) clamp(2rem, 4vw, 3rem);
+  position: relative;
+  z-index: 2;
+}
+
+.skills-label {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  margin: 0 0 1.25rem;
+  transition: color 0.3s ease;
+}
+
+.skills-heading {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin: 0 0 2rem;
+  transition: color 0.3s ease;
+}
+
+.serif-word {
+  font-family: Georgia, 'Palatino Linotype', serif;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.skills-divider {
+  width: 2.5rem;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.6;
+  transition: background 0.3s ease;
+}
+
+/* ── Marquee ── */
+.marquee-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.marquee-row {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  /* Crucial: Row gap must match track gap to hide the seam between Track 1 and 2 */
+  gap: clamp(0.75rem, 1.5vw, 1.25rem); 
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  min-width: max-content;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  padding: 0.2rem 0;
+}
+
+.track-left  { animation: scroll-left  60s linear infinite; }
+.track-right { animation: scroll-right 60s linear infinite; }
+
+/* Moves left exactly one track's width + the row gap */
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% - clamp(0.75rem, 1.5vw, 1.25rem))); }
+}
+
+/* Starts shifted left, moves right to 0 */
+@keyframes scroll-right {
+  0%   { transform: translateX(calc(-100% - clamp(0.75rem, 1.5vw, 1.25rem))); }
+  100% { transform: translateX(0); }
+}
+
+/* Pause on hover */
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: clamp(72px, 10vw, 96px);
+  height: clamp(72px, 10vw, 96px);
+  background: var(--item-bg);
+  border: 1px solid var(--item-border);
+  border-radius: 16px;
+  padding: 0.75rem;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.marquee-item:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.marquee-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.marquee-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text-label);
+  text-align: center;
+  white-space: nowrap;
+  display: none; /* shown on hover via parent */
+}
+
+/* ── Education & Certs content ── */
+.skills-content {
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 clamp(1.5rem, 8vw, 8rem);
+  position: relative;
+  z-index: 2;
+}
+
+.edu-cert-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.col-heading {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  margin: 0 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.col-icon {
+  color: var(--accent);
+  font-size: 0.9em;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  margin-bottom: 1rem;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow), 0 0 0 1px var(--accent);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.card-title {
+  font-family: Helvetica, sans-serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.card-period {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.card-sub {
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  color: var(--text-label);
+  font-family: 'Palatino Linotype', serif;
+  font-style: italic;
+  margin: 0 0 0.75rem;
+  transition: color 0.3s ease;
+}
+
+.card-desc {
+  font-size: clamp(0.82rem, 1.2vw, 0.92rem);
+  color: var(--text-sub);
+  line-height: 1.7;
+  font-family: 'Palatino Linotype', serif;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.card-credential {
+  font-size: 0.78rem;
+  color: var(--text-label);
+  margin: 0.5rem 0 0;
+  transition: color 0.3s ease;
+}
+
+.card-credential code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: var(--accent);
+  background: rgba(165, 180, 252, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .skills-watermark {
+    font-size: clamp(3.5rem, 16vw, 7rem);
+  }
+
+  .edu-cert-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .skills-intro {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .skills-content {
+    padding: 0 1.5rem;
+  }
+
+  .card-top {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+}
+
+.skills-section.dark-mode .skills-watermark {
+  transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
+}
+
+.skills-section.dark-mode.in-view .skills-watermark {
+  color: #4b0082;
+  -webkit-text-stroke: 1px #4b0082;
+  opacity: 0.8;
+}

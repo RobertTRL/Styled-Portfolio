@@ -1,0 +1,138 @@
+@import url(https://fonts.bunny.net/css?family=abril-fatface:400);
+/* ── Theme Variables ── */
+.hero-section.dark-mode {
+  --text-main: #ffffff;
+  --text-desc: rgba(255, 255, 255, 0.45);
+  --bg-glow: rgba(100, 120, 255, 0.07);
+  /* Leaves it transparent to show your black page, or you can set it to #000000 */
+  --bg-color: transparent; 
+  --btn-text: #ffffff;
+}
+
+.hero-section.light-mode {
+  --text-main: #0f172a; 
+  --text-desc: #475569; 
+  --bg-glow: rgba(30, 58, 138, 0.04);
+  /* The blue/white background you mentioned for light mode */
+  --btn-text: #2563eb;
+}
+
+/* ── Layout ── */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 clamp(1.5rem, 8vw, 8rem);
+  
+  /* Update this from transparent to use our new variable! */
+  background: var(--bg-color); 
+  
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  padding-bottom: 13.5vw;
+}
+
+/* subtle radial glow centered in the background */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, var(--bg-glow) 0%, transparent 70%);
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* ── main text ── */
+.main-text-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.main-text {
+  font-size: clamp(2.8rem, 7.5vw, 6.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin: 0 0 2rem;
+  user-select: none;
+  cursor: default;
+  display: inline-block; 
+  color: var(--text-main);
+  
+  /* Base resting state */
+  transform: translateY(0px);
+  will-change: transform;
+}
+
+.serif-word {
+  font-family: Georgia, 'Palatino Linotype', serif;
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* ── description ── */
+.description {
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  color: var(--text-desc);
+  max-width: 480px;
+  line-height: 1.7;
+  font-family: 'Palatino Linotype', serif;
+  margin: 0 auto 2.5rem auto; 
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  transition: color 0.3s ease;
+}
+
+/* ── responsive ── */
+@media (max-width: 600px) {
+  .hero-section {
+    padding: 0 1.5rem;
+  }
+
+  .main-text {
+    margin-bottom: 1.5rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
+}
+
+.hero-btn {
+  background-color: transparent;
+  font-family: 'Helvetica Neue', sans-serif;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 550;
+  padding: 0;
+  color: var(--btn-text);
+  display: inline-flex;     
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hero-btn-arrow {
+  display: inline-block;
+  animation: nudge-down 1.8s ease-in-out infinite;
+}
+
+@keyframes nudge-down {
+  0%, 100% { transform: translateY(0);    opacity: 1;   }
+  50%       { transform: translateY(5px); opacity: 0.5; }
+}
+
+.hero-btn:hover {
+  opacity: 0.7; 
+  transform: translateX(4px); 
+}
+
+.hero-btn:active {
+  transform: translateX(2px); 
+}
+
