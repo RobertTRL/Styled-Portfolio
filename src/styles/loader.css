@@ -161,23 +161,29 @@
 }
 
 .loader-container.dark-mode .loader-wrapper  { color: #ffffff; }
-.loader-container.light-mode .loader-wrapper { color: #0f172a; }
+.loader-container.light-mode .loader-wrapper { 
+  color: #0f172a; 
+  font-weight: 700; 
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.9), 
+    0 0 20px rgba(255, 255, 255, 0.6); 
+}
 
 .loader-letter {
   display: inline-block;
   font-family: 'Helvetica Neue', sans-serif;
   font-size: 2.2rem;
-  font-weight: 500;
+  font-weight: inherit;
   letter-spacing: 0.04em;
-  opacity: 0.4;
+  opacity: 0.6;
   animation: loader-letter-anim 2s infinite;
 }
 
 @keyframes loader-letter-anim {
   0%,
-  100% { opacity: 0.4; transform: translateY(0);  }
+  100% { opacity: 0.6; transform: translateY(0);  }
   20%  { opacity: 1;   transform: scale(1.15);    }
-  40%  { opacity: 0.7; transform: translateY(0);  }
+  40%  { opacity: 0.8; transform: translateY(0);  }
 }
 
 .water-dissolve {

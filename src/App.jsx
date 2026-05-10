@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => setIsPreload(false), 50);
-    const loadId = setTimeout(() => setIsLoading(false), 8500);
+    const loadId = setTimeout(() => setIsLoading(false), 8750);
     return () => {
       clearTimeout(timeoutId)
       clearTimeout(loadId)
