@@ -28,9 +28,9 @@ const CONTACT_LINKS = [
     id:     'email',
     label:  'Email',
     sub:    EMAIL,
-    href:   `mailto:${EMAIL}`,
+    href:   '#',
     symbol: '→',
-    action: 'link',
+    action: 'copy',
   },
   {
     id:     'phone',
@@ -65,15 +65,23 @@ export default function Contacts({ isDark }) {
     };
   }, []);
 
+  function handleCopyClick(e, value) {
+    e.preventDefault();
+    navigator.clipboard.writeText(value).catch(() => {});
+    setCopiedId('email');
+    setTimeout(() => setCopiedId(null), 2200);
+}
+
   function handlePhoneClick() {
     navigator.clipboard.writeText(PHONE_NUMBER).catch(() => {});
     setCopiedId('phone');
     setTimeout(() => setCopiedId(null), 2200);
-  }
+}
 
   function handleLinkClick(e, item) {
     if (item.action === 'phone') handlePhoneClick(e);
-  }
+    if (item.action === 'copy')  handleCopyClick(e, EMAIL);
+}
 
   return (
     <section
@@ -129,13 +137,6 @@ export default function Contacts({ isDark }) {
             ))}
           </ul>
 
-          <p className="contacts-footer">
-            Prefer a formal approach?{' '}
-            <a href={`mailto:${EMAIL}`} className="footer-link">
-              Send me an email
-            </a>{' '}
-            and I'll respond within 24 hours.
-          </p>
         </div>
       </div>
     </section>

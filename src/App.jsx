@@ -8,6 +8,7 @@ import Hero from './components/Hero.jsx'
 import AboutMe from './components/AboutMe.jsx'
 import Skills from './components/Skills.jsx'
 import Contacts from './components/Contacts.jsx';
+import Loader from './components/Loader.jsx';
 
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -17,10 +18,15 @@ const App = () => {
   });
 
   const [isPreload, setIsPreload] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const timeoutId = setTimeout(() => setIsPreload(false), 50);
-    return () => clearTimeout(timeoutId);
+    const loadId = setTimeout(() => setIsLoading(false), 8500);
+    return () => {
+      clearTimeout(timeoutId)
+      clearTimeout(loadId)
+    };
   }, []);
 
   useEffect(() => {
@@ -33,6 +39,7 @@ const App = () => {
 
   return (
     <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
+      <Loader isDark={isDark} isLoading={isLoading} />
       <Background />
       <div className='items'>
         <Header isDark={isDark} onToggle={handleToggle} />
