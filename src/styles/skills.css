@@ -83,6 +83,16 @@
   opacity: 0.75;
 }
 
+.skills-section.dark-mode .skills-watermark {
+  transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
+}
+
+.skills-section.dark-mode.in-view .skills-watermark {
+  color: #4b0082;
+  -webkit-text-stroke: 1px #4b0082;
+  opacity: 0.8;
+}
+
 /* ── Intro block ── */
 .skills-intro {
   display: flex;
@@ -178,42 +188,55 @@
   animation-play-state: paused;
 }
 
+/* ── Marquee Items (Updated for Labels) ── */
 .marquee-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  width: clamp(72px, 10vw, 96px);
-  height: clamp(72px, 10vw, 96px);
+  gap: 0.6rem;
+  width: clamp(85px, 12vw, 110px);
+  height: clamp(85px, 12vw, 110px);
   background: var(--item-bg);
   border: 1px solid var(--item-border);
   border-radius: 16px;
   padding: 0.75rem;
   flex-shrink: 0;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.3s ease;
 }
 
 .marquee-item:hover {
   border-color: var(--accent);
   transform: translateY(-3px);
+  background: var(--card-bg); 
 }
 
 .marquee-item img {
-  width: 100%;
-  height: 100%;
+  width: clamp(32px, 5vw, 48px);
+  height: clamp(32px, 5vw, 48px);
   object-fit: contain;
   user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.marquee-item:hover img {
+  transform: scale(1.05);
 }
 
 .marquee-label {
-  font-size: 10px;
-  font-weight: 500;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
+  font-weight: 600;
   letter-spacing: 0.05em;
-  color: var(--text-label);
+  color: var(--text-sub); 
   text-align: center;
   white-space: nowrap;
-  display: none; /* shown on hover via parent */
+  display: block; 
+  transition: color 0.3s ease;
+}
+
+.marquee-item:hover .marquee-label {
+  color: var(--accent);
 }
 
 /* ── Education & Certs content ── */
@@ -346,6 +369,7 @@
   }
 }
 
+/* Fixed the typo here from @Pro @media to just @media */
 @media (max-width: 600px) {
   .skills-intro {
     padding-left: 1.5rem;
@@ -360,14 +384,4 @@
     flex-direction: column;
     gap: 0.4rem;
   }
-}
-
-.skills-section.dark-mode .skills-watermark {
-  transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
-}
-
-.skills-section.dark-mode.in-view .skills-watermark {
-  color: #4b0082;
-  -webkit-text-stroke: 1px #4b0082;
-  opacity: 0.8;
 }
