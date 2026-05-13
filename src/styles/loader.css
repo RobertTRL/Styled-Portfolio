@@ -1,3 +1,33 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   loader.css  —  Namespaced Camp Scene Loader
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Theme tokens ── */
+.loader-container.dark-mode {
+  --bg-start:       #020818;
+  --bg-mid:         #061330;
+  --pattern-c1:     #0d0e1f;
+  --pattern-c2:     #3b0070;
+  --text-color:     #c8deff;
+  --text-shadow:    0 0 24px rgba(100, 180, 255, 0.55), 0 0 48px rgba(60, 130, 220, 0.25);
+  --progress-track: rgba(255, 255, 255, 0.07);
+  --progress-beam:  linear-gradient(90deg, transparent, #64b4ff, #b0d8ff, #64b4ff, transparent);
+  --star-color:     rgba(255, 255, 255, 0.7);
+}
+
+.loader-container.light-mode {
+  --bg-start:       #cfe4f7;
+  --bg-mid:         #a8cceb;
+  --pattern-c1:     #f8b195;
+  --pattern-c2:     #355c7d;
+  --text-color:     #0c2a5e;
+  --text-shadow:    0 1px 0 rgba(255,255,255,0.6), 0 2px 16px rgba(30, 90, 180, 0.2);
+  --progress-track: rgba(0, 0, 0, 0.1);
+  --progress-beam:  linear-gradient(90deg, transparent, #2e7fc2, #72b8f0, #2e7fc2, transparent);
+  --star-color:     rgba(30, 70, 150, 0.25);
+}
+
+/* ── Root container ── */
 .loader-container {
   position: fixed;
   inset: 0;
@@ -6,15 +36,43 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  font-family: Helvetica, sans-serif;
+  background: radial-gradient(ellipse 90% 70% at 50% 40%, var(--bg-mid), var(--bg-start) 75%);
 }
 
-/* ── Moving pattern ── */
+/* ── Starfield dots ── */
+.loader-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px   1px   at  8%  12%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 23%  74%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 37%  33%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 51%  61%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 64%  18%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 79%  82%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 91%  45%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 14%  55%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 44%  88%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 67%   6%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 85%  29%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at  5%  91%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 30%   5%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 95%  68%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 72%  52%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 18%  38%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 88%  12%, var(--star-color), transparent);
+  pointer-events: none;
+}
+
+/* ── Moving tile pattern ── */
 .loader-pattern {
   position: absolute;
   inset: 0;
   --s: 40px;
-  --c1: #f8b195;
-  --c2: #355c7d;
+  --c1: var(--pattern-c1);
+  --c2: var(--pattern-c2);
   --_g:
     var(--c2)  4%  14%,
     var(--c1) 14%  24%,
@@ -26,33 +84,12 @@
     var(--c1) 76%  86%,
     var(--c2) 86%  96%;
   background:
-    radial-gradient(
-      100% 100% at 100% 0,
-      var(--c1) 4%,
-      var(--_g),
-      #000a 96%,
-      #0000
-    ),
-    radial-gradient(
-      100% 100% at 0 100%,
-      #0000,
-      #000a 4%,
-      var(--_g),
-      var(--c1) 96%
-    ) var(--c1);
+    radial-gradient(100% 100% at 100% 0, var(--c1) 4%, var(--_g), #000a 96%, #0000),
+    radial-gradient(100% 100% at 0 100%, #0000, #000a 4%, var(--_g), var(--c1) 96%) var(--c1);
   background-size: var(--s) var(--s);
   animation: pattern-drift 2s linear infinite;
   image-rendering: crisp-edges;
-}
-
-.loader-container.dark-mode .loader-pattern {
-  --c1: #0d0e1f;
-  --c2: #3b0070;
-}
-
-.loader-container.light-mode .loader-pattern {
-  --c1: #f8b195;
-  --c2: #355c7d;
+  opacity: 0.4;
 }
 
 @keyframes pattern-drift {
@@ -60,151 +97,470 @@
   100% { background-position: var(--s) var(--s), var(--s) var(--s); }
 }
 
-/* ── Overlay ── */
+/* ── Frosted overlay ── */
 .loader-overlay {
   position: absolute;
   inset: 0;
+  backdrop-filter: blur(1px);
+  background: transparent;
 }
 
-.loader-container.dark-mode .loader-overlay,
-.loader-container.light-mode .loader-overlay {
-  background: transparent; 
-  backdrop-filter: blur(0.5px);
-}
-
-/* ── Core Containers ── */
+/* ── Content container ── */
 .content-container {
   position: relative;
   z-index: 1;
 }
 
-.earth {
+.camp-loader-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+  gap: 3.5rem;
+  margin-bottom: clamp(2rem, 8vh, 10rem); 
 }
 
-/* ── Globe Animation ── */
-.earth-loader {
-  --landcolor: #7cc133;
-  font-size: 3em; 
-  width: 7.5em;
-  height: 7.5em;
-  background-color: #3344c1; 
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-  box-shadow:
-    inset 0em 0.5em rgb(255, 255, 255, 0.25),
-    inset 0em -0.5em rgb(0, 0, 0, 0.25);
-  border: solid 0.15em white;
-}
+/* ════════════════════════════════════
+   Loading text
+════════════════════════════════════ */
 
-.earth-loader svg:nth-child(1) {
-  position: absolute;
-  bottom: -2em;
-  width: 7em;
-  height: auto;
-  animation: round1 5s infinite linear 0.75s;
-}
-
-.earth-loader svg:nth-child(2) {
-  position: absolute;
-  top: -3em;
-  width: 7em;
-  height: auto;
-  animation: round1 5s infinite linear;
-}
-
-.earth-loader svg:nth-child(3) {
-  position: absolute;
-  top: -2.5em;
-  width: 7em;
-  height: auto;
-  animation: round2 5s infinite linear;
-}
-
-.earth-loader svg:nth-child(4) {
-  position: absolute;
-  bottom: -2.2em;
-  width: 7em;
-  height: auto;
-  animation: round2 5s infinite linear 0.75s;
-}
-
-@keyframes round1 {
-  0%   { left: -2em; opacity: 100%; transform: skewX(0deg) rotate(0deg); }
-  30%  { left: -6em; opacity: 100%; transform: skewX(-25deg) rotate(25deg); }
-  31%  { left: -6em; opacity: 0%;   transform: skewX(-25deg) rotate(25deg); }
-  35%  { left: 7em;  opacity: 0%;   transform: skewX(25deg) rotate(-25deg); }
-  45%  { left: 7em;  opacity: 100%; transform: skewX(25deg) rotate(-25deg); }
-  100% { left: -2em; opacity: 100%; transform: skewX(0deg) rotate(0deg); }
-}
-
-@keyframes round2 {
-  0%   { left: 5em;  opacity: 100%; transform: skewX(0deg) rotate(0deg); }
-  75%  { left: -7em; opacity: 100%; transform: skewX(-25deg) rotate(25deg); }
-  76%  { left: -7em; opacity: 0%;   transform: skewX(-25deg) rotate(25deg); }
-  77%  { left: 8em;  opacity: 0%;   transform: skewX(25deg) rotate(-25deg); }
-  80%  { left: 8em;  opacity: 100%; transform: skewX(25deg) rotate(-25deg); }
-  100% { left: 5em;  opacity: 100%; transform: skewX(0deg) rotate(0deg); }
-}
-
-/* ── Loading Letters Wrapper ── */
 .loader-wrapper {
-  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 0.85rem;
   user-select: none;
 }
 
-.loader-container.dark-mode .loader-wrapper  { color: #ffffff; }
-.loader-container.light-mode .loader-wrapper { 
-  color: #0f172a; 
-  font-weight: 700; 
-  text-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.9), 
-    0 0 20px rgba(255, 255, 255, 0.6); 
+.loader-letters {
+  display: flex;
+  gap: 0.02em;
+  color: var(--text-color);
+  text-shadow: var(--text-shadow);
+  letter-spacing: 0.1em;
 }
 
 .loader-letter {
   display: inline-block;
-  font-family: 'Helvetica Neue', sans-serif;
-  font-size: 2.2rem;
-  font-weight: inherit;
-  letter-spacing: 0.04em;
-  opacity: 0.6;
-  animation: loader-letter-anim 2s infinite;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  opacity: 0.3;
+  animation: loader-letter-anim 2.2s ease-in-out infinite;
+  will-change: opacity, transform;
 }
 
 @keyframes loader-letter-anim {
   0%,
-  100% { opacity: 0.6; transform: translateY(0);  }
-  20%  { opacity: 1;   transform: scale(1.15);    }
-  40%  { opacity: 0.8; transform: translateY(0);  }
+  100% { opacity: 0.3;  transform: translateY(0); }
+  22%  { opacity: 1;    transform: translateY(-5px); }
+  50%  { opacity: 0.5;  transform: translateY(0); }
 }
+
+/* ── Sweeping progress beam ── */
+.loader-progress {
+  width: 160px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--progress-track);
+  overflow: hidden;
+}
+
+.loader-progress-beam {
+  height: 100%;
+  width: 55%;
+  background: var(--progress-beam);
+  border-radius: 1px;
+  animation: beam-sweep 2.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes beam-sweep {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(300%); }
+}
+
+/* ════════════════════════════════════
+   NEW: Hyperdrive Exit Animations
+════════════════════════════════════ */
 
 .water-dissolve {
-  animation: water-dissolve-anim 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  pointer-events: none; /* Prevents the user from clicking the loader while it fades */
+  pointer-events: none;
+  /* Fades out the entire container layer at the very end */
+  animation: bgFade 1.4s ease forwards;
 }
 
-@keyframes water-dissolve-anim {
+/* 1. Zoom the camp scene out */
+.water-dissolve .camp-scene-animator {
+  animation: hyperDriveExit 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+}
+
+/* 2. Drop and fade the loading text/bar */
+.water-dissolve .loader-wrapper {
+  animation: textFadeOut 0.5s ease forwards;
+}
+
+/* 3. Scale and fade the background grid */
+.water-dissolve .loader-pattern {
+  animation: gridFade 1s ease forwards;
+}
+
+@keyframes hyperDriveExit {
   0% {
+    transform: scale(1) translateZ(0);
+    filter: blur(0) brightness(1);
     opacity: 1;
-    filter: blur(0px);
-    transform: scale(1);
   }
   40% {
-    opacity: 0.8;
-    filter: blur(6px);
-    transform: scale(1.03); /* Slight outward bulge like a liquid droplet */
+    transform: scale(0.8) translateZ(0);
+    filter: blur(2px) brightness(1.5);
   }
   100% {
+    transform: scale(5) translateZ(0);
+    filter: blur(20px) brightness(3);
     opacity: 0;
-    filter: blur(25px);
-    transform: scale(1.15); /* Dissolves outward and blurs away */
   }
+}
+
+@keyframes textFadeOut {
+  to { opacity: 0; transform: translateY(10px) scale(0.95); letter-spacing: 0.1em; }
+}
+
+@keyframes gridFade {
+  to { opacity: 0; transform: scale(1.1); }
+}
+
+@keyframes bgFade {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* ════════════════════════════════════
+   CAMP SCENE CSS (Namespaced)
+════════════════════════════════════ */
+
+@keyframes earthRotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sunrise {
+  0%, 10%, 90%, 100% {
+    box-shadow: 0 0 0 8px rgba(255, 224, 51, 0.25), 0 0 0 16px rgba(255, 224, 51, 0.12), 0 0 30px 10px rgba(255, 200, 0, 0.3);
+  }
+  25%, 75% {
+    box-shadow: 0 0 0 0 rgba(255, 224, 51, 0), 0 0 0 0 rgba(255, 224, 51, 0), 0 0 0 0 rgba(255, 200, 0, 0);
+  }
+}
+
+@keyframes moonOrbit {
+  25% { transform: rotate(-60deg); }
+  50% { transform: rotate(-60deg); }
+  75% { transform: rotate(-120deg); }
+  0%, 100% { transform: rotate(-180deg); }
+}
+
+@keyframes nightTime {
+  0%, 90% { opacity: 0; }
+  50%, 75% { opacity: 1; }
+}
+
+@keyframes hotPan {
+  0%, 90% { background-color: #74667e; }
+  50%, 75% { background-color: #b2241c; }
+}
+
+@keyframes heat {
+  0%, 90% { box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0.3); }
+  50%, 75% { box-shadow: inset 0 -2px 0 0 white; }
+}
+
+@keyframes potJitter {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-1px) rotate(0.5deg); }
+  75% { transform: translateY(0.5px) rotate(-0.5deg); }
+}
+
+@keyframes smoke {
+  0%, 50%, 90%, 100% { opacity: 0; }
+  50%, 75% { opacity: 0.7; }
+}
+
+@keyframes fire {
+  0%, 90%, 100% { opacity: 0; }
+  50%, 75% { opacity: 1; }
+}
+
+@keyframes treeShake {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50%      { transform: rotate(1.5deg); }
+}
+
+@keyframes fireParticles {
+  0% { height: 30%; opacity: 1; top: 75%; }
+  25% { height: 25%; opacity: 0.8; top: 40%; }
+  50% { height: 15%; opacity: 0.6; top: 20%; }
+  75% { height: 10%; opacity: 0.3; top: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes fireLines {
+  0%, 25%, 75%, 100% { bottom: 0; }
+  50% { bottom: 5%; }
+}
+
+@keyframes tentBillow {
+  0%, 100% { transform: skew(30deg) scale(1); }
+  50% { transform: skew(30.5deg) scaleY(1.01) translateY(-1px); }
+}
+
+@keyframes doorFlapLeft {
+  0%, 100% { transform: rotate(-35deg); }
+  50% { transform: rotate(-37deg); }
+}
+
+@keyframes doorFlapRight {
+  0%, 100% { transform: rotate(-30deg); }
+  50% { transform: rotate(-32deg); }
+}
+
+.camp-scene {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: flex-end;
+  width: 400px;
+  height: 300px;
+  position: relative;
+  
+  transform: scale(clamp(1.1, 2.5vw, 1.6)); 
+  transform-origin: bottom center; 
+}
+
+.camp-forest {
+  display: flex;
+  width: 75%;
+  height: 90%;
+  position: relative;
+}
+
+.camp-tree {
+  display: block;
+  width: 50%;
+  position: absolute;
+  bottom: 0;
+  opacity: 0.4;
+}
+
+.camp-tree .camp-branch {
+  width: 80%;
+  height: 0;
+  margin: 0 auto;
+  padding-left: 40%;
+  padding-bottom: 50%;
+  overflow: hidden;
+}
+
+.camp-tree .camp-branch:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin-left: -600px;
+  border-left: 600px solid transparent;
+  border-right: 600px solid transparent;
+  border-bottom: 950px solid #000;
+}
+
+.camp-tree .camp-branch.camp-branch-top {
+  transform-origin: 50% 100%;
+  animation: treeShake 4s ease-in-out infinite;
+}
+
+.camp-tree .camp-branch.camp-branch-middle {
+  width: 90%;
+  padding-left: 45%;
+  padding-bottom: 65%;
+  margin: 0 auto;
+  margin-top: -25%;
+}
+
+.camp-tree .camp-branch.camp-branch-bottom {
+  width: 100%;
+  padding-left: 50%;
+  padding-bottom: 80%;
+  margin: 0 auto;
+  margin-top: -40%;
+}
+
+.camp-tree1 { width: 31%; }
+.camp-tree1 .camp-branch-top { animation-delay: -0.5s; }
+.camp-tree2 { width: 39%; left: 9%; }
+.camp-tree2 .camp-branch-top { animation-delay: -1.2s; }
+.camp-tree3 { width: 32%; left: 24%; }
+.camp-tree3 .camp-branch-top { animation-delay: -2.4s; }
+.camp-tree4 { width: 37%; left: 34%; }
+.camp-tree4 .camp-branch-top { animation-delay: -0.8s; }
+.camp-tree5 { width: 44%; left: 44%; }
+.camp-tree5 .camp-branch-top { animation-delay: -3.1s; }
+.camp-tree6 { width: 34%; left: 61%; }
+.camp-tree6 .camp-branch-top { animation-delay: -1.7s; }
+.camp-tree7 { width: 24%; left: 76%; }
+.camp-tree7 .camp-branch-top { animation-delay: -0.2s; }
+
+.camp-tent { width: 60%; height: 25%; position: absolute; bottom: -0.5%; right: 15%; z-index: 1; text-align: right; }
+
+.camp-roof { 
+  display: inline-block; 
+  width: 45%; 
+  height: 100%; 
+  margin-right: 10%; 
+  position: relative; 
+  z-index: 1; 
+  border-top: 4px solid #4D4454; 
+  border-right: 4px solid #4D4454; 
+  border-left: 4px solid #4D4454; 
+  border-top-right-radius: 6px; 
+  transform: skew(30deg); 
+  box-shadow: inset -3px 3px 0px 0px #F7B563; 
+  background: #f6d484; 
+  animation: tentBillow 4s ease-in-out infinite;
+}
+
+.camp-roof:before { content: ""; width: 70%; height: 70%; position: absolute; top: 15%; left: 15%; z-index: 0; border-radius: 10%; background-color: #E78C20; }
+.camp-roof:after { content: ""; height: 75%; width: 100%; position: absolute; bottom: 0; right: 0; z-index: 1; background: linear-gradient(to bottom, rgba(231, 140, 32, 0.4) 0%, rgba(231, 140, 32, 0.4) 64%, rgba(231, 140, 32, 0.8) 65%, rgba(231, 140, 32, 0.8) 100%); }
+
+.camp-roof-border-left { display: flex; justify-content: space-between; flex-direction: column; width: 1%; height: 125%; position: absolute; top: 0; left: 35.7%; z-index: 1; transform-origin: 50% 0%; transform: rotate(35deg); }
+.camp-roof-border-left .camp-roof-border { display: block; width: 100%; border-radius: 2px; border: 2px solid #4D4454; }
+.camp-roof-border-left .camp-roof-border1 { height: 40%; }
+.camp-roof-border-left .camp-roof-border2 { height: 10%; }
+.camp-roof-border-left .camp-roof-border3 { height: 40%; }
+
+.camp-door { width: 55px; height: 92px; position: absolute; bottom: 2%; overflow: hidden; z-index: 0; transform-origin: 0 105%; }
+.camp-left-door { transform: rotate(35deg); position: absolute; left: 13.5%; bottom: -3%; z-index: 0; }
+
+.camp-left-door .camp-left-door-inner { 
+  width: 100%; 
+  height: 100%; 
+  transform-origin: 0 105%; 
+  transform: rotate(-35deg); 
+  position: absolute; 
+  top: 0; 
+  overflow: hidden; 
+  background-color: #EDDDC2; 
+  animation: doorFlapLeft 3.5s ease-in-out infinite;
+}
+
+.camp-left-door .camp-left-door-inner:before { content: ""; width: 15%; height: 100%; position: absolute; top: 0; right: 0; background: repeating-linear-gradient(#D4BC8B, #D4BC8B 4%, #E0D2A8 5%, #E0D2A8 10%); }
+.camp-left-door .camp-left-door-inner:after { content: ""; width: 50%; height: 100%; position: absolute; top: 15%; left: 10%; transform: rotate(25deg); background-color: #fff; }
+
+.camp-right-door { height: 89px; right: 21%; transform-origin: 0 105%; transform: rotate(-30deg) scaleX(-1); position: absolute; bottom: -3%; z-index: 0; }
+
+.camp-right-door .camp-right-door-inner { 
+  width: 100%; 
+  height: 100%; 
+  transform-origin: 0 120%; 
+  transform: rotate(-30deg); 
+  position: absolute; 
+  bottom: 0px; 
+  overflow: hidden; 
+  background-color: #EFE7CF; 
+  animation: doorFlapRight 3.8s ease-in-out infinite;
+}
+
+.camp-right-door .camp-right-door-inner:before { content: ""; width: 50%; height: 100%; position: absolute; top: 15%; right: -28%; z-index: 1; transform: rotate(15deg); background-color: #524A5A; }
+.camp-right-door .camp-right-door-inner:after { content: ""; width: 50%; height: 100%; position: absolute; top: 15%; right: -20%; transform: rotate(20deg); background-color: #fff; }
+
+.camp-floor { width: 80%; position: absolute; right: 10%; bottom: 0; z-index: 1; }
+.camp-floor .camp-ground { position: absolute; border-radius: 2px; border: 2px solid #4D4454; }
+.camp-floor .camp-ground.camp-ground1 { width: 65%; left: 0; }
+.camp-floor .camp-ground.camp-ground2 { width: 30%; right: 0; }
+
+.camp-fireplace { 
+  display: block; 
+  position: absolute; 
+  left: 3%;
+  bottom: 0; 
+  z-index: 2;
+  width: clamp(110px, 12vw, 170px); 
+  aspect-ratio: 1.6; 
+}
+
+.camp-fireplace:before { content: ""; display: block; width: 8%; position: absolute; bottom: -4px; left: 2%; border-radius: 2px; border: 2px solid #4D4454; background: #4D4454; }
+.camp-fireplace .camp-support { display: block; height: 105%; width: 2px; position: absolute; bottom: -5%; left: 10%; border: 2px solid #4D4454; }
+.camp-fireplace .camp-support:before { content: ""; width: 100%; height: 15%; position: absolute; top: -18%; left: -4px; border-radius: 2px; border: 2px solid #4D4454; transform-origin: 100% 100%; transform: rotate(45deg); }
+.camp-fireplace .camp-support:after { content: ""; width: 100%; height: 15%; position: absolute; top: -18%; left: 0px; border-radius: 2px; border: 2px solid #4D4454; transform-origin: 0 100%; transform: rotate(-45deg); }
+.camp-fireplace .camp-support:nth-child(1) { left: 85%; }
+.camp-fireplace .camp-bar { width: 100%; height: 2px; border-radius: 2px; border: 2px solid #4D4454; }
+.camp-fireplace .camp-hanger { display: block; width: 2px; height: 25%; margin-left: -4px; position: absolute; left: 50%; border: 2px solid #4D4454; }
+
+.camp-fireplace .camp-pan { 
+  display: block; 
+  width: 25%; 
+  height: 50%; 
+  border-radius: 50%; 
+  border: 4px solid #4D4454; 
+  position: absolute; 
+  top: 25%; 
+  left: 35%; 
+  overflow: hidden; 
+  animation: heat 5s linear infinite, potJitter 0.4s ease-in-out infinite; 
+}
+
+.camp-fireplace .camp-pan:before { content: ""; display: block; height: 53%; width: 100%; position: absolute; bottom: 0; z-index: -1; border-top: 4px solid #4D4454; background-color: #74667e; animation: hotPan 5s linear infinite; }
+.camp-fireplace .camp-smoke { display: block; width: 20%; height: 25%; position: absolute; top: 25%; left: 37%; background-color: white; filter: blur(5px); animation: smoke 5s linear infinite; }
+
+.camp-fireplace .camp-fire { display: block; width: 25%; height: 120%; position: absolute; bottom: 0; left: 33%; z-index: 1; animation: fire 5s linear infinite; }
+.camp-fireplace .camp-fire:before { content: ""; display: block; width: 100%; height: 2px; position: absolute; bottom: -4px; z-index: 1; border-radius: 2px; border: 1px solid #efb54a; background-color: #efb54a; }
+.camp-fireplace .camp-fire .camp-line { display: block; width: 2px; height: 100%; position: absolute; bottom: 0; animation: fireLines 1s linear infinite; }
+.camp-fireplace .camp-fire .camp-line2 { left: 50%; margin-left: -1px; animation-delay: 0.3s; }
+.camp-fireplace .camp-fire .camp-line3 { right: 0; animation-delay: 0.5s; }
+.camp-fireplace .camp-fire .camp-line .camp-particle { height: 10%; position: absolute; top: 100%; z-index: 1; border-radius: 2px; border: 2px solid #efb54a; animation: fireParticles 0.5s linear infinite; }
+.camp-fireplace .camp-fire .camp-line .camp-particle1 { animation-delay: 0.1s; }
+.camp-fireplace .camp-fire .camp-line .camp-particle2 { animation-delay: 0.3s; }
+.camp-fireplace .camp-fire .camp-line .camp-particle3 { animation-delay: 0.6s; }
+.camp-fireplace .camp-fire .camp-line .camp-particle4 { animation-delay: 0.9s; }
+
+.camp-time-wrapper { display: block; width: 100%; height: 100%; position: absolute; overflow: hidden; }
+.camp-time { display: block; width: 100%; height: 200%; position: absolute; transform-origin: 50% 50%; transform: rotate(270deg); animation: earthRotation 5s linear infinite; }
+
+.camp-time .camp-day {
+  display: block;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  border-radius: 50%;
+  background-color: #FFE033;
+  animation: sunrise 5s ease-in-out infinite;
+}
+
+.camp-time .camp-night {
+  animation: nightTime 5s ease-in-out infinite;
+}
+
+.camp-time .camp-night .camp-star { display: block; width: 4px; height: 4px; position: absolute; bottom: 10%; border-radius: 50%; background-color: #fff; }
+.camp-time .camp-night .camp-star-big { width: 6px; height: 6px; }
+.camp-time .camp-night .camp-star1 { right: 23%; bottom: 25%; }
+.camp-time .camp-night .camp-star2 { right: 35%; bottom: 18%; }
+.camp-time .camp-night .camp-star3 { right: 47%; bottom: 25%; }
+.camp-time .camp-night .camp-star4 { right: 22%; bottom: 20%; }
+.camp-time .camp-night .camp-star5 { right: 18%; bottom: 30%; }
+.camp-time .camp-night .camp-star6 { right: 60%; bottom: 20%; }
+.camp-time .camp-night .camp-star7 { right: 70%; bottom: 23%; }
+
+.camp-time .camp-night .camp-moon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  bottom: 22%;
+  right: 33%;
+  border-radius: 50%;
+  background: transparent;
+  transform: rotate(-60deg);
+  box-shadow: 10px 10px 0 0 #fdfbd3;
+  filter: drop-shadow(0 0 6px rgba(253, 251, 211, 0.4));
+  animation: moonOrbit 5s ease-in-out infinite;
 }
