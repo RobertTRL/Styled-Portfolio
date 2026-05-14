@@ -94,7 +94,7 @@ export default function Contacts({ isDark }) {
         <h1 className="contacts-watermark">Contacts</h1>
 
         <div className="contacts-content">
-          <p className="contacts-label">Get in touch</p>
+          <p className="contacts-label">Do you want to get in touch?</p>
 
           <h2 className="contacts-heading">
             Let's build something<br />
