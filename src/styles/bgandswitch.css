@@ -397,3 +397,683 @@ html, body { width: 100%; height: 100%; background: #000; }
 .night .theme-switch__stars-container { top: 50%; transform: translateY(-50%); }
 .night .theme-switch__sun-moon-container { background-color: transparent; box-shadow: none; }
 .theme-switch-btn *, .theme-switch * { -webkit-tap-highlight-color: transparent; }
+
+/* ==========================================================================
+   8. Atmospheric Additions (Day & Night)
+   ========================================================================== */
+
+/* Fade Containers mapped to existing theme toggle */
+.day-elements-container, .night-elements-container {
+  position: absolute;
+  inset: 0;
+  z-index: 8; /* Updated previously to sit above clouds */
+  transition: opacity 5s ease-in-out;
+  pointer-events: none;
+}
+
+.day-elements-container { opacity: 1; }
+.night .day-elements-container { opacity: 0; }
+
+.night-elements-container { opacity: 0; }
+.night .night-elements-container { opacity: 1; }
+
+/* Wrapper Positioning & Reusing Existing Cloud Drifts */
+.pos-balloon   { position: absolute; top: 20%; left: 10%; animation: drift1 40s ease-in-out infinite; }
+.pos-blimp     { position: absolute; top: 15%; right: 15%; animation: drift2 50s ease-in-out infinite; }
+.pos-satellite { position: absolute; top: 15%; left: 30%; animation: drift3 60s ease-in-out infinite; }
+.pos-astronaut { position: absolute; top: 35%; right: 15%; animation: drift1 55s ease-in-out infinite; }
+
+/* Sub-animations to layer over the drift */
+.bob { animation: bobbing 6s ease-in-out infinite; }
+.bob-reverse { animation: bobbing 8s ease-in-out infinite reverse; }
+.float-rotate { animation: floatRotate 20s ease-in-out infinite; }
+
+@keyframes bobbing {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2vw); } /* Bobbing relative to viewport */
+}
+@keyframes floatRotate {
+  0%, 100% { transform: rotate(-6deg) translateY(0); }
+  50% { transform: rotate(8deg) translateY(-2.5vw); }
+}
+
+/* --------------------------------------
+   Day: Hot Air Balloon (Scale: ~15vw wide)
+--------------------------------------- */
+.hot-air-balloon {
+  width: 15vw;
+}
+
+.balloon-envelope {
+  width: 100%; 
+  height: 18.3vw; /* width * ~1.22 */
+  background: linear-gradient(135deg, #ff5e62 0%, #ff5e62 50%, #ff9966 50%, #ff9966 100%);
+  background-size: 25% 100%; /* creates stripes */
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+  box-shadow: inset -1vw -1vw 2vw rgba(0,0,0,0.1);
+}
+
+.balloon-envelope::after {
+  content: ''; position: absolute;
+  bottom: -1.5vw; left: 35%; width: 30%; height: 2vw;
+  background: #cc4b4e;
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+}
+
+.balloon-ropes {
+  position: absolute; bottom: -4vw; left: 40%;
+  width: 20%; height: 3vw;
+  border-left: 0.1vw solid rgba(255,255,255,0.6);
+  border-right: 0.1vw solid rgba(255,255,255,0.6);
+}
+
+.balloon-basket {
+  width: 30%; height: 2.5vw;
+  background: #6b4423;
+  position: absolute; bottom: -6vw; left: 35%;
+  border-radius: 0.3vw;
+  box-shadow: inset -0.5vw -0.5vw 1vw rgba(0,0,0,0.3);
+}
+
+/* --------------------------------------
+   Day: Blimp (Scale: ~35vw wide)
+--------------------------------------- */
+.blimp {
+  width: 35vw;
+}
+
+.blimp-body {
+  width: 100%; height: 11.25vw;
+  background: linear-gradient(to bottom, #f9f9f9, #d0d0d0);
+  /* Changed from 50vw (pill shape) to 50% (elliptical/cigar shape) */
+  border-radius: 50%; 
+  position: relative;
+  box-shadow: inset -2vw -1vw 3vw rgba(0,0,0,0.1);
+}
+
+.blimp-cabin {
+  width: 25%; height: 2.5vw; background: #888;
+  position: absolute; bottom: -0.8vw; left: 37.5%;
+  border-radius: 2vw;
+  box-shadow: inset 0 -0.5vw 1vw rgba(0,0,0,0.3);
+  border: 0.1vw solid #bbb;
+}
+
+.blimp-tail {
+  width: 15%; height: 7vw; background: #a0a0a0;
+  position: absolute; right: -2vw; top: 2.1vw;
+  clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 80%);
+  border-radius: 1vw;
+}
+
+/* --------------------------------------
+   Night: Satellite (Scale: ~25vw spanning)
+--------------------------------------- */
+.satellite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Tilting the whole assembly to match the reference angle */
+  transform: rotate(-25deg); 
+}
+
+.sat-tilt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-30deg);
+}
+
+/* Wing container handling the 3-panel segmentation */
+.sat-wing {
+  display: flex;
+  gap: 0.3vw; /* Creates the gap between the 3 panels */
+  z-index: 4;
+}
+
+/* Individual Solar Panels */
+.sat-panel {
+  width: 6vw;
+  height: 4.5vw;
+  background: #4b7ebf;
+  border: 0.15vw solid #263238;
+  border-radius: 0.2vw;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.25) 0.1vw, transparent 0.1vw),
+    linear-gradient(rgba(255,255,255,0.25) 0.1vw, transparent 0.1vw);
+  background-size: 1vw 1vw;
+  box-shadow: inset 0 0 1vw rgba(0,0,0,0.4);
+}
+
+/* The small truss arms connecting wings to the core */
+.sat-arm {
+  width: 1.5vw;
+  height: 0.5vw;
+  background: #78909c;
+  border: 0.15vw solid #263238;
+  border-left: none;
+  border-right: none;
+  z-index: 3;
+}
+
+/* The Main Cubic Core */
+.sat-core {
+  width: 6vw;
+  height: 5.5vw;
+  background: linear-gradient(135deg, #eceff1, #cfd8dc);
+  border: 0.2vw solid #37474f;
+  border-radius: 0.5vw;
+  position: relative;
+  z-index: 5;
+  box-shadow: inset -0.5vw -0.5vw 1vw rgba(0,0,0,0.2);
+}
+
+/* Surface box detailing on the core */
+.sat-core-details {
+  position: absolute;
+  top: 1.2vw; left: 1.5vw;
+  width: 2.6vw; height: 2vw;
+  background: #90a4ae;
+  border: 0.15vw solid #37474f;
+  border-radius: 0.3vw;
+  box-shadow: inset 0.2vw 0.2vw 0.5vw rgba(0,0,0,0.2);
+}
+
+/* Top Small Antennae (Base Stick) */
+.sat-mini {
+  position: absolute;
+  top: -1.5vw;
+  width: 0.3vw;
+  height: 1.5vw;
+  background: #78909c;
+  border: 0.15vw solid #263238;
+  border-bottom: none;
+  transform-origin: bottom center;
+}
+
+/* Top Small Antennae (The Dish) */
+.sat-mini::after {
+  content: '';
+  position: absolute;
+  top: -1vw; left: -0.8vw;
+  width: 1.6vw; height: 1vw;
+  border-radius: 50%;
+  background: #eceff1;
+  border: 0.15vw solid #263238;
+}
+
+/* Angling the small antennae outward */
+.sat-mini.top-left { left: 0.8vw; transform: rotate(-35deg); }
+.sat-mini.top-right { right: 0.8vw; transform: rotate(35deg); }
+
+/* Main Forward-Facing Parabolic Dish (Base Oval) */
+.sat-dish {
+  position: absolute;
+  bottom: -3.5vw;
+  left: -1.5vw;
+  width: 8.5vw;
+  height: 4.5vw;
+  background: #eceff1;
+  border-radius: 50%;
+  border: 0.2vw solid #37474f;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.2);
+}
+
+/* Main Dish (Inner depth ring) */
+.sat-dish-inner {
+  width: 6vw;
+  height: 3vw;
+  background: #90a4ae;
+  border-radius: 50%;
+  border: 0.15vw solid #37474f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0.5vw 1vw rgba(0,0,0,0.4);
+}
+
+/* Main Dish (Central Receiver Spike) */
+.sat-dish-spike {
+  width: 1.5vw;
+  height: 1.5vw;
+  background: #eceff1;
+  border-radius: 50%;
+  border: 0.15vw solid #37474f;
+  box-shadow: 0.3vw 0.3vw 0.5vw rgba(0,0,0,0.3);
+}
+/* --------------------------------------
+   Night: Astronaut (User Provided Code)
+--------------------------------------- */
+/* Wrapper to scale your fixed-pixel astronaut down so it fits the scene */
+.astro-scale {
+  transform: scale(0.4); 
+  transform-origin: center center;
+}
+
+/* YOUR EXACT CODE BELOW */
+.astronaut {
+  width: 250px;
+  height: 300px;
+  position: relative; /* Changed from absolute to relative to flow with our container */
+  z-index: 11;
+  /* Removed your top/left calcs and animation so our drift containers take over */
+}
+
+.schoolbag {
+  width: 100px;
+  height: 150px;
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 75px);
+  left: calc(50% - 50px);
+  background-color: #94b7ca;
+  border-radius: 50px 50px 0 0 / 30px 30px 0 0;
+}
+
+.head {
+  width: 97px;
+  height: 80px;
+  position: absolute;
+  z-index: 3;
+  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
+  border-radius: 50%;
+  top: 34px;
+  left: calc(50% - 47.5px);
+}
+
+.head:after {
+  content: "";
+  width: 60px;
+  height: 50px;
+  position: absolute;
+  top: calc(50% - 25px);
+  left: calc(50% - 30px);
+  background: -webkit-linear-gradient(top, #15aece 0%, #15aece 50%, #0391bf 50%, #0391bf 100%);
+  border-radius: 15px;
+}
+
+.head:before {
+  content: "";
+  width: 12px;
+  height: 25px;
+  position: absolute;
+  top: calc(50% - 12.5px);
+  left: -4px;
+  background-color: #618095;
+  border-radius: 5px;
+  box-shadow: 92px 0px 0px #618095;
+}
+
+.body {
+  width: 85px;
+  height: 100px;
+  position: absolute;
+  z-index: 2;
+  background-color: #fffbff;
+  border-radius: 40px / 20px;
+  top: 105px;
+  left: calc(50% - 41px);
+  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
+}
+
+.panel {
+  width: 60px;
+  height: 40px;
+  position: absolute;
+  top: 20px;
+  left: calc(50% - 30px);
+  background-color: #b7cceb;
+}
+
+.panel:before {
+  content: "";
+  width: 30px;
+  height: 5px;
+  position: absolute;
+  top: 9px;
+  left: 7px;
+  background-color: #fbfdfa;
+  box-shadow: 0px 9px 0px #fbfdfa, 0px 18px 0px #fbfdfa;
+}
+
+.panel:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 9px;
+  right: 7px;
+  background-color: #fbfdfa;
+  border-radius: 50%;
+  box-shadow: 0px 14px 0px 2px #fbfdfa;
+}
+
+.arm {
+  width: 80px;
+  height: 30px;
+  position: absolute;
+  top: 121px;
+  z-index: 2;
+}
+
+.arm-left {
+  left: 30px;
+  background-color: #e3e8eb;
+  border-radius: 0 0 0 39px;
+}
+
+.arm-right {
+  right: 30px;
+  background-color: #fbfdfa;
+  border-radius: 0 0 39px 0;
+}
+
+.arm-left:before,
+.arm-right:before {
+  content: "";
+  width: 30px;
+  height: 70px;
+  position: absolute;
+  top: -40px;
+}
+
+.arm-left:before {
+  border-radius: 50px 50px 0px 120px / 50px 50px 0 110px;
+  left: 0;
+  background-color: #e3e8eb;
+}
+
+.arm-right:before {
+  border-radius: 50px 50px 120px 0 / 50px 50px 110px 0;
+  right: 0;
+  background-color: #fbfdfa;
+}
+
+.arm-left:after,
+.arm-right:after {
+  content: "";
+  width: 30px;
+  height: 10px;
+  position: absolute;
+  top: -24px;
+}
+
+.arm-left:after {
+  background-color: #6e91a4;
+  left: 0;
+}
+
+.arm-right:after {
+  right: 0;
+  background-color: #b6d2e0;
+}
+
+.leg {
+  width: 30px;
+  height: 40px;
+  position: absolute;
+  z-index: 2;
+  bottom: 70px;
+}
+
+.leg-left {
+  left: 76px;
+  background-color: #e3e8eb;
+  transform: rotate(20deg);
+}
+
+.leg-right {
+  right: 73px;
+  background-color: #fbfdfa;
+  transform: rotate(-20deg);
+}
+
+.leg-left:before,
+.leg-right:before {
+  content: "";
+  width: 50px;
+  height: 25px;
+  position: absolute;
+  bottom: -26px;
+}
+
+.leg-left:before {
+  left: -20px;
+  background-color: #e3e8eb;
+  border-radius: 30px 0 0 0;
+  border-bottom: 10px solid #6d96ac;
+}
+
+.leg-right:before {
+  right: -20px;
+  background-color: #fbfdfa;
+  border-radius: 0 30px 0 0;
+  border-bottom: 10px solid #b0cfe4;
+}
+
+.pos-astronaut {
+  position: absolute;
+  top: 40%; right: 15%;
+  animation: drift1 55s ease-in-out infinite;
+  /* 0.045vw makes the 250em width equal to about 11.25vw on screen */
+  font-size: 0.045vw; 
+}
+
+/* Remove the old fixed scale */
+.astro-scale {
+  transform: none; 
+}
+
+/* ALL pixel values below converted to 'em' to map to the font-size */
+.astronaut {
+  width: 250em;
+  height: 300em;
+  position: relative;
+  z-index: 11;
+}
+
+.schoolbag {
+  width: 100em;
+  height: 150em;
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 75em);
+  left: calc(50% - 50em);
+  background-color: #94b7ca;
+  border-radius: 50em 50em 0 0 / 30em 30em 0 0;
+}
+
+.head {
+  width: 97em;
+  height: 80em;
+  position: absolute;
+  z-index: 3;
+  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
+  border-radius: 50%;
+  top: 34em;
+  left: calc(50% - 47.5em);
+}
+
+.head:after {
+  content: "";
+  width: 60em;
+  height: 50em;
+  position: absolute;
+  top: calc(50% - 25em);
+  left: calc(50% - 30em);
+  background: -webkit-linear-gradient(top, #15aece 0%, #15aece 50%, #0391bf 50%, #0391bf 100%);
+  border-radius: 15em;
+}
+
+.head:before {
+  content: "";
+  width: 12em;
+  height: 25em;
+  position: absolute;
+  top: calc(50% - 12.5em);
+  left: -4em;
+  background-color: #618095;
+  border-radius: 5em;
+  box-shadow: 92em 0 0 #618095;
+}
+
+.body {
+  width: 85em;
+  height: 100em;
+  position: absolute;
+  z-index: 2;
+  background-color: #fffbff;
+  border-radius: 40em / 20em;
+  top: 105em;
+  left: calc(50% - 41em);
+  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
+}
+
+.panel {
+  width: 60em;
+  height: 40em;
+  position: absolute;
+  top: 20em;
+  left: calc(50% - 30em);
+  background-color: #b7cceb;
+}
+
+.panel:before {
+  content: "";
+  width: 30em;
+  height: 5em;
+  position: absolute;
+  top: 9em;
+  left: 7em;
+  background-color: #fbfdfa;
+  box-shadow: 0 9em 0 #fbfdfa, 0 18em 0 #fbfdfa;
+}
+
+.panel:after {
+  content: "";
+  width: 8em;
+  height: 8em;
+  position: absolute;
+  top: 9em;
+  right: 7em;
+  background-color: #fbfdfa;
+  border-radius: 50%;
+  box-shadow: 0 14em 0 2em #fbfdfa;
+}
+
+.arm {
+  width: 80em;
+  height: 30em;
+  position: absolute;
+  top: 121em;
+  z-index: 2;
+}
+
+/* 
+  ARMS UNRAISED:
+  We use scaleY(-1) to flip the arms completely upside down,
+  then add a slight rotation to make them rest naturally at the sides. 
+*/
+.arm-left {
+  left: 30em;
+  background-color: #e3e8eb;
+  border-radius: 0 0 0 39em;
+  transform: scaleY(-1) rotate(-15deg);
+  margin-top: 15em; /* Adjusts shoulder joint after flipping */
+}
+
+.arm-right {
+  right: 30em;
+  background-color: #fbfdfa;
+  border-radius: 0 0 39em 0;
+  transform: scaleY(-1) rotate(15deg);
+  margin-top: 15em; /* Adjusts shoulder joint after flipping */
+}
+
+.arm-left:before,
+.arm-right:before {
+  content: "";
+  width: 30em;
+  height: 70em;
+  position: absolute;
+  top: -40em;
+}
+
+.arm-left:before {
+  border-radius: 50em 50em 0 120em / 50em 50em 0 110em;
+  left: 0;
+  background-color: #e3e8eb;
+}
+
+.arm-right:before {
+  border-radius: 50em 50em 120em 0 / 50em 50em 110em 0;
+  right: 0;
+  background-color: #fbfdfa;
+}
+
+.arm-left:after,
+.arm-right:after {
+  content: "";
+  width: 30em;
+  height: 10em;
+  position: absolute;
+  top: -24em;
+}
+
+.arm-left:after {
+  background-color: #6e91a4;
+  left: 0;
+}
+
+.arm-right:after {
+  right: 0;
+  background-color: #b6d2e0;
+}
+
+.leg {
+  width: 30em;
+  height: 40em;
+  position: absolute;
+  z-index: 2;
+  bottom: 70em;
+}
+
+.leg-left {
+  left: 76em;
+  background-color: #e3e8eb;
+  transform: rotate(20deg);
+}
+
+.leg-right {
+  right: 73em;
+  background-color: #fbfdfa;
+  transform: rotate(-20deg);
+}
+
+.leg-left:before,
+.leg-right:before {
+  content: "";
+  width: 50em;
+  height: 25em;
+  position: absolute;
+  bottom: -26em;
+}
+
+.leg-left:before {
+  left: -20em;
+  background-color: #e3e8eb;
+  border-radius: 30em 0 0 0;
+  border-bottom: 10em solid #6d96ac;
+}
+
+.leg-right:before {
+  right: -20em;
+  background-color: #fbfdfa;
+  border-radius: 0 30em 0 0;
+  border-bottom: 10em solid #b0cfe4;
+}
