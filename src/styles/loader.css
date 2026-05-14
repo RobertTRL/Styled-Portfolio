@@ -206,7 +206,7 @@
   position: relative;
   width: 800px;
   height: 600px;
-  --time: 12.4s;
+  --time: 6.4s;
   transform-origin: center;
   flex-shrink: 0;
 }

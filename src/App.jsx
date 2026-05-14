@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Header from './components/Header';
-import Background from './components/background';
+import Background from './components/Background.jsx';
 import './App.css';
 import './styles/bgandswitch.css';
 import Navbar from './components/Navbar.jsx'
@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => setIsPreload(false), 50);
-    const loadId = setTimeout(() => setIsLoading(false), 11500);
+    const loadId = setTimeout(() => setIsLoading(false), 6000);
     return () => {
       clearTimeout(timeoutId)
       clearTimeout(loadId)

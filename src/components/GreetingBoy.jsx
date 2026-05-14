@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/greetingboy.css';
 
 const GreetingBoy = ({ greeting = "Hello!" }) => {
