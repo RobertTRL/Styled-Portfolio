@@ -10,14 +10,13 @@ const Loader = ({ isDark, isLoading }) => {
   // Responsive scaling logic
   useEffect(() => {
     const handleResize = () => {
-      // Calculate how much we can scale the 800x600 scene based on viewport
-      // We take up to 95% of the width and 60% of the height (leaving room for text)
+      // Increased the available viewport percentages to make the scene much larger
       const scaleX = (window.innerWidth * 0.95) / 800;
-      const scaleY = (window.innerHeight * 0.6) / 600;
+      const scaleY = (window.innerHeight * 0.8) / 600; 
       
-      // Choose the smaller scale to ensure it fits, capped between 0.4 and 1.5
+      // Calculate max scale, capping the maximum size at 2.5x
       const calculatedScale = Math.min(scaleX, scaleY);
-      setScale(Math.max(0.4, Math.min(calculatedScale, 1.5)));
+      setScale(Math.max(0.6, Math.min(calculatedScale, 2.5)));
     };
 
     handleResize();
@@ -41,7 +40,7 @@ const Loader = ({ isDark, isLoading }) => {
       <div className="loader-overlay" />
 
       <div className="content-container">
-        <div className="camp-loader-layout">
+        <div className="noodle-loader-layout">
 
           {/* Animator wrapper sizes itself dynamically based on the scaled scene to maintain document flow */}
           <div 
@@ -69,7 +68,7 @@ const Loader = ({ isDark, isLoading }) => {
             </div>
           </div>
 
-          {/* ── Letters + progress ── */}
+          {/* ── Letters ── */}
           <div className="loader-wrapper">
             <div className="loader-letters" aria-label="Loading">
               {LETTERS.map((char, i) => (
@@ -81,9 +80,6 @@ const Loader = ({ isDark, isLoading }) => {
                   {char}
                 </span>
               ))}
-            </div>
-            <div className="loader-progress">
-              <div className="loader-progress-beam" />
             </div>
           </div>
 

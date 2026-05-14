@@ -10,8 +10,6 @@
   --pattern-c2:     #3b0070;
   --text-color:     #c8deff;
   --text-shadow:    0 0 24px rgba(100, 180, 255, 0.55), 0 0 48px rgba(60, 130, 220, 0.25);
-  --progress-track: rgba(255, 255, 255, 0.07);
-  --progress-beam:  linear-gradient(90deg, transparent, #64b4ff, #b0d8ff, #64b4ff, transparent);
   --star-color:     rgba(255, 255, 255, 0.7);
 }
 
@@ -22,8 +20,6 @@
   --pattern-c2:     #355c7d;
   --text-color:     #0c2a5e;
   --text-shadow:    0 1px 0 rgba(255,255,255,0.6), 0 2px 16px rgba(30, 90, 180, 0.2);
-  --progress-track: rgba(0, 0, 0, 0.1);
-  --progress-beam:  linear-gradient(90deg, transparent, #2e7fc2, #72b8f0, #2e7fc2, transparent);
   --star-color:     rgba(30, 70, 150, 0.25);
 }
 
@@ -111,11 +107,12 @@
   z-index: 1;
 }
 
-.camp-loader-layout {
+.noodle-loader-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(2rem, 8vw, 4rem);
+  /* Reduced gap significantly to pull text closer to the animation */
+  gap: clamp(0.5rem, 2vh, 1.5rem);
   margin-bottom: clamp(2rem, 8vh, 10rem); 
 }
 
@@ -127,7 +124,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
   user-select: none;
 }
 
@@ -156,29 +152,6 @@
   50%  { opacity: 0.5;  transform: translateY(0); }
 }
 
-/* ── Sweeping progress beam ── */
-.loader-progress {
-  width: 160px;
-  height: 1.5px;
-  border-radius: 1px;
-  background: var(--progress-track);
-  overflow: hidden;
-}
-
-.loader-progress-beam {
-  height: 100%;
-  width: 55%;
-  background: var(--progress-beam);
-  border-radius: 1px;
-  animation: beam-sweep 2.4s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes beam-sweep {
-  0%   { transform: translateX(-120%); }
-  100% { transform: translateX(300%); }
-}
-
 /* ════════════════════════════════════
    Hyperdrive Exit Animations
 ════════════════════════════════════ */
@@ -193,7 +166,7 @@
   animation: hyperDriveExit 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
-/* 2. Drop and fade the loading text/bar */
+/* 2. Drop and fade the loading text */
 .water-dissolve .loader-wrapper {
   animation: textFadeOut 0.5s ease forwards;
 }
@@ -241,7 +214,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Prevent exit animation scale(5) from being overwritten */
   transform-origin: center;
 }
 
