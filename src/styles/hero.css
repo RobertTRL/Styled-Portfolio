@@ -137,3 +137,39 @@
   transform: translateX(2px); 
 }
 
+.hero-boy-wrapper {
+  position: absolute;
+  bottom: 15%; /* Adjust height based on your preference */
+  left: 0; /* Pulls him slightly toward the edge for a "peeking" or "edge-aligned" look */
+  
+  /* Scaling */
+  /* transform: scale(0.6); */
+  transform-origin: bottom right;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Move the speech bubble slightly to the left so it doesn't get cut off the screen */
+.speech-bubble {
+  left: auto !important;
+  right: 180px; /* Positioned relative to the boy's body */
+}
+
+.speech-bubble::before {
+  left: auto !important;
+  right: 30px;
+  border-width: 15px 0 0 15px !important; /* Flips the bubble tail */
+}
+
+@media (max-width: 1024px) {
+  .hero-boy-wrapper {
+    transform: scale(0.45);
+    right: -20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-boy-wrapper {
+    display: none; /* Recommended for small mobile screens to keep text readable */
+  }
+}

@@ -9,6 +9,7 @@ import AboutMe from './components/AboutMe.jsx'
 import Skills from './components/Skills.jsx'
 import Contacts from './components/Contacts.jsx';
 import Loader from './components/Loader.jsx';
+import GreetingBoy from './components/GreetingBoy.jsx';
 
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -43,6 +44,7 @@ const App = () => {
       <Background />
       <div className='items'>
         <Header isDark={isDark} onToggle={handleToggle} />
+        <GreetingBoy/>
         <Hero isDark={isDark} />
         <AboutMe isDark={isDark} />
         <Skills isDark={isDark} />

@@ -1,0 +1,271 @@
+/* ── Container ── */
+.greeting-container {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Helvetica, sans-serif;
+  top: 7.5vw;
+  left: -150px;
+  z-index: 10;
+  transform: rotateZ(45deg);
+}
+
+/* ── Body ── */
+.boy-simple {
+  position: relative;
+  width: 140px;
+  height: 130px;
+  background: radial-gradient(closest-side, #a56345 100%, transparent 0) center -5px / 60px 40px no-repeat, white;
+  border-radius: 25px 25px 0 0;
+  margin-top: 150px; /* Push down to make room for the head */
+  transform: scale(0.6);
+}
+
+/* ── Neck ── */
+.boy-simple::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  width: 42px;
+  height: 40px;
+  background-color: #a56345;
+  translate: -50%;
+}
+
+/* ── Head ── */
+.boy__head-simple {
+  position: absolute;
+  top: -220px;
+  left: 50%;
+  width: 160px;
+  height: 140px;
+  background-color: #b97a57;
+  box-shadow: inset 0 -4px 0 12px #222222;
+  border-radius: 60px 60px 10px 10px;
+  translate: -50%;
+}
+
+/* Face base */
+.boy__head-simple::before {
+  content: "";
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  width: 190px;
+  height: 155px;
+  background-color: #b97a57;
+  border-radius: 50%;
+  translate: -50%;
+}
+
+/* Ears */
+.boy__head-simple::after {
+  content: "";
+  position: absolute;
+  top: 78px;
+  left: -45px;
+  width: 50px;
+  height: 50px;
+  background: conic-gradient(from 270deg, #b97a57 0deg 61deg, transparent 0),
+    radial-gradient(#b97a57 8px, #303083 8px 10px, #b97a57 0);
+  border-radius: 100%;
+  -webkit-box-reflect: right 150px; 
+}
+
+/* ── Hair (with fixed curls) ── */
+.boy__hair-simple {
+  position: absolute;
+  top: -40px; 
+  left: -10px;
+  width: 180px;
+  height: 100px; 
+  background: 
+    radial-gradient(circle at 25px 65px, #222222 20px, transparent 21px),
+    radial-gradient(circle at 50px 40px, #222222 25px, transparent 26px),
+    radial-gradient(circle at 90px 30px, #222222 28px, transparent 29px),
+    radial-gradient(circle at 130px 40px, #222222 25px, transparent 26px),
+    radial-gradient(circle at 155px 65px, #222222 20px, transparent 21px);
+}
+
+.boy__hair-simple::before {
+  content: "";
+  position: absolute;
+  top: 45px; 
+  left: 10px;
+  width: 160px;
+  height: 40px;
+  background: 
+    radial-gradient(circle at 20px 10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 50px 5px, #222222 18px, transparent 19px),
+    radial-gradient(circle at 80px 10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 110px 5px, #222222 18px, transparent 19px),
+    radial-gradient(circle at 140px 10px, #222222 15px, transparent 16px);
+}
+
+/* ── Eyes (with a natural blink) ── */
+.boy__eyes-simple {
+  position: absolute;
+  top: 17px;
+  left: 17px;
+  width: 64px;
+  height: 64px;
+  background: #b97a57;
+  border-radius: 50%;
+  box-shadow: 60px 0 #b97a57;
+}
+
+.boy__eyes-simple::before,
+.boy__eyes-simple::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-image: 
+    radial-gradient(circle, black 48%, transparent 52%), 
+    linear-gradient(white, white);
+  background-size: 26px 26px, 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  animation: naturalBlink 4s infinite;
+}
+
+.boy__eyes-simple::before { top: 0px; left: 0px; }
+.boy__eyes-simple::after { top: 0px; left: 60px; }
+
+@keyframes naturalBlink {
+  0%, 46%, 50%, 100% { transform: scaleY(1); }
+  48% { transform: scaleY(0.1); }
+}
+
+/* ── Cheeks & Nose ── */
+.boy__cheeks-simple {
+  position: absolute;
+  top: 96px;
+  left: 6px;
+  width: 20px;
+  height: 20px;
+  background: #ff8c94; 
+  border-radius: 50%;
+  box-shadow: 126px 0 #ff8c94; 
+}
+
+.boy__cheeks-simple::before {
+  content: "";
+  position: absolute;
+  top: -37px;
+  left: 73px;
+  width: 20px;
+  height: 22px;
+  background: #b97a57;
+  transform-origin: top right;
+  rotate: 10deg;
+  border-radius: 0 8px 100% 0 / 0 8px 60% 0;
+}
+
+/* ── A Big Friendly Smile ── */
+.boy__smile {
+  position: absolute;
+  top: 105px;
+  left: 50%;
+  translate: -50%;
+  width: 80px;
+  height: 40px;
+  background: #ff4559;
+  border-radius: 10px 10px 70px 70px;
+  box-shadow: inset -20px 20px 0 -10px #be1520;
+}
+
+/* ── Waving Arm ── */
+.boy__arm-wave {
+  position: absolute;
+  top: 20px;
+  left: 100px;
+  width: 140px;
+  height: 44px;
+  background: #b97a57;
+  border-radius: 22px;
+  transform-origin: 22px 22px;
+  transform: rotate(60deg);
+  animation: waveMotion 1.5s ease-in-out infinite alternate;
+  z-index: -1; /* Puts the arm cleanly behind the body */
+  animation: none;
+}
+
+/* The Hand */
+.boy__arm-wave::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: -8px;
+  width: 60px;
+  height: 60px;
+  background: #b97a57;
+  border-radius: 50%;
+}
+
+.greeting-container:hover .boy__arm-wave {
+  animation: waveMotion 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes waveMotion {
+  0% { transform: rotate(50deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+/* ── Speech Bubble ── */
+.speech-bubble {
+  position: absolute;
+  top: 75px;
+  right: -25px;
+  background: white;
+  color: #0c2a5e;
+  padding: 16px 28px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.4rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transform-origin: bottom left;
+  opacity: 0;
+  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 0.3s;
+  transform: rotateZ(-40deg);
+  z-index: 12;
+  pointer-events: none; /* Keeps it from interfering with the mouse until visible */
+  animation: none;      /* Remove the default animation */
+  transition: opacity 0.3s ease;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 145px;
+  border-width: 15px 15px 0 0;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+  transform: rotateY(180deg);
+}
+
+.greeting-container:hover .speech-bubble {
+  opacity: 1;
+  pointer-events: auto;
+  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 0s; /* Remove delay for instant feedback */
+}
+
+@keyframes popIn {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.5) translateY(20px) rotateZ(-45deg); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0) rotateZ(-45deg); /* Rotation stays here! */
+  }
+}
+
