@@ -5,6 +5,25 @@ const LETTERS = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
 
 const Loader = ({ isDark, isLoading }) => {
   const [shouldRender, setShouldRender] = useState(true);
+  const [scale, setScale] = useState(1);
+
+  // Responsive scaling logic
+  useEffect(() => {
+    const handleResize = () => {
+      // Calculate how much we can scale the 800x600 scene based on viewport
+      // We take up to 95% of the width and 60% of the height (leaving room for text)
+      const scaleX = (window.innerWidth * 0.95) / 800;
+      const scaleY = (window.innerHeight * 0.6) / 600;
+      
+      // Choose the smaller scale to ensure it fits, capped between 0.4 and 1.5
+      const calculatedScale = Math.min(scaleX, scaleY);
+      setScale(Math.max(0.4, Math.min(calculatedScale, 1.5)));
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -24,9 +43,15 @@ const Loader = ({ isDark, isLoading }) => {
       <div className="content-container">
         <div className="camp-loader-layout">
 
-          {/* Animator wrapper handles the exit animation and responsive sizing */}
-          <div className="scene-animator">
-            <div className="noodle-scene">
+          {/* Animator wrapper sizes itself dynamically based on the scaled scene to maintain document flow */}
+          <div 
+            className="scene-animator" 
+            style={{ width: 800 * scale, height: 600 * scale }}
+          >
+            <div 
+              className="noodle-scene" 
+              style={{ transform: `scale(${scale})` }}
+            >
               <div className="boy">
                 <div className="boy__head">
                   <div className="boy__hair"></div>

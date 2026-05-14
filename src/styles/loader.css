@@ -241,8 +241,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 250px;
   /* Prevent exit animation scale(5) from being overwritten */
   transform-origin: center;
 }
@@ -252,8 +250,6 @@
   width: 800px;
   height: 600px;
   --time: 22s;
-  /* Scale the 800x600 scene down to perfectly fit the wrapper */
-  transform: scale(0.4);
   transform-origin: center;
   flex-shrink: 0;
 }
@@ -293,18 +289,9 @@
 }
 
 @keyframes boy {
-  0%,
-  60%,
-  100% {
-    translate: -50% 43px; 
-  }
-  66.42%,
-  91.8% {
-    translate: -50% 67px; 
-  }
-  93.42% {
-    translate: -50% 44px; 
-  }
+  0%, 60%, 100% { translate: -50% 43px; }
+  66.42%, 91.8% { translate: -50% 67px; }
+  93.42% { translate: -50% 44px; }
 }
 
 /* neck */
@@ -422,13 +409,9 @@
 .boy__eyes::after {
   width: 100%;
   height: 100%;
-  background:
-    linear-gradient(transparent 32px, black 0) 32px 0px / 2px 100% no-repeat,
-    white;
+  background: linear-gradient(transparent 32px, black 0) 32px 0px / 2px 100% no-repeat, white;
   border-radius: 50%;
-  animation:
-    boyEyesSize var(--time) linear infinite,
-    boyEyesDirection var(--time) linear infinite;
+  animation: boyEyesSize var(--time) linear infinite, boyEyesDirection var(--time) linear infinite;
 }
 
 @keyframes boyEyesSize {
@@ -490,9 +473,7 @@
     radial-gradient(circle at -20% 50%, #b97a57 8px, #303083 8px 10px, transparent 0) 10px 1px / 20px 20px no-repeat,
     radial-gradient(transparent 15px, #303083 15px 17px, transparent 0) 33px -12px no-repeat,
     linear-gradient(#303083, #303083) 15px 11px / 34px 2px no-repeat;
-  animation:
-    mouthClose var(--time) linear infinite,
-    mouthMovement 0.7s linear infinite;
+  animation: mouthClose var(--time) linear infinite, mouthMovement 0.7s linear infinite;
 }
 
 @keyframes mouthClose {
