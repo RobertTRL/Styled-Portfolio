@@ -1,30 +1,20 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   loader.css  —  Premium 3D Camp Scene Loader
+   loader.css  —  3D Camp Scene Loader
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Theme tokens ── */
 .loader-container.dark-mode {
-  --bg-start:       #020818;
-  --bg-mid:         #061330;
-  --pattern-c1:     #0d0e1f;
-  --pattern-c2:     #3b0070;
   --text-color:     #c8deff;
   --text-shadow:    0 0 24px rgba(100, 180, 255, 0.55), 0 0 48px rgba(60, 130, 220, 0.25);
   --progress-track: rgba(255, 255, 255, 0.07);
   --progress-beam:  linear-gradient(90deg, transparent, #64b4ff, #b0d8ff, #64b4ff, transparent);
-  --star-color:     rgba(255, 255, 255, 0.7);
 }
 
 .loader-container.light-mode {
-  --bg-start:       #cfe4f7;
-  --bg-mid:         #a8cceb;
-  --pattern-c1:     #f8b195;
-  --pattern-c2:     #355c7d;
   --text-color:     #0c2a5e;
   --text-shadow:    0 1px 0 rgba(255,255,255,0.6), 0 2px 16px rgba(30, 90, 180, 0.2);
   --progress-track: rgba(0, 0, 0, 0.1);
   --progress-beam:  linear-gradient(90deg, transparent, #2e7fc2, #72b8f0, #2e7fc2, transparent);
-  --star-color:     rgba(30, 70, 150, 0.25);
 }
 
 /* ── Root container ── */
@@ -32,110 +22,33 @@
   position: fixed;
   inset: 0;
   z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   font-family: Helvetica, sans-serif;
-  background: radial-gradient(ellipse 90% 70% at 50% 40%, var(--bg-mid), var(--bg-start) 75%);
-  transition: background 1s ease;
 }
 
-/* ── Starfield dots ── */
-.loader-container::before {
-  content: '';
+/* ── Three.js canvas fills the container ── */
+.loader-canvas {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(1px   1px   at  8%  12%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 23%  74%, var(--star-color), transparent),
-    radial-gradient(1.5px 1.5px at 37%  33%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 51%  61%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 64%  18%, var(--star-color), transparent),
-    radial-gradient(1.5px 1.5px at 79%  82%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 91%  45%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 14%  55%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 44%  88%, var(--star-color), transparent),
-    radial-gradient(1.5px 1.5px at 67%   6%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 85%  29%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at  5%  91%, var(--star-color), transparent),
-    radial-gradient(1.5px 1.5px at 30%   5%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 95%  68%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 72%  52%, var(--star-color), transparent),
-    radial-gradient(1px   1px   at 18%  38%, var(--star-color), transparent),
-    radial-gradient(1.5px 1.5px at 88%  12%, var(--star-color), transparent);
-  pointer-events: none;
-  transition: opacity 1s ease;
-}
-
-.loader-container.light-mode::before {
-  opacity: 0.3;
-}
-
-/* ── Moving tile pattern ── */
-.loader-pattern {
-  position: absolute;
-  inset: 0;
-  --s: 40px;
-  --c1: var(--pattern-c1);
-  --c2: var(--pattern-c2);
-  --_g:
-    var(--c2)  4%  14%,
-    var(--c1) 14%  24%,
-    var(--c2) 24%  34%,
-    var(--c1) 34%  44%,
-    var(--c2) 44%  56%,
-    var(--c1) 56%  66%,
-    var(--c2) 66%  76%,
-    var(--c1) 76%  86%,
-    var(--c2) 86%  96%;
-  background:
-    radial-gradient(100% 100% at 100% 0, var(--c1) 4%, var(--_g), #000a 96%, #0000),
-    radial-gradient(100% 100% at 0 100%, #0000, #000a 4%, var(--_g), var(--c1) 96%) var(--c1);
-  background-size: var(--s) var(--s);
-  animation: pattern-drift 2s linear infinite;
-  image-rendering: crisp-edges;
-  opacity: 0.4;
-  transition: --pattern-c1 1s, --pattern-c2 1s;
-}
-
-@keyframes pattern-drift {
-  0%   { background-position: 0 0, 0 0; }
-  100% { background-position: var(--s) var(--s), var(--s) var(--s); }
-}
-
-/* ── Content container ── */
-.content-container {
-  position: relative;
-  z-index: 1;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── ThreeJS Canvas Canvas ── */
-.loader-canvas {
-  width: 100%;
-  height: 60vh;
-  min-height: 400px;
   display: block;
-  outline: none;
 }
 
-/* ════════════════════════════════════
-   Loading text
-════════════════════════════════════ */
-
-.loader-wrapper {
+/* ── Loading text + progress bar ── */
+.loader-text-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.85rem;
+  padding-bottom: clamp(1.5rem, 5vh, 3rem);
   user-select: none;
-  margin-top: -5vh; /* Pull UI up slightly into the canvas area */
+  pointer-events: none;
 }
 
 .loader-letters {
@@ -195,33 +108,41 @@
   animation: bgFade 1.4s ease forwards;
 }
 
+/* 1. Zoom the 3D canvas out */
 .water-dissolve .loader-canvas {
   animation: hyperDriveExit 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
-.water-dissolve .loader-wrapper {
+/* 2. Drop and fade the loading text/bar */
+.water-dissolve .loader-text-overlay {
   animation: textFadeOut 0.5s ease forwards;
 }
 
-.water-dissolve .loader-pattern {
-  animation: gridFade 1s ease forwards;
-}
-
 @keyframes hyperDriveExit {
-  0% { transform: scale(1); filter: blur(0) brightness(1); opacity: 1; }
-  40% { transform: scale(0.8); filter: blur(2px) brightness(1.5); }
-  100% { transform: scale(5); filter: blur(20px) brightness(3); opacity: 0; }
+  0% {
+    transform: scale(1);
+    filter: blur(0) brightness(1);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(0.8);
+    filter: blur(2px) brightness(1.5);
+  }
+  100% {
+    transform: scale(5);
+    filter: blur(20px) brightness(3);
+    opacity: 0;
+  }
 }
 
 @keyframes textFadeOut {
-  to { opacity: 0; transform: translateY(10px) scale(0.95); letter-spacing: 0.1em; }
-}
-
-@keyframes gridFade {
-  to { opacity: 0; transform: scale(1.1); }
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
 }
 
 @keyframes bgFade {
   0%, 70% { opacity: 1; }
-  100% { opacity: 0; }
+  100%     { opacity: 0; }
 }
