@@ -1,4 +1,5 @@
 @import url(https://fonts.bunny.net/css?family=abril-fatface:400);
+
 /* ==========================================================================
    1. Resets & Globals
    ========================================================================== */
@@ -12,12 +13,11 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body { width: 100%; height: 100%; background: #000; }
-/* ↑ Remove overflow: hidden entirely — your layout CSS handles this */
 
 .app-wrapper {
   width: 100%;
-  min-height: 100vh;   /* grow with content instead of locking to viewport */
-  overflow-x: hidden;  /* only clip horizontal, not vertical */
+  min-height: 100vh; 
+  overflow-x: hidden; 
   position: relative;
 }
 
@@ -59,9 +59,7 @@ html, body { width: 100%; height: 100%; background: #000; }
     0 1px 4px rgba(0, 0, 0, 0.45);
 }
 
-.night .site-header {
-  color: #fdfbd3;
-}
+.night .site-header { color: #fdfbd3; }
 
 .theme-toggle-wrapper {
   display: flex;
@@ -121,58 +119,28 @@ html, body { width: 100%; height: 100%; background: #000; }
 }
 
 #glass-nav::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  pointer-events: none;
-  z-index: 0;
+  content: ''; position: absolute; inset: 0;
+  border-radius: 999px; pointer-events: none; z-index: 0;
   transition: background 0.4s ease;
 }
 
-#glass-nav.dark::before {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.18) 18%, rgba(255, 255, 255, 0.04) 42%, transparent 100%);
-}
-
-#glass-nav.light::before {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.02) 45%, transparent 100%);
-}
+#glass-nav.dark::before { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.18) 18%, rgba(255, 255, 255, 0.04) 42%, transparent 100%); }
+#glass-nav.light::before { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.02) 45%, transparent 100%); }
 
 #glass-nav::after {
-  content: '';
-  position: absolute;
-  top: 1px;
-  left: 18%;
-  right: 18%;
-  height: 36%;
-  border-radius: 999px;
-  pointer-events: none;
-  z-index: 0;
+  content: ''; position: absolute; top: 1px; left: 18%; right: 18%; height: 36%;
+  border-radius: 999px; pointer-events: none; z-index: 0;
   transition: background 0.4s ease;
 }
 
-#glass-nav.dark::after {
-  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.10) 55%, transparent 80%);
-}
-
-#glass-nav.light::after {
-  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.05) 55%, transparent 80%);
-}
+#glass-nav.dark::after { background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.10) 55%, transparent 80%); }
+#glass-nav.light::after { background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.05) 55%, transparent 80%); }
 
 .nav-item {
-  position: relative;
-  z-index: 3;
-  display: block;
-  padding: 9px 22px;
-  border-radius: 999px;
-  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
+  position: relative; z-index: 3; display: block; padding: 9px 22px;
+  border-radius: 999px; font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 14px; font-weight: 500; letter-spacing: -0.01em;
+  text-decoration: none; cursor: pointer; user-select: none; white-space: nowrap;
   transition: color 0.2s, text-shadow 0.4s;
 }
 
@@ -182,59 +150,33 @@ html, body { width: 100%; height: 100%; background: #000; }
 #glass-nav.light .nav-item:hover { color: #000; }
 
 #hover-pill {
-  position: absolute;
-  border-radius: 999px;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 1;
-  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute; border-radius: 999px; pointer-events: none; opacity: 0;
+  z-index: 1; transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #glass-nav.dark #hover-pill {
-  background: rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(6px) saturate(200%) brightness(1.22) contrast(1.06);
-  -webkit-backdrop-filter: blur(6px) saturate(200%) brightness(1.22) contrast(1.06);
-  border: 1px solid rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.09); backdrop-filter: blur(6px) saturate(200%) brightness(1.22) contrast(1.06);
+  -webkit-backdrop-filter: blur(6px) saturate(200%) brightness(1.22) contrast(1.06); border: 1px solid rgba(255, 255, 255, 0.68);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.14), inset 0 2px 0 rgba(255, 255, 255, 0.96), inset 0 -1px 0 rgba(255, 255, 255, 0.38), inset 1.5px 0 rgba(255, 255, 255, 0.55), inset -1.5px 0 rgba(255, 255, 255, 0.55);
 }
 
 #glass-nav.light #hover-pill {
-  background: rgba(50, 100, 65, 0.28);
-  backdrop-filter: blur(8px) saturate(180%) brightness(0.88);
-  -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.88);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(50, 100, 65, 0.28); backdrop-filter: blur(8px) saturate(180%) brightness(0.88);
+  -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.88); border: 1px solid rgba(255, 255, 255, 0.30);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.22), inset 0 1.5px 0 rgba(255, 255, 255, 0.50), inset 0 -1px 0 rgba(0, 0, 0, 0.15), inset 1.5px 0 rgba(255, 255, 255, 0.25), inset -1.5px 0 rgba(255, 255, 255, 0.25);
 }
 
 #hover-pill::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  pointer-events: none;
-  z-index: 1;
-  transition: background 0.4s ease;
+  content: ''; position: absolute; inset: 0; border-radius: 999px; pointer-events: none;
+  z-index: 1; transition: background 0.4s ease;
 }
 
-#glass-nav.dark #hover-pill::before {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.42) 22%, rgba(255, 255, 255, 0.10) 50%, rgba(255, 255, 255, 0.02) 72%, transparent 100%);
-}
-
-#glass-nav.light #hover-pill::before {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.14) 24%, rgba(255, 255, 255, 0.03) 52%, transparent 100%);
-}
+#glass-nav.dark #hover-pill::before { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.42) 22%, rgba(255, 255, 255, 0.10) 50%, rgba(255, 255, 255, 0.02) 72%, transparent 100%); }
+#glass-nav.light #hover-pill::before { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.14) 24%, rgba(255, 255, 255, 0.03) 52%, transparent 100%); }
 
 #hover-pill::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 20%;
-  right: 20%;
-  height: 45%;
-  border-radius: 999px;
-  pointer-events: none;
-  z-index: 2;
-  transition: background 0.4s ease;
+  content: ''; position: absolute; top: 2px; left: 20%; right: 20%; height: 45%;
+  border-radius: 999px; pointer-events: none; z-index: 2; transition: background 0.4s ease;
 }
 
 #glass-nav.dark #hover-pill::after { background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.30) 40%, transparent 75%); }
@@ -244,13 +186,8 @@ html, body { width: 100%; height: 100%; background: #000; }
    4. Background Scene, Sky, & Celestial Bodies
    ========================================================================== */
 .scene {
-  position: fixed; /* stays locked to the viewport, never scrolls */
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1;
-  pointer-events: none;
+  position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden;
+  z-index: 1; pointer-events: none;
 }
 
 .sky-master-container { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
@@ -258,8 +195,7 @@ html, body { width: 100%; height: 100%; background: #000; }
 .sky-master-gradient {
   position: absolute; top: 0; left: 0; width: 100%; height: 400vh;
   background: linear-gradient(180deg, #050505 0%, #1b1d36 25%, #2a164a 35%, #f05a28 45%, #ffb703 55%, #87ceeb 65%, #3aaaff 75%, #b8e4f9 100%);
-  transform: translateY(-300vh);
-  transition: transform 5s ease-in-out;
+  transform: translateY(-300vh); transition: transform 5s ease-in-out;
 }
 
 .night .sky-master-gradient { transform: translateY(0vh); }
@@ -301,34 +237,15 @@ html, body { width: 100%; height: 100%; background: #000; }
 .clouds-container { position: absolute; inset: 0; z-index: 7; opacity: 1; transition: opacity 5s ease-in-out; }
 .night .clouds-container { opacity: 0; }
 
-.cloud { 
-  position: absolute; 
-  pointer-events: none; 
-  width: 26em; 
-  height: 18em; 
-}
-
-.puff { 
-  position: absolute; 
-  border-radius: 50%; 
-  background: #fff; 
-}
+.cloud { position: absolute; pointer-events: none; width: 26em; height: 18em; }
+.puff { position: absolute; border-radius: 50%; background: #fff; }
 
 .cloud .p1 { width: 11em; height: 11em; bottom: 0; left: 0; }
 .cloud .p2 { width: 16em; height: 16em; bottom: 2em; left: 5em; z-index: 2; } 
 .cloud .p3 { width: 12em; height: 12em; bottom: 0; left: 14em; }
 .cloud .p4 { width: 9em;  height: 9em;  bottom: 6em; left: 12em; z-index: 1; } 
 
-.cloud::before {
-  content: '';
-  position: absolute;
-  background: #fff;
-  height: 5em;
-  width: 16em;
-  bottom: 0;
-  left: 5em;
-  border-radius: 2.5em;
-}
+.cloud::before { content: ''; position: absolute; background: #fff; height: 5em; width: 16em; bottom: 0; left: 5em; border-radius: 2.5em; }
 
 .cloud-1 { top: 8%;  left: 6%;  font-size: 1.5vw; opacity: 1;    animation: drift1 30s ease-in-out infinite; }
 .cloud-2 { top: 12%; left: 38%; font-size: 2.2vw; opacity: 0.85; animation: drift2 40s ease-in-out infinite; }
@@ -374,7 +291,7 @@ html, body { width: 100%; height: 100%; background: #000; }
   --stars-color: #fff; --clouds-color: #F3FDFF; --back-clouds-color: #AACADF;
   --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
   --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
-  pointer-events: auto; /* re-enables clicks */
+  pointer-events: auto;
 }
 
 .theme-switch * { box-sizing: border-box; margin: 0; padding: 0; font-size: var(--toggle-size); }
@@ -402,13 +319,9 @@ html, body { width: 100%; height: 100%; background: #000; }
    8. Atmospheric Additions (Day & Night)
    ========================================================================== */
 
-/* Fade Containers mapped to existing theme toggle */
 .day-elements-container, .night-elements-container {
-  position: absolute;
-  inset: 0;
-  z-index: 8; /* Updated previously to sit above clouds */
-  transition: opacity 5s ease-in-out;
-  pointer-events: none;
+  position: absolute; inset: 0; z-index: 8; 
+  transition: opacity 5s ease-in-out; pointer-events: none;
 }
 
 .day-elements-container { opacity: 1; }
@@ -417,20 +330,15 @@ html, body { width: 100%; height: 100%; background: #000; }
 .night-elements-container { opacity: 0; }
 .night .night-elements-container { opacity: 1; }
 
-/* Wrapper Positioning & Reusing Existing Cloud Drifts */
 .pos-balloon   { position: absolute; top: 20%; left: 10%; animation: drift1 40s ease-in-out infinite; }
-.pos-blimp     { position: absolute; top: 15%; right: 15%; animation: drift2 50s ease-in-out infinite; }
 .pos-satellite { position: absolute; top: 15%; left: 30%; animation: drift3 60s ease-in-out infinite; }
-.pos-astronaut { position: absolute; top: 35%; right: 15%; animation: drift1 55s ease-in-out infinite; }
 
-/* Sub-animations to layer over the drift */
 .bob { animation: bobbing 6s ease-in-out infinite; }
-.bob-reverse { animation: bobbing 8s ease-in-out infinite reverse; }
 .float-rotate { animation: floatRotate 20s ease-in-out infinite; }
 
 @keyframes bobbing {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2vw); } /* Bobbing relative to viewport */
+  50% { transform: translateY(-2vw); } 
 }
 @keyframes floatRotate {
   0%, 100% { transform: rotate(-6deg) translateY(0); }
@@ -438,642 +346,97 @@ html, body { width: 100%; height: 100%; background: #000; }
 }
 
 /* --------------------------------------
-   Day: Hot Air Balloon (Scale: ~15vw wide)
+   Day: Hot Air Balloon 
 --------------------------------------- */
-.hot-air-balloon {
-  width: 15vw;
-}
+.hot-air-balloon { width: 15vw; }
 
 .balloon-envelope {
-  width: 100%; 
-  height: 18.3vw; /* width * ~1.22 */
+  width: 100%; height: 18.3vw; 
   background: linear-gradient(135deg, #ff5e62 0%, #ff5e62 50%, #ff9966 50%, #ff9966 100%);
-  background-size: 25% 100%; /* creates stripes */
+  background-size: 25% 100%; 
   border-radius: 50% 50% 40% 40%;
-  position: relative;
-  box-shadow: inset -1vw -1vw 2vw rgba(0,0,0,0.1);
+  position: relative; box-shadow: inset -1vw -1vw 2vw rgba(0,0,0,0.1);
 }
 
 .balloon-envelope::after {
-  content: ''; position: absolute;
-  bottom: -1.5vw; left: 35%; width: 30%; height: 2vw;
-  background: #cc4b4e;
-  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+  content: ''; position: absolute; bottom: -1.5vw; left: 35%; width: 30%; height: 2vw;
+  background: #cc4b4e; clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
 }
 
 .balloon-ropes {
-  position: absolute; bottom: -4vw; left: 40%;
-  width: 20%; height: 3vw;
+  position: absolute; bottom: -4vw; left: 40%; width: 20%; height: 3vw;
   border-left: 0.1vw solid rgba(255,255,255,0.6);
   border-right: 0.1vw solid rgba(255,255,255,0.6);
 }
 
 .balloon-basket {
-  width: 30%; height: 2.5vw;
-  background: #6b4423;
-  position: absolute; bottom: -6vw; left: 35%;
-  border-radius: 0.3vw;
-  box-shadow: inset -0.5vw -0.5vw 1vw rgba(0,0,0,0.3);
+  width: 30%; height: 2.5vw; background: #6b4423; position: absolute; bottom: -6vw; left: 35%;
+  border-radius: 0.3vw; box-shadow: inset -0.5vw -0.5vw 1vw rgba(0,0,0,0.3);
 }
 
 /* --------------------------------------
-   Day: Blimp (Scale: ~35vw wide)
+   Night: Satellite 
 --------------------------------------- */
-.blimp {
-  width: 35vw;
-}
-
-.blimp-body {
-  width: 100%; height: 11.25vw;
-  background: linear-gradient(to bottom, #f9f9f9, #d0d0d0);
-  /* Changed from 50vw (pill shape) to 50% (elliptical/cigar shape) */
-  border-radius: 50%; 
-  position: relative;
-  box-shadow: inset -2vw -1vw 3vw rgba(0,0,0,0.1);
-}
-
-.blimp-cabin {
-  width: 25%; height: 2.5vw; background: #888;
-  position: absolute; bottom: -0.8vw; left: 37.5%;
-  border-radius: 2vw;
-  box-shadow: inset 0 -0.5vw 1vw rgba(0,0,0,0.3);
-  border: 0.1vw solid #bbb;
-}
-
-.blimp-tail {
-  width: 15%; height: 7vw; background: #a0a0a0;
-  position: absolute; right: -2vw; top: 2.1vw;
-  clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 80%);
-  border-radius: 1vw;
-}
-
-/* --------------------------------------
-   Night: Satellite (Scale: ~25vw spanning)
---------------------------------------- */
-.satellite {
+/* Consolidated Flexbox Rules */
+.satellite, .sat-tilt {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Tilting the whole assembly to match the reference angle */
-  transform: rotate(-25deg); 
 }
+.satellite { transform: rotate(-25deg); }
+.sat-tilt { transform: rotate(-30deg); }
 
-.sat-tilt {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(-30deg);
-}
+.sat-wing { display: flex; gap: 0.3vw; z-index: 4; }
 
-/* Wing container handling the 3-panel segmentation */
-.sat-wing {
-  display: flex;
-  gap: 0.3vw; /* Creates the gap between the 3 panels */
-  z-index: 4;
-}
-
-/* Individual Solar Panels */
 .sat-panel {
-  width: 6vw;
-  height: 4.5vw;
-  background: #4b7ebf;
-  border: 0.15vw solid #263238;
-  border-radius: 0.2vw;
+  width: 6vw; height: 4.5vw; background: #4b7ebf; border: 0.15vw solid #263238; border-radius: 0.2vw;
   background-image:
     linear-gradient(90deg, rgba(255,255,255,0.25) 0.1vw, transparent 0.1vw),
     linear-gradient(rgba(255,255,255,0.25) 0.1vw, transparent 0.1vw);
-  background-size: 1vw 1vw;
-  box-shadow: inset 0 0 1vw rgba(0,0,0,0.4);
+  background-size: 1vw 1vw; box-shadow: inset 0 0 1vw rgba(0,0,0,0.4);
 }
 
-/* The small truss arms connecting wings to the core */
 .sat-arm {
-  width: 1.5vw;
-  height: 0.5vw;
-  background: #78909c;
-  border: 0.15vw solid #263238;
-  border-left: none;
-  border-right: none;
-  z-index: 3;
+  width: 1.5vw; height: 0.5vw; background: #78909c; border: 0.15vw solid #263238;
+  border-left: none; border-right: none; z-index: 3;
 }
 
-/* The Main Cubic Core */
 .sat-core {
-  width: 6vw;
-  height: 5.5vw;
-  background: linear-gradient(135deg, #eceff1, #cfd8dc);
-  border: 0.2vw solid #37474f;
-  border-radius: 0.5vw;
-  position: relative;
-  z-index: 5;
+  width: 6vw; height: 5.5vw; background: linear-gradient(135deg, #eceff1, #cfd8dc);
+  border: 0.2vw solid #37474f; border-radius: 0.5vw; position: relative; z-index: 5;
   box-shadow: inset -0.5vw -0.5vw 1vw rgba(0,0,0,0.2);
 }
 
-/* Surface box detailing on the core */
 .sat-core-details {
-  position: absolute;
-  top: 1.2vw; left: 1.5vw;
-  width: 2.6vw; height: 2vw;
-  background: #90a4ae;
-  border: 0.15vw solid #37474f;
-  border-radius: 0.3vw;
-  box-shadow: inset 0.2vw 0.2vw 0.5vw rgba(0,0,0,0.2);
+  position: absolute; top: 1.2vw; left: 1.5vw; width: 2.6vw; height: 2vw; background: #90a4ae;
+  border: 0.15vw solid #37474f; border-radius: 0.3vw; box-shadow: inset 0.2vw 0.2vw 0.5vw rgba(0,0,0,0.2);
 }
 
-/* Top Small Antennae (Base Stick) */
 .sat-mini {
-  position: absolute;
-  top: -1.5vw;
-  width: 0.3vw;
-  height: 1.5vw;
-  background: #78909c;
-  border: 0.15vw solid #263238;
-  border-bottom: none;
-  transform-origin: bottom center;
+  position: absolute; top: -1.5vw; width: 0.3vw; height: 1.5vw; background: #78909c;
+  border: 0.15vw solid #263238; border-bottom: none; transform-origin: bottom center;
 }
 
-/* Top Small Antennae (The Dish) */
 .sat-mini::after {
-  content: '';
-  position: absolute;
-  top: -1vw; left: -0.8vw;
-  width: 1.6vw; height: 1vw;
-  border-radius: 50%;
-  background: #eceff1;
-  border: 0.15vw solid #263238;
+  content: ''; position: absolute; top: -1vw; left: -0.8vw; width: 1.6vw; height: 1vw;
+  border-radius: 50%; background: #eceff1; border: 0.15vw solid #263238;
 }
 
-/* Angling the small antennae outward */
 .sat-mini.top-left { left: 0.8vw; transform: rotate(-35deg); }
 .sat-mini.top-right { right: 0.8vw; transform: rotate(35deg); }
 
-/* Main Forward-Facing Parabolic Dish (Base Oval) */
 .sat-dish {
-  position: absolute;
-  bottom: -3.5vw;
-  left: -1.5vw;
-  width: 8.5vw;
-  height: 4.5vw;
-  background: #eceff1;
-  border-radius: 50%;
-  border: 0.2vw solid #37474f;
-  z-index: 6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.2);
+  position: absolute; bottom: -3.5vw; left: -1.5vw; width: 8.5vw; height: 4.5vw;
+  background: #eceff1; border-radius: 50%; border: 0.2vw solid #37474f; z-index: 6;
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.2);
 }
 
-/* Main Dish (Inner depth ring) */
 .sat-dish-inner {
-  width: 6vw;
-  height: 3vw;
-  background: #90a4ae;
-  border-radius: 50%;
-  border: 0.15vw solid #37474f;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 0.5vw 1vw rgba(0,0,0,0.4);
+  width: 6vw; height: 3vw; background: #90a4ae; border-radius: 50%; border: 0.15vw solid #37474f;
+  display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0.5vw 1vw rgba(0,0,0,0.4);
 }
 
-/* Main Dish (Central Receiver Spike) */
 .sat-dish-spike {
-  width: 1.5vw;
-  height: 1.5vw;
-  background: #eceff1;
-  border-radius: 50%;
-  border: 0.15vw solid #37474f;
+  width: 1.5vw; height: 1.5vw; background: #eceff1; border-radius: 50%; border: 0.15vw solid #37474f;
   box-shadow: 0.3vw 0.3vw 0.5vw rgba(0,0,0,0.3);
-}
-/* --------------------------------------
-   Night: Astronaut (User Provided Code)
---------------------------------------- */
-/* Wrapper to scale your fixed-pixel astronaut down so it fits the scene */
-.astro-scale {
-  transform: scale(0.4); 
-  transform-origin: center center;
-}
-
-/* YOUR EXACT CODE BELOW */
-.astronaut {
-  width: 250px;
-  height: 300px;
-  position: relative; /* Changed from absolute to relative to flow with our container */
-  z-index: 11;
-  /* Removed your top/left calcs and animation so our drift containers take over */
-}
-
-.schoolbag {
-  width: 100px;
-  height: 150px;
-  position: absolute;
-  z-index: 1;
-  top: calc(50% - 75px);
-  left: calc(50% - 50px);
-  background-color: #94b7ca;
-  border-radius: 50px 50px 0 0 / 30px 30px 0 0;
-}
-
-.head {
-  width: 97px;
-  height: 80px;
-  position: absolute;
-  z-index: 3;
-  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
-  border-radius: 50%;
-  top: 34px;
-  left: calc(50% - 47.5px);
-}
-
-.head:after {
-  content: "";
-  width: 60px;
-  height: 50px;
-  position: absolute;
-  top: calc(50% - 25px);
-  left: calc(50% - 30px);
-  background: -webkit-linear-gradient(top, #15aece 0%, #15aece 50%, #0391bf 50%, #0391bf 100%);
-  border-radius: 15px;
-}
-
-.head:before {
-  content: "";
-  width: 12px;
-  height: 25px;
-  position: absolute;
-  top: calc(50% - 12.5px);
-  left: -4px;
-  background-color: #618095;
-  border-radius: 5px;
-  box-shadow: 92px 0px 0px #618095;
-}
-
-.body {
-  width: 85px;
-  height: 100px;
-  position: absolute;
-  z-index: 2;
-  background-color: #fffbff;
-  border-radius: 40px / 20px;
-  top: 105px;
-  left: calc(50% - 41px);
-  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
-}
-
-.panel {
-  width: 60px;
-  height: 40px;
-  position: absolute;
-  top: 20px;
-  left: calc(50% - 30px);
-  background-color: #b7cceb;
-}
-
-.panel:before {
-  content: "";
-  width: 30px;
-  height: 5px;
-  position: absolute;
-  top: 9px;
-  left: 7px;
-  background-color: #fbfdfa;
-  box-shadow: 0px 9px 0px #fbfdfa, 0px 18px 0px #fbfdfa;
-}
-
-.panel:after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  position: absolute;
-  top: 9px;
-  right: 7px;
-  background-color: #fbfdfa;
-  border-radius: 50%;
-  box-shadow: 0px 14px 0px 2px #fbfdfa;
-}
-
-.arm {
-  width: 80px;
-  height: 30px;
-  position: absolute;
-  top: 121px;
-  z-index: 2;
-}
-
-.arm-left {
-  left: 30px;
-  background-color: #e3e8eb;
-  border-radius: 0 0 0 39px;
-}
-
-.arm-right {
-  right: 30px;
-  background-color: #fbfdfa;
-  border-radius: 0 0 39px 0;
-}
-
-.arm-left:before,
-.arm-right:before {
-  content: "";
-  width: 30px;
-  height: 70px;
-  position: absolute;
-  top: -40px;
-}
-
-.arm-left:before {
-  border-radius: 50px 50px 0px 120px / 50px 50px 0 110px;
-  left: 0;
-  background-color: #e3e8eb;
-}
-
-.arm-right:before {
-  border-radius: 50px 50px 120px 0 / 50px 50px 110px 0;
-  right: 0;
-  background-color: #fbfdfa;
-}
-
-.arm-left:after,
-.arm-right:after {
-  content: "";
-  width: 30px;
-  height: 10px;
-  position: absolute;
-  top: -24px;
-}
-
-.arm-left:after {
-  background-color: #6e91a4;
-  left: 0;
-}
-
-.arm-right:after {
-  right: 0;
-  background-color: #b6d2e0;
-}
-
-.leg {
-  width: 30px;
-  height: 40px;
-  position: absolute;
-  z-index: 2;
-  bottom: 70px;
-}
-
-.leg-left {
-  left: 76px;
-  background-color: #e3e8eb;
-  transform: rotate(20deg);
-}
-
-.leg-right {
-  right: 73px;
-  background-color: #fbfdfa;
-  transform: rotate(-20deg);
-}
-
-.leg-left:before,
-.leg-right:before {
-  content: "";
-  width: 50px;
-  height: 25px;
-  position: absolute;
-  bottom: -26px;
-}
-
-.leg-left:before {
-  left: -20px;
-  background-color: #e3e8eb;
-  border-radius: 30px 0 0 0;
-  border-bottom: 10px solid #6d96ac;
-}
-
-.leg-right:before {
-  right: -20px;
-  background-color: #fbfdfa;
-  border-radius: 0 30px 0 0;
-  border-bottom: 10px solid #b0cfe4;
-}
-
-.pos-astronaut {
-  position: absolute;
-  top: 40%; right: 15%;
-  animation: drift1 55s ease-in-out infinite;
-  /* 0.045vw makes the 250em width equal to about 11.25vw on screen */
-  font-size: 0.045vw; 
-}
-
-/* Remove the old fixed scale */
-.astro-scale {
-  transform: none; 
-}
-
-/* ALL pixel values below converted to 'em' to map to the font-size */
-.astronaut {
-  width: 250em;
-  height: 300em;
-  position: relative;
-  z-index: 11;
-}
-
-.schoolbag {
-  width: 100em;
-  height: 150em;
-  position: absolute;
-  z-index: 1;
-  top: calc(50% - 75em);
-  left: calc(50% - 50em);
-  background-color: #94b7ca;
-  border-radius: 50em 50em 0 0 / 30em 30em 0 0;
-}
-
-.head {
-  width: 97em;
-  height: 80em;
-  position: absolute;
-  z-index: 3;
-  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
-  border-radius: 50%;
-  top: 34em;
-  left: calc(50% - 47.5em);
-}
-
-.head:after {
-  content: "";
-  width: 60em;
-  height: 50em;
-  position: absolute;
-  top: calc(50% - 25em);
-  left: calc(50% - 30em);
-  background: -webkit-linear-gradient(top, #15aece 0%, #15aece 50%, #0391bf 50%, #0391bf 100%);
-  border-radius: 15em;
-}
-
-.head:before {
-  content: "";
-  width: 12em;
-  height: 25em;
-  position: absolute;
-  top: calc(50% - 12.5em);
-  left: -4em;
-  background-color: #618095;
-  border-radius: 5em;
-  box-shadow: 92em 0 0 #618095;
-}
-
-.body {
-  width: 85em;
-  height: 100em;
-  position: absolute;
-  z-index: 2;
-  background-color: #fffbff;
-  border-radius: 40em / 20em;
-  top: 105em;
-  left: calc(50% - 41em);
-  background: -webkit-linear-gradient(left, #e3e8eb 0%, #e3e8eb 50%, #fbfdfa 50%, #fbfdfa 100%);
-}
-
-.panel {
-  width: 60em;
-  height: 40em;
-  position: absolute;
-  top: 20em;
-  left: calc(50% - 30em);
-  background-color: #b7cceb;
-}
-
-.panel:before {
-  content: "";
-  width: 30em;
-  height: 5em;
-  position: absolute;
-  top: 9em;
-  left: 7em;
-  background-color: #fbfdfa;
-  box-shadow: 0 9em 0 #fbfdfa, 0 18em 0 #fbfdfa;
-}
-
-.panel:after {
-  content: "";
-  width: 8em;
-  height: 8em;
-  position: absolute;
-  top: 9em;
-  right: 7em;
-  background-color: #fbfdfa;
-  border-radius: 50%;
-  box-shadow: 0 14em 0 2em #fbfdfa;
-}
-
-.arm {
-  width: 80em;
-  height: 30em;
-  position: absolute;
-  top: 121em;
-  z-index: 2;
-}
-
-/* 
-  ARMS UNRAISED:
-  We use scaleY(-1) to flip the arms completely upside down,
-  then add a slight rotation to make them rest naturally at the sides. 
-*/
-.arm-left {
-  left: 30em;
-  background-color: #e3e8eb;
-  border-radius: 0 0 0 39em;
-  transform: scaleY(-1) rotate(-15deg);
-  margin-top: 15em; /* Adjusts shoulder joint after flipping */
-}
-
-.arm-right {
-  right: 30em;
-  background-color: #fbfdfa;
-  border-radius: 0 0 39em 0;
-  transform: scaleY(-1) rotate(15deg);
-  margin-top: 15em; /* Adjusts shoulder joint after flipping */
-}
-
-.arm-left:before,
-.arm-right:before {
-  content: "";
-  width: 30em;
-  height: 70em;
-  position: absolute;
-  top: -40em;
-}
-
-.arm-left:before {
-  border-radius: 50em 50em 0 120em / 50em 50em 0 110em;
-  left: 0;
-  background-color: #e3e8eb;
-}
-
-.arm-right:before {
-  border-radius: 50em 50em 120em 0 / 50em 50em 110em 0;
-  right: 0;
-  background-color: #fbfdfa;
-}
-
-.arm-left:after,
-.arm-right:after {
-  content: "";
-  width: 30em;
-  height: 10em;
-  position: absolute;
-  top: -24em;
-}
-
-.arm-left:after {
-  background-color: #6e91a4;
-  left: 0;
-}
-
-.arm-right:after {
-  right: 0;
-  background-color: #b6d2e0;
-}
-
-.leg {
-  width: 30em;
-  height: 40em;
-  position: absolute;
-  z-index: 2;
-  bottom: 70em;
-}
-
-.leg-left {
-  left: 76em;
-  background-color: #e3e8eb;
-  transform: rotate(20deg);
-}
-
-.leg-right {
-  right: 73em;
-  background-color: #fbfdfa;
-  transform: rotate(-20deg);
-}
-
-.leg-left:before,
-.leg-right:before {
-  content: "";
-  width: 50em;
-  height: 25em;
-  position: absolute;
-  bottom: -26em;
-}
-
-.leg-left:before {
-  left: -20em;
-  background-color: #e3e8eb;
-  border-radius: 30em 0 0 0;
-  border-bottom: 10em solid #6d96ac;
-}
-
-.leg-right:before {
-  right: -20em;
-  background-color: #fbfdfa;
-  border-radius: 0 30em 0 0;
-  border-bottom: 10em solid #b0cfe4;
 }
