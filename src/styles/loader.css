@@ -111,8 +111,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(0.5rem, 2vh, 1rem);
-  margin-bottom: clamp(2rem, 8vh, 10rem); 
+  /* gap: clamp(0.5rem, 2vh, 1rem);
+  margin-bottom: clamp(2rem, 8vh, 5rem);  */
 }
 
 /* ════════════════════════════════════
@@ -206,7 +206,7 @@
   position: relative;
   width: 800px;
   height: 600px;
-  --time: 22s;
+  --time: 12.4s;
   transform-origin: center;
   flex-shrink: 0;
 }
