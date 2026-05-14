@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   loader.css  —  Namespaced Camp Scene Loader
+   loader.css  —  Namespaced Noodle Scene Loader
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Theme tokens ── */
@@ -115,7 +115,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(4rem, 12vw, 10rem);
+  gap: clamp(2rem, 8vw, 4rem);
   margin-bottom: clamp(2rem, 8vh, 10rem); 
 }
 
@@ -180,17 +180,16 @@
 }
 
 /* ════════════════════════════════════
-   NEW: Hyperdrive Exit Animations
+   Hyperdrive Exit Animations
 ════════════════════════════════════ */
 
 .water-dissolve {
   pointer-events: none;
-  /* Fades out the entire container layer at the very end */
   animation: bgFade 1.4s ease forwards;
 }
 
-/* 1. Zoom the camp scene out */
-.water-dissolve .camp-scene-animator {
+/* 1. Zoom the scene out */
+.water-dissolve .scene-animator {
   animation: hyperDriveExit 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
@@ -234,333 +233,554 @@
   100% { opacity: 0; }
 }
 
-
 /* ════════════════════════════════════
-   CAMP SCENE CSS (Namespaced)
+   NOODLE SCENE CSS
 ════════════════════════════════════ */
 
-@keyframes earthRotation {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes sunrise {
-  0%, 10%, 90%, 100% {
-    box-shadow: 0 0 0 8px rgba(255, 224, 51, 0.25), 0 0 0 16px rgba(255, 224, 51, 0.12), 0 0 30px 10px rgba(255, 200, 0, 0.3);
-  }
-  25%, 75% {
-    box-shadow: 0 0 0 0 rgba(255, 224, 51, 0), 0 0 0 0 rgba(255, 224, 51, 0), 0 0 0 0 rgba(255, 200, 0, 0);
-  }
-}
-
-@keyframes moonOrbit {
-  25% { transform: rotate(-60deg); }
-  50% { transform: rotate(-60deg); }
-  75% { transform: rotate(-120deg); }
-  0%, 100% { transform: rotate(-180deg); }
-}
-
-@keyframes nightTime {
-  0%, 90% { opacity: 0; }
-  50%, 75% { opacity: 1; }
-}
-
-@keyframes hotPan {
-  0%, 90% { background-color: #74667e; }
-  50%, 75% { background-color: #b2241c; }
-}
-
-@keyframes heat {
-  0%, 90% { box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0.3); }
-  50%, 75% { box-shadow: inset 0 -2px 0 0 white; }
-}
-
-@keyframes potJitter {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-1px) rotate(0.5deg); }
-  75% { transform: translateY(0.5px) rotate(-0.5deg); }
-}
-
-@keyframes smoke {
-  0%, 50%, 90%, 100% { opacity: 0; }
-  50%, 75% { opacity: 0.7; }
-}
-
-@keyframes fire {
-  0%, 90%, 100% { opacity: 0; }
-  50%, 75% { opacity: 1; }
-}
-
-@keyframes treeShake {
-  0%, 100% { transform: rotate(-1.5deg); }
-  50%      { transform: rotate(1.5deg); }
-}
-
-@keyframes fireParticles {
-  0% { height: 30%; opacity: 1; top: 75%; }
-  25% { height: 25%; opacity: 0.8; top: 40%; }
-  50% { height: 15%; opacity: 0.6; top: 20%; }
-  75% { height: 10%; opacity: 0.3; top: 0; }
-  100% { opacity: 0; }
-}
-
-@keyframes fireLines {
-  0%, 25%, 75%, 100% { bottom: 0; }
-  50% { bottom: 5%; }
-}
-
-@keyframes tentBillow {
-  0%, 100% { transform: skew(30deg) scale(1); }
-  50% { transform: skew(30.5deg) scaleY(1.01) translateY(-1px); }
-}
-
-@keyframes doorFlapLeft {
-  0%, 100% { transform: rotate(-35deg); }
-  50% { transform: rotate(-37deg); }
-}
-
-@keyframes doorFlapRight {
-  0%, 100% { transform: rotate(-30deg); }
-  50% { transform: rotate(-32deg); }
-}
-
-.camp-scene {
+.scene-animator {
   display: flex;
-  margin: 0 auto;
+  align-items: center;
   justify-content: center;
-  align-items: flex-end;
-  width: 400px;
-  height: 300px;
+  width: 300px;
+  height: 250px;
+  /* Prevent exit animation scale(5) from being overwritten */
+  transform-origin: center;
+}
+
+.noodle-scene {
   position: relative;
-  
-  transform: scale(clamp(1.1, 5vw, 3.5)); 
-  transform-origin: bottom center; 
+  width: 800px;
+  height: 600px;
+  --time: 22s;
+  /* Scale the 800x600 scene down to perfectly fit the wrapper */
+  transform: scale(0.4);
+  transform-origin: center;
+  flex-shrink: 0;
 }
 
-.camp-forest {
-  display: flex;
-  width: 75%;
-  height: 90%;
-  position: relative;
-}
-
-.camp-tree {
-  display: block;
-  width: 50%;
-  position: absolute;
-  bottom: 0;
-  opacity: 0.4;
-}
-
-.camp-tree .camp-branch {
-  width: 80%;
-  height: 0;
-  margin: 0 auto;
-  padding-left: 40%;
-  padding-bottom: 50%;
-  overflow: hidden;
-}
-
-.camp-tree .camp-branch:before {
+.noodle-scene *,
+.noodle-scene *::before,
+.noodle-scene *::after {
   content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  margin-left: -600px;
-  border-left: 600px solid transparent;
-  border-right: 600px solid transparent;
-  border-bottom: 950px solid #000;
+  position: absolute;
 }
 
-.camp-tree .camp-branch.camp-branch-top {
-  transform-origin: 50% 100%;
-  animation: treeShake 4s ease-in-out infinite;
+/* shadow */
+.noodle-scene::after {
+  top: 50%;
+  left: 50%;
+  width: 390px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 10px rgba(0, 0, 0, 0.1),
+    0 20px rgba(0, 0, 0, 0.05);
+  translate: -50% 170px;
 }
 
-.camp-tree .camp-branch.camp-branch-middle {
-  width: 90%;
-  padding-left: 45%;
-  padding-bottom: 65%;
-  margin: 0 auto;
-  margin-top: -25%;
+/* body */
+.boy {
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 130px;
+  background:
+    radial-gradient(closest-side, #a56345 100%, transparent 0) center -5px / 60px 40px no-repeat,
+    white;
+  border-radius: 25px 25px 0 0;
+  animation: boy var(--time) linear infinite;
 }
 
-.camp-tree .camp-branch.camp-branch-bottom {
+@keyframes boy {
+  0%,
+  60%,
+  100% {
+    translate: -50% 43px; 
+  }
+  66.42%,
+  91.8% {
+    translate: -50% 67px; 
+  }
+  93.42% {
+    translate: -50% 44px; 
+  }
+}
+
+/* neck */
+.boy::before {
+  top: -30px;
+  left: 50%;
+  width: 42px;
+  height: 40px;
+  background-color: #a56345;
+  translate: -50%;
+}
+
+.boy__head {
+  top: -220px;
+  left: 50%;
+  width: 160px;
+  height: 140px;
+  background-color: #b97a57;
+  box-shadow: inset 0 -4px 0 12px #222222;
+  border-radius: 60px 60px 10px 10px;
+  animation: boyHead var(--time) linear infinite;
+}
+
+@keyframes boyHead {
+  0%, 100% { translate: -50%; }
+  0.54% { translate: -50% 22px; }
+  1.08%, 5.4% { translate: -50% 31px; }
+  5.4%, 60% { translate: -50% -2px; }
+  66.42% { translate: -50% 33px; }
+  86.67% { translate: -50% 46px; }
+  87.75%, 90.99% { translate: -50% -2px; }
+  91.52% { translate: -50% 16px; }
+  93.42% { translate: -50% -3px; }
+}
+
+.boy__head::before {
+  top: 60px;
+  left: 50%;
+  width: 190px;
+  height: 155px;
+  background-color: #b97a57;
+  border-radius: 50%;
+  animation: boyFace var(--time) linear infinite;
+}
+
+@keyframes boyFace {
+  0%, 100% { translate: -50%; }
+  0.54% { translate: -50% -9px; }
+  1.08%, 99.36% { translate: -50% -16px; }
+}
+
+/* ears */
+.boy__head::after {
+  top: 78px;
+  left: -45px;
+  width: 50px;
+  height: 50px;
+  background: conic-gradient(from 270deg, #b97a57 0deg 61deg, transparent 0),
+    radial-gradient(#b97a57 8px, #303083 8px 10px, #b97a57 0);
+  border-radius: 100%;
+  -webkit-box-reflect: right 150px; 
+  animation: boyEars var(--time) linear infinite;
+}
+
+@keyframes boyEars {
+  0%, 100% { translate: 0 0px; }
+  0.54% { translate: 0 -15px; }
+  1.08%, 99.36% { translate: 0 -22px; }
+}
+
+/* curly black hair */
+.boy__hair {
+  top: -25px;
+  left: -10px;
+  width: 180px;
+  height: 80px;
+  background: 
+    radial-gradient(circle at 25px 50px, #222222 20px, transparent 21px),
+    radial-gradient(circle at 50px 25px, #222222 25px, transparent 26px),
+    radial-gradient(circle at 90px 15px, #222222 28px, transparent 29px),
+    radial-gradient(circle at 130px 25px, #222222 25px, transparent 26px),
+    radial-gradient(circle at 155px 50px, #222222 20px, transparent 21px);
+}
+
+.boy__hair::before {
+  top: 30px;
+  left: 10px;
+  width: 160px;
+  height: 40px;
+  background: 
+    radial-gradient(circle at 20px 10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 50px 5px, #222222 18px, transparent 19px),
+    radial-gradient(circle at 80px 10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 110px 5px, #222222 18px, transparent 19px),
+    radial-gradient(circle at 140px 10px, #222222 15px, transparent 16px);
+}
+
+.boy__eyes {
+  top: 17px;
+  left: 17px;
+  width: 64px;
+  height: 64px;
+  background: #b97a57;
+  border-radius: 50%;
+  box-shadow: 60px 0 #b97a57;
+  animation: boyEyesPosition var(--time) linear infinite;
+}
+
+@keyframes boyEyesPosition {
+  0%, 100% { translate: 0 0px; }
+  0.54%, 99.36% { translate: 0 10px; }
+}
+
+.boy__eyes::before,
+.boy__eyes::after {
   width: 100%;
-  padding-left: 50%;
-  padding-bottom: 80%;
-  margin: 0 auto;
-  margin-top: -40%;
+  height: 100%;
+  background:
+    linear-gradient(transparent 32px, black 0) 32px 0px / 2px 100% no-repeat,
+    white;
+  border-radius: 50%;
+  animation:
+    boyEyesSize var(--time) linear infinite,
+    boyEyesDirection var(--time) linear infinite;
 }
 
-.camp-tree1 { width: 31%; }
-.camp-tree1 .camp-branch-top { animation-delay: -0.5s; }
-.camp-tree2 { width: 39%; left: 9%; }
-.camp-tree2 .camp-branch-top { animation-delay: -1.2s; }
-.camp-tree3 { width: 32%; left: 24%; }
-.camp-tree3 .camp-branch-top { animation-delay: -2.4s; }
-.camp-tree4 { width: 37%; left: 34%; }
-.camp-tree4 .camp-branch-top { animation-delay: -0.8s; }
-.camp-tree5 { width: 44%; left: 44%; }
-.camp-tree5 .camp-branch-top { animation-delay: -3.1s; }
-.camp-tree6 { width: 34%; left: 61%; }
-.camp-tree6 .camp-branch-top { animation-delay: -1.7s; }
-.camp-tree7 { width: 24%; left: 76%; }
-.camp-tree7 .camp-branch-top { animation-delay: -0.2s; }
-
-.camp-tent { width: 60%; height: 25%; position: absolute; bottom: -0.5%; right: 15%; z-index: 1; text-align: right; }
-
-.camp-roof { 
-  display: inline-block; 
-  width: 45%; 
-  height: 100%; 
-  margin-right: 10%; 
-  position: relative; 
-  z-index: 1; 
-  border-top: 4px solid #4D4454; 
-  border-right: 4px solid #4D4454; 
-  border-left: 4px solid #4D4454; 
-  border-top-right-radius: 6px; 
-  transform: skew(30deg); 
-  box-shadow: inset -3px 3px 0px 0px #F7B563; 
-  background: #f6d484; 
-  animation: tentBillow 4s ease-in-out infinite;
+@keyframes boyEyesSize {
+  0%, 19.44%, 100% { scale: 1 1; }
+  19.71% { scale: 1 0.2; }
+  20.25%, 38.34% { scale: 1 1; }
+  38.88% { scale: 1 0.2; }
+  39.15%, 60% { scale: 1 1; }
+  66.42% { scale: 1 0.2; }
+  86.67% { scale: 1 0.05; }
+  87.21%, 90.99% { scale: 1 1; }
+  91.52% { scale: 1 0; }
+  92.07% { scale: 1 1; }
 }
 
-.camp-roof:before { content: ""; width: 70%; height: 70%; position: absolute; top: 15%; left: 15%; z-index: 0; border-radius: 10%; background-color: #E78C20; }
-.camp-roof:after { content: ""; height: 75%; width: 100%; position: absolute; bottom: 0; right: 0; z-index: 1; background: linear-gradient(to bottom, rgba(231, 140, 32, 0.4) 0%, rgba(231, 140, 32, 0.4) 64%, rgba(231, 140, 32, 0.8) 65%, rgba(231, 140, 32, 0.8) 100%); }
-
-.camp-roof-border-left { display: flex; justify-content: space-between; flex-direction: column; width: 1%; height: 125%; position: absolute; top: 0; left: 35.7%; z-index: 1; transform-origin: 50% 0%; transform: rotate(35deg); }
-.camp-roof-border-left .camp-roof-border { display: block; width: 100%; border-radius: 2px; border: 2px solid #4D4454; }
-.camp-roof-border-left .camp-roof-border1 { height: 40%; }
-.camp-roof-border-left .camp-roof-border2 { height: 10%; }
-.camp-roof-border-left .camp-roof-border3 { height: 40%; }
-
-.camp-door { width: 55px; height: 92px; position: absolute; bottom: 2%; overflow: hidden; z-index: 0; transform-origin: 0 105%; }
-.camp-left-door { transform: rotate(35deg); position: absolute; left: 13.5%; bottom: -3%; z-index: 0; }
-
-.camp-left-door .camp-left-door-inner { 
-  width: 100%; 
-  height: 100%; 
-  transform-origin: 0 105%; 
-  transform: rotate(-35deg); 
-  position: absolute; 
-  top: 0; 
-  overflow: hidden; 
-  background-color: #EDDDC2; 
-  animation: doorFlapLeft 3.5s ease-in-out infinite;
+@keyframes boyEyesDirection {
+  0%, 19.44%, 100% { background-position: 32px 0px; }
+  19.71%, 39.14% { background-position: 32px -15px; }
+  39.15%, 60% { background-position: 32px 0px; }
+  66.42%, 91.52% { background-position: 32px -15px; }
+  92.07% { background-position: 32px 0px; }
 }
 
-.camp-left-door .camp-left-door-inner:before { content: ""; width: 15%; height: 100%; position: absolute; top: 0; right: 0; background: repeating-linear-gradient(#D4BC8B, #D4BC8B 4%, #E0D2A8 5%, #E0D2A8 10%); }
-.camp-left-door .camp-left-door-inner:after { content: ""; width: 50%; height: 100%; position: absolute; top: 15%; left: 10%; transform: rotate(25deg); background-color: #fff; }
+/* left eye */
+.boy__eyes::before { top: 0px; left: 0px; }
+/* right eye */
+.boy__eyes::after { top: 0px; left: 60px; }
 
-.camp-right-door { height: 89px; right: 21%; transform-origin: 0 105%; transform: rotate(-30deg) scaleX(-1); position: absolute; bottom: -3%; z-index: 0; }
-
-.camp-right-door .camp-right-door-inner { 
-  width: 100%; 
-  height: 100%; 
-  transform-origin: 0 120%; 
-  transform: rotate(-30deg); 
-  position: absolute; 
-  bottom: 0px; 
-  overflow: hidden; 
-  background-color: #EFE7CF; 
-  animation: doorFlapRight 3.8s ease-in-out infinite;
+.boy__mouth {
+  top: 50%;
+  left: 50%;
 }
 
-.camp-right-door .camp-right-door-inner:before { content: ""; width: 50%; height: 100%; position: absolute; top: 15%; right: -28%; z-index: 1; transform: rotate(15deg); background-color: #524A5A; }
-.camp-right-door .camp-right-door-inner:after { content: ""; width: 50%; height: 100%; position: absolute; top: 15%; right: -20%; transform: rotate(20deg); background-color: #fff; }
-
-.camp-floor { width: 80%; position: absolute; right: 10%; bottom: 0; z-index: 1; }
-.camp-floor .camp-ground { position: absolute; border-radius: 2px; border: 2px solid #4D4454; }
-.camp-floor .camp-ground.camp-ground1 { width: 65%; left: 0; }
-.camp-floor .camp-ground.camp-ground2 { width: 30%; right: 0; }
-
-.camp-fireplace { 
-  display: block; 
-  position: absolute; 
-  left: 3%;
-  bottom: 0; 
-  z-index: 2;
-  width: clamp(110px, 12vw, 170px); 
-  aspect-ratio: 1.6; 
+/* openned */
+.boy__mouth::before {
+  top: 22px;
+  left: 50%;
+  width: 136px;
+  height: 100px;
+  background: #ff4559;
+  border-radius: 30px 30px 70px 70px;
+  box-shadow: inset -65px 50px 0 -20px #be1520;
+  animation: mouthOpen var(--time) linear infinite;
 }
 
-.camp-fireplace:before { content: ""; display: block; width: 8%; position: absolute; bottom: -4px; left: 2%; border-radius: 2px; border: 2px solid #4D4454; background: #4D4454; }
-.camp-fireplace .camp-support { display: block; height: 105%; width: 2px; position: absolute; bottom: -5%; left: 10%; border: 2px solid #4D4454; }
-.camp-fireplace .camp-support:before { content: ""; width: 100%; height: 15%; position: absolute; top: -18%; left: -4px; border-radius: 2px; border: 2px solid #4D4454; transform-origin: 100% 100%; transform: rotate(45deg); }
-.camp-fireplace .camp-support:after { content: ""; width: 100%; height: 15%; position: absolute; top: -18%; left: 0px; border-radius: 2px; border: 2px solid #4D4454; transform-origin: 0 100%; transform: rotate(-45deg); }
-.camp-fireplace .camp-support:nth-child(1) { left: 85%; }
-.camp-fireplace .camp-bar { width: 100%; height: 2px; border-radius: 2px; border: 2px solid #4D4454; }
-.camp-fireplace .camp-hanger { display: block; width: 2px; height: 25%; margin-left: -4px; position: absolute; left: 50%; border: 2px solid #4D4454; }
-
-.camp-fireplace .camp-pan { 
-  display: block; 
-  width: 25%; 
-  height: 50%; 
-  border-radius: 50%; 
-  border: 4px solid #4D4454; 
-  position: absolute; 
-  top: 25%; 
-  left: 35%; 
-  overflow: hidden; 
-  animation: heat 5s linear infinite, potJitter 0.4s ease-in-out infinite; 
+@keyframes mouthOpen {
+  0%, 100% { translate: -50%; scale: 1; }
+  0.54%, 91.53% { translate: -50% 22px; scale: 0; }
+  94.77%, 95.58% { translate: -50%; scale: 0.7; }
 }
 
-.camp-fireplace .camp-pan:before { content: ""; display: block; height: 53%; width: 100%; position: absolute; bottom: 0; z-index: -1; border-top: 4px solid #4D4454; background-color: #74667e; animation: hotPan 5s linear infinite; }
-.camp-fireplace .camp-smoke { display: block; width: 20%; height: 25%; position: absolute; top: 25%; left: 37%; background-color: white; filter: blur(5px); animation: smoke 5s linear infinite; }
+/* closed */
+.boy__mouth::after {
+  top: 79px;
+  left: -28px;
+  width: 49px;
+  height: 30px;
+  background:
+    radial-gradient(circle at -20% 50%, #b97a57 8px, #303083 8px 10px, transparent 0) 10px 1px / 20px 20px no-repeat,
+    radial-gradient(transparent 15px, #303083 15px 17px, transparent 0) 33px -12px no-repeat,
+    linear-gradient(#303083, #303083) 15px 11px / 34px 2px no-repeat;
+  animation:
+    mouthClose var(--time) linear infinite,
+    mouthMovement 0.7s linear infinite;
+}
 
-.camp-fireplace .camp-fire { display: block; width: 25%; height: 120%; position: absolute; bottom: 0; left: 33%; z-index: 1; animation: fire 5s linear infinite; }
-.camp-fireplace .camp-fire:before { content: ""; display: block; width: 100%; height: 2px; position: absolute; bottom: -4px; z-index: 1; border-radius: 2px; border: 1px solid #efb54a; background-color: #efb54a; }
-.camp-fireplace .camp-fire .camp-line { display: block; width: 2px; height: 100%; position: absolute; bottom: 0; animation: fireLines 1s linear infinite; }
-.camp-fireplace .camp-fire .camp-line2 { left: 50%; margin-left: -1px; animation-delay: 0.3s; }
-.camp-fireplace .camp-fire .camp-line3 { right: 0; animation-delay: 0.5s; }
-.camp-fireplace .camp-fire .camp-line .camp-particle { height: 10%; position: absolute; top: 100%; z-index: 1; border-radius: 2px; border: 2px solid #efb54a; animation: fireParticles 0.5s linear infinite; }
-.camp-fireplace .camp-fire .camp-line .camp-particle1 { animation-delay: 0.1s; }
-.camp-fireplace .camp-fire .camp-line .camp-particle2 { animation-delay: 0.3s; }
-.camp-fireplace .camp-fire .camp-line .camp-particle3 { animation-delay: 0.6s; }
-.camp-fireplace .camp-fire .camp-line .camp-particle4 { animation-delay: 0.9s; }
+@keyframes mouthClose {
+  0%, 0.53%, 91.54%, 100% { opacity: 0; }
+  0.54%, 91.53% { opacity: 1; }
+  1.08%, 60% { translate: 0px -4px; }
+  66.42%, 86.67% { translate: 0px -30px; }
+  86.94%, 90.99% { translate: -7px -30px; }
+  0%, 1.08% { animation-play-state: running, paused; }
+  1.09%, 100% { animation-play-state: running, running; }
+}
 
-.camp-time-wrapper { display: block; width: 100%; height: 100%; position: absolute; overflow: hidden; }
-.camp-time { display: block; width: 100%; height: 200%; position: absolute; transform-origin: 50% 50%; transform: rotate(270deg); animation: earthRotation 5s linear infinite; }
+@keyframes mouthMovement {
+  0%, 100% { background-position: 8px 1px, 33px -12px, 15px 11px; }
+  25% { background-position: 12px 1px, 33px -12px, 15px 11px; }
+  50% { background-position: 12px 5px, 33px -12px, 15px 11px; }
+  75% { background-position: 8px 5px, 33px -12px, 15px 11px; }
+}
 
-.camp-time .camp-day {
-  display: block;
+.boy__cheeks {
+  top: 96px;
+  left: 6px;
   width: 20px;
   height: 20px;
-  position: absolute;
-  top: 20%;
-  left: 40%;
+  background: #ff8c94; 
   border-radius: 50%;
-  background-color: #FFE033;
-  animation: sunrise 5s ease-in-out infinite;
+  box-shadow: 126px 0 #ff8c94; 
 }
 
-.camp-time .camp-night {
-  animation: nightTime 5s ease-in-out infinite;
+/* nose */
+.boy__cheeks::before {
+  top: -37px;
+  left: 73px;
+  width: 20px;
+  height: 22px;
+  background: #b97a57;
+  transform-origin: top right;
+  rotate: 10deg;
+  border-radius: 0 8px 100% 0 / 0 8px 60% 0;
+  animation: boyNose var(--time) linear infinite;
 }
 
-.camp-time .camp-night .camp-star { display: block; width: 4px; height: 4px; position: absolute; bottom: 10%; border-radius: 50%; background-color: #fff; }
-.camp-time .camp-night .camp-star-big { width: 6px; height: 6px; }
-.camp-time .camp-night .camp-star1 { right: 23%; bottom: 25%; }
-.camp-time .camp-night .camp-star2 { right: 35%; bottom: 18%; }
-.camp-time .camp-night .camp-star3 { right: 47%; bottom: 25%; }
-.camp-time .camp-night .camp-star4 { right: 22%; bottom: 20%; }
-.camp-time .camp-night .camp-star5 { right: 18%; bottom: 30%; }
-.camp-time .camp-night .camp-star6 { right: 60%; bottom: 20%; }
-.camp-time .camp-night .camp-star7 { right: 70%; bottom: 23%; }
+@keyframes boyNose {
+  0%, 100% { translate: 0 0px; }
+  0.54%, 2.16% { translate: 0 10px; }
+  5.4%, 98.55% { translate: 0 15px; }
+}
 
-.camp-time .camp-night .camp-moon {
-  display: block;
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  bottom: 22%;
-  right: 33%;
+.boy__leftArm {
+  top: 0px;
+  left: -10px;
+  width: 170px;
+  height: 50px;
+  background: #b97a57;
+  transform-origin: 25px 25px;
+  border-radius: 99em;
+  box-shadow: inset 90px 0 0 -20px white;
+  animation: boyArm var(--time) linear infinite;
+}
+
+@keyframes boyArm {
+  0%, 100% { rotate: 163deg; }
+  0.54%, 60% { rotate: 173deg; }
+  66.42%, 90.99% { rotate: 150deg; }
+  93.42%, 95.58% { rotate: 170deg; }
+  96.93% { rotate: 149deg; }
+  98.55% { rotate: 138deg; }
+}
+
+.boy__leftArm::before {
+  top: 0px;
+  left: calc(100% - 50px);
+  width: 152px;
+  height: 50px;
+  background: inherit;
+  border-radius: inherit;
+  transform-origin: inherit;
+  animation: boyArmBefore var(--time) linear infinite;
+}
+
+@keyframes boyArmBefore {
+  0%, 100% { rotate: 159deg; }
+  0.54%, 60% { rotate: 153deg; }
+  66.42%, 90.99% { rotate: 209deg; }
+  93.42%, 94.77% { rotate: 114deg; }
+  95.58% { rotate: 138deg; }
+  96.93%, 98.55% { rotate: 189deg; }
+}
+
+.boy__leftArm::after {
+  top: 0px;
+  left: calc(100% - 50px);
+  width: 70px;
+  height: 70px;
+  background:
+    radial-gradient(closest-side, #b97a57 100%, transparent 0) -25px 21px no-repeat,
+    radial-gradient(closest-side, transparent calc(80% - 2px), #303083 calc(80% - 2px) 80%, #b97a57 0) -8px -19px / 120% 120% no-repeat,
+    radial-gradient(closest-side, #b97a57 calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) -23px 17px no-repeat,
+    radial-gradient(closest-side, #b97a57 calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) -13px 5px no-repeat,
+    radial-gradient(closest-side, #b97a57 calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) -9px -3px no-repeat,
+    radial-gradient(closest-side, #b97a57 calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) -2px -10px no-repeat,
+    #b97a57;
   border-radius: 50%;
-  background: transparent;
-  transform: rotate(-60deg);
-  box-shadow: 10px 10px 0 0 #fdfbd3;
-  filter: drop-shadow(0 0 6px rgba(253, 251, 211, 0.4));
-  animation: moonOrbit 5s ease-in-out infinite;
+  transform-origin: inherit;
+  animation: boyArmAfter var(--time) linear infinite;
+}
+
+@keyframes boyArmAfter {
+  0%, 100% { transform: rotate(155deg) translate(95px, -4px); }
+  0.54%, 60% { transform: rotate(159deg) translate(95px, -18px); }
+  66.42%, 90.99% { transform: rotate(209deg) translate(95px, -18px); }
+  93.42%, 94.77% { transform: rotate(114deg) translate(100px, -8px); }
+  95.58% { transform: rotate(138deg) translate(100px, -8px); }
+  96.93%, 98.55% { transform: rotate(189deg) translate(100px, -8px); }
+}
+
+.chopsticks {
+  top: 0px;
+  left: calc(100% - 50px);
+  animation: chopsticks var(--time) linear infinite;
+}
+
+@keyframes chopsticks {
+  0%, 100% { transform: rotate(155deg) translate(115px, -30px) rotate(0deg); }
+  0.54%, 60% { transform: rotate(159deg) translate(115px, -44px) rotate(-11deg); }
+  66.42%, 90.99% { transform: rotate(209deg) translate(85px, -24px) rotate(-11deg); }
+  93.42%, 94.77% { transform: rotate(114deg) translate(142px, -30px) rotate(64deg); }
+  95.58% { transform: rotate(138deg) translate(126px, -32px) rotate(50deg); }
+  96.93% { transform: rotate(189deg) translate(93px, -20px) rotate(50deg); }
+  98.55% { transform: rotate(183deg) translate(93px, -9px) rotate(50deg); }
+}
+
+.chopsticks::before {
+  top: 0px;
+  left: 0px;
+  width: 160px;
+  height: 6px;
+  background: linear-gradient(1deg, #303083 70%, transparent 0);
+  border-radius: 99em;
+  translate: -50% -6px;
+  transform-origin: center center;
+  animation: chopsticksBefore var(--time) linear infinite;
+}
+
+@keyframes chopsticksBefore {
+  0%, 93.15%, 100% { rotate: 37deg; }
+  93.69% { rotate: 42deg; }
+  93.96%, 94.23% { rotate: 37deg; }
+  94.50% { rotate: 42deg; }
+  94.77% { rotate: 37deg; }
+}
+
+.chopsticks::after {
+  top: 0px;
+  left: 0px;
+  width: 160px;
+  height: 6px;
+  background: linear-gradient(1deg, #303083 70%, transparent 0);
+  border-radius: 99em;
+  transform-origin: center center;
+  animation: chopsticksAfter var(--time) linear infinite;
+}
+
+@keyframes chopsticksAfter {
+  0%, 90.99%, 100% { translate: calc(-50% - 3px) -1px; rotate: 34deg; }
+  93.42% { translate: calc(-50% - 3px) 5px; rotate: 36deg; }
+}
+
+.plate {
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 6px;
+  background-color: #202465;
+  border-radius: 6px 6px 0 0;
+  translate: -50% 170px;
+  z-index: 1;
+}
+
+.plate::after {
+  top: -55px;
+  left: 50%;
+  width: 125px;
+  height: 55px;
+  background:
+    linear-gradient(180deg, white 1px, transparent 1px 14px, white 14px 15px, transparent 0) 0 10px,
+    #303083;
+  border-radius: 0 0 35px 35px / 0 0 50px 50px;
+  translate: -50%;
+}
+
+.noodle {
+  top: -28px;
+  left: 50%;
+  animation:
+    noodle var(--time) linear infinite,
+    noodleLength var(--time) linear infinite;
+}
+
+@keyframes noodle {
+  0%, 1.08%, 100% { translate: -50%; }
+  5.40%, 60% { translate: -50% -36px; }
+  66.42% { translate: -50% -27px; }
+  86.67%, 98.81% { translate: -50% -14px; }
+  98.82% { translate: -50% 105px; }
+  0%, 77.76%, 100% { clip-path: polygon(-200% 0%, 300% 0%, 300% 100%, -200% 100%); }
+  86.67%, 90.99%, 98.82% { clip-path: polygon(-200% 0%, 300% 0%, 300% 0%, -200% 0%); }
+}
+
+.noodle,
+.noodle::before,
+.noodle::after {
+  width: 6px;
+  height: 160px;
+  background:
+    radial-gradient(circle at -7px 50%, transparent 6px 8px, #ffcf8b 8px 10px, transparent 0) 3px 11px / 4px 22px repeat-y,
+    radial-gradient(circle at 10px 50%, transparent 6px 8px, #ffcf8b 8px 10px, transparent 0) 0 0 / 3px 22px repeat-y;
+}
+
+.noodle::before,
+.noodle::after {
+  animation: noodleLength var(--time) linear infinite;
+}
+
+@keyframes noodleLength {
+  0%, 2.16% { background-position: 3px 11px, 0 0; }
+  97.2%, 100% { background-position: 3px -1489px, 0 -1500px; }
+}
+
+.noodle::before { left: -7px; }
+.noodle::after { left: 7px; }
+
+.rightArm {
+  top: 50%;
+  left: 50%;
+  width: 192px;
+  height: 50px;
+  background: #b97a57;
+  transform-origin: 25px 25px;
+  border-radius: 99em;
+  box-shadow: inset 90px 0 0 -20px white;
+  z-index: 1;
+  animation: rightArm var(--time) linear infinite;
+}
+
+@keyframes rightArm {
+  0%, 60%, 100% { translate: 28px 43px; rotate: 35deg; }
+  66.42%, 90.99% { translate: 28px 69px; rotate: 23deg; }
+  93.42% { translate: 28px 43px; rotate: 35deg; }
+}
+
+.rightArm::before {
+  top: 0px;
+  left: calc(100% - 50px);
+  width: 152px;
+  height: 50px;
+  background: inherit;
+  border-radius: inherit;
+  transform-origin: inherit;
+  animation: rightArmBefore var(--time) linear infinite;
+}
+
+@keyframes rightArmBefore {
+  0%, 60%, 100% { rotate: 144deg; }
+  66.42%, 90.99% { rotate: 156deg; }
+  93.42% { rotate: 144deg; }
+}
+
+.rightArm::after {
+  top: 0px;
+  left: calc(100% - 50px);
+  width: 70px;
+  height: 70px;
+  background:
+    radial-gradient(closest-side, #b97a57 100%, transparent 0) 43px -33px no-repeat,
+    radial-gradient(closest-side, #b97a57 calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) 25px 12px / 70% 40% no-repeat,
+    radial-gradient(closest-side, #b97a57 100%, transparent 0) -15px -35px no-repeat,
+    radial-gradient(closest-side, transparent calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) -35px 13px / 100% 70% no-repeat,
+    radial-gradient(closest-side, transparent calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) -24px 7px no-repeat,
+    radial-gradient(closest-side, transparent calc(100% - 2px), #303083 calc(100% - 2px) 100%, transparent 0) -10px 14px no-repeat,
+    #b97a57;
+  border-radius: 50%;
+  transform-origin: inherit;
+  animation: rightArmAfter var(--time) linear infinite;
+}
+
+@keyframes rightArmAfter {
+  0%, 60%, 100% { transform: rotate(144deg) translate(104px, -3px); }
+  66.42%, 90.99% { transform: rotate(156deg) translate(104px, -3px); }
+  93.42% { transform: rotate(144deg) translate(104px, -3px); }
 }
