@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/loader.css';
+import React, { useState, useEffect } from "react";
+import "../styles/loader.css";
 
-const LETTERS = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
+const LETTERS = ["L", "o", "a", "d", "i", "n", "g", ".", ".", "."];
 
 const Loader = ({ isDark, isLoading }) => {
   const [shouldRender, setShouldRender] = useState(true);
 
   useEffect(() => {
     if (!isLoading) {
-      // 1.5s timer perfectly fits the new 1.4s hyperdrive bgFade animation
       const timer = setTimeout(() => setShouldRender(false), 1500);
       return () => clearTimeout(timer);
     }
@@ -17,14 +16,23 @@ const Loader = ({ isDark, isLoading }) => {
   if (!shouldRender) return null;
 
   return (
-    <div className={`loader-container ${isDark ? 'dark-mode' : 'light-mode'} ${!isLoading ? 'water-dissolve' : ''}`}>
+    <div
+      className={`loader-container ${isDark ? "dark-mode" : "light-mode"} ${
+        !isLoading ? "water-dissolve" : ""
+      }`}
+    >
+      {/* Cinematic gradient glow */}
+      <div className="loader-aurora" />
+
+      {/* Moving background pattern */}
       <div className="loader-pattern" />
+
+      {/* Frosted glass overlay */}
       <div className="loader-overlay" />
 
       <div className="content-container">
         <div className="camp-loader-layout">
-
-          {/* NEW: Animator wrapper to prevent the scale(5) exit animation from overriding our responsive clamp() scale */}
+          {/* Scene Animator Wrapper */}
           <div className="camp-scene-animator">
             <div className="camp-scene">
               <div className="camp-forest">
@@ -63,7 +71,7 @@ const Loader = ({ isDark, isLoading }) => {
                   <div className="camp-branch camp-branch-bottom"></div>
                 </div>
               </div>
-              
+
               <div className="camp-tent">
                 <div className="camp-roof"></div>
                 <div className="camp-roof-border-left">
@@ -71,6 +79,7 @@ const Loader = ({ isDark, isLoading }) => {
                   <div className="camp-roof-border camp-roof-border2"></div>
                   <div className="camp-roof-border camp-roof-border3"></div>
                 </div>
+
                 <div className="camp-entrance">
                   <div className="camp-door camp-left-door">
                     <div className="camp-left-door-inner"></div>
@@ -85,7 +94,7 @@ const Loader = ({ isDark, isLoading }) => {
                 <div className="camp-ground camp-ground1"></div>
                 <div className="camp-ground camp-ground2"></div>
               </div>
-              
+
               <div className="camp-fireplace">
                 <div className="camp-support"></div>
                 <div className="camp-support"></div>
@@ -93,6 +102,7 @@ const Loader = ({ isDark, isLoading }) => {
                 <div className="camp-hanger"></div>
                 <div className="camp-smoke"></div>
                 <div className="camp-pan"></div>
+
                 <div className="camp-fire">
                   <div className="camp-line camp-line1">
                     <div className="camp-particle camp-particle1"></div>
@@ -114,7 +124,7 @@ const Loader = ({ isDark, isLoading }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="camp-time-wrapper">
                 <div className="camp-time">
                   <div className="camp-day"></div>
@@ -133,24 +143,29 @@ const Loader = ({ isDark, isLoading }) => {
             </div>
           </div>
 
-          {/* ── Letters + progress ── */}
+          {/* Letters + progress */}
           <div className="loader-wrapper">
             <div className="loader-letters" aria-label="Loading">
               {LETTERS.map((char, i) => (
                 <span
                   key={i}
                   className="loader-letter"
-                  style={{ animationDelay: `${i * 0.1}s` }}
+                  style={{ animationDelay: `${i * 0.12}s` }}
                 >
                   {char}
                 </span>
               ))}
             </div>
+
             <div className="loader-progress">
               <div className="loader-progress-beam" />
+              <div className="loader-progress-glow" />
+            </div>
+
+            <div className="loader-subtext">
+              Preparing your experience...
             </div>
           </div>
-
         </div>
       </div>
     </div>
