@@ -134,7 +134,11 @@
   animation: naturalBlink 4s infinite;
 }
 
-.boy__eyes-simple::before { top: 0px; left: 0px; }
+.boy__eyes-simple::before { 
+    top: 0px; 
+    left: 0px; 
+    transition: clip-path 1.2s ease;
+}
 .boy__eyes-simple::after { top: 0px; left: 60px; }
 
 @keyframes naturalBlink {
@@ -220,8 +224,8 @@
 /* ── Speech Bubble ── */
 .speech-bubble {
   position: absolute;
-  top: 75px;
-  right: -25px;
+  top: 50px;
+  right: 45px;
   background: white;
   color: #0c2a5e;
   padding: 16px 28px;
@@ -244,7 +248,7 @@
   content: '';
   position: absolute;
   bottom: -10px;
-  right: 145px;
+  right: 80px;
   border-width: 15px 15px 0 0;
   border-style: solid;
   border-color: white transparent transparent transparent;
@@ -269,3 +273,130 @@
   }
 }
 
+.boy-simple.bored .boy__smile {
+  width: 30px; /* Shrunken for cuteness */
+  height: 6px;
+  top: 125px;
+  background: #a36b6b; 
+  border-radius: 20px 20px 5px 5px; /* Subtle "n" shape */
+  box-shadow: none;
+  transform: scale(0.9);
+  transition: all 1.2s ease;
+}
+
+/* 2. Sleepy Eyes: Drifting off to sleep */
+.boy-simple.bored .boy__eyes-simple::before,
+.boy-simple.bored .boy__eyes-simple::after {
+  transform: scaleY(0.55); /* More "closed" than before */
+  background-position: center 90%; 
+  filter: saturate(0.8);
+  transition: all 1.2s ease;
+}
+
+/* 3. Faded Blush: Barely there */
+.boy-simple.bored .boy__cheeks-simple {
+  opacity: 0.15;
+  transform: scale(0.7);
+}
+
+/* 4. Arm: Stationary and tucked away */
+.boy-simple.bored .boy__arm-wave {
+  animation: none;
+  transform: rotate(120deg);
+  opacity: 1;
+}
+
+/* --- Bubble Visibility --- */
+.speech-bubble {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Only visible when the .show class is applied (Happy state) */
+.speech-bubble.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0) rotateZ(-45deg);
+}
+
+/* Ensure all face parts transition smoothly */
+.boy__smile, .boy__eyes-simple::before, .boy__eyes-simple::after, .boy__cheeks-simple {
+  transition: all 1.2s ease cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.boy__smile {
+  /* ... keep your original width/height/etc ... */
+  transition: 
+    width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+    height 0.5s ease, 
+    border-radius 0.5s ease, 
+    background 0.5s ease,
+    transform 0.5s ease;
+}
+
+.boy__eyes-simple::before,
+.boy__eyes-simple::after {
+  /* ... keep original styles ... */
+  transition: transform 0.5s ease, background-position 0.5s ease, filter 0.5s ease;
+}
+
+.boy__cheeks-simple {
+  /* ... keep original styles ... */
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.boy__arm-wave {
+  /* ... keep original styles ... */
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+/* ── Bored State (The "Falling Asleep" Transitions) ── */
+
+/* These transitions trigger when the .bored class is ADDED */
+.boy-simple.bored .boy__smile {
+  width: 30px;
+  height: 6px;
+  top: 125px;
+  background: #a36b6b; 
+  border-radius: 20px 20px 5px 5px;
+  box-shadow: none;
+  transform: scale(0.9);
+  /* Slower transition for "falling" into boredom */
+  transition: all 1.2s ease-in-out; 
+}
+
+.boy-simple.bored .boy__eyes-simple::before,
+.boy-simple.bored .boy__eyes-simple::after {
+  transform: scaleY(0.55);
+  background-position: center 90%; 
+  filter: saturate(0.8);
+  transition: all 1.2s ease-in-out;
+}
+
+.boy-simple.bored .boy__cheeks-simple {
+  opacity: 0.15;
+  transform: scale(0.7);
+  transition: all 1.2s ease-in-out;
+}
+
+.boy-simple.bored .boy__arm-wave {
+  animation: none;
+  transform: rotate(120deg);
+  opacity: 1;
+  transition: transform 1.2s ease-in-out;
+}
+
+/* ── Speech Bubble ── */
+.speech-bubble {
+  opacity: 0;
+  pointer-events: none;
+  /* Snappy entrance for the bubble */
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.speech-bubble.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0) rotateZ(-45deg);
+}
