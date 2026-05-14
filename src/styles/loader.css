@@ -3,133 +3,187 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Theme tokens ── */
-.loader-container {
-  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --overlay-bg: rgba(0, 0, 0, 0.2);
-  --overlay-blur: blur(12px);
-  --overlay-border: rgba(255, 255, 255, 0.08);
-}
-
 .loader-container.dark-mode {
-  --text-color:     #e2efff;
-  --text-shadow:    0 0 20px rgba(100, 180, 255, 0.6), 0 0 40px rgba(60, 130, 220, 0.3);
-  --progress-track: rgba(255, 255, 255, 0.1);
-  --progress-beam:  linear-gradient(90deg, transparent, #8ab4f8, #c6ddff, #8ab4f8, transparent);
-  --progress-glow:  0 0 10px rgba(138, 180, 248, 0.5);
+  --bg-start:       #020818;
+  --bg-mid:         #061330;
+  --pattern-c1:     #0d0e1f;
+  --pattern-c2:     #3b0070;
+  --text-color:     #c8deff;
+  --text-shadow:    0 0 24px rgba(100, 180, 255, 0.55), 0 0 48px rgba(60, 130, 220, 0.25);
+  --progress-track: rgba(255, 255, 255, 0.07);
+  --progress-beam:  linear-gradient(90deg, transparent, #64b4ff, #b0d8ff, #64b4ff, transparent);
+  --star-color:     rgba(255, 255, 255, 0.7);
 }
 
 .loader-container.light-mode {
-  --text-color:     #0b1c3f;
-  --text-shadow:    0 1px 2px rgba(255,255,255,0.8), 0 4px 12px rgba(30, 90, 180, 0.15);
-  --progress-track: rgba(0, 0, 0, 0.08);
-  --progress-beam:  linear-gradient(90deg, transparent, #1a73e8, #669df6, #1a73e8, transparent);
-  --progress-glow:  0 0 10px rgba(26, 115, 232, 0.3);
+  --bg-start:       #cfe4f7;
+  --bg-mid:         #a8cceb;
+  --pattern-c1:     #f8b195;
+  --pattern-c2:     #355c7d;
+  --text-color:     #0c2a5e;
+  --text-shadow:    0 1px 0 rgba(255,255,255,0.6), 0 2px 16px rgba(30, 90, 180, 0.2);
+  --progress-track: rgba(0, 0, 0, 0.1);
+  --progress-beam:  linear-gradient(90deg, transparent, #2e7fc2, #72b8f0, #2e7fc2, transparent);
+  --star-color:     rgba(30, 70, 150, 0.25);
 }
 
 /* ── Root container ── */
 .loader-container {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  font-family: var(--font-stack);
-  background-color: #020818; /* Fallback before canvas loads */
+  font-family: Helvetica, sans-serif;
+  background: radial-gradient(ellipse 90% 70% at 50% 40%, var(--bg-mid), var(--bg-start) 75%);
+  transition: background 1s ease;
 }
 
-/* ── Three.js canvas fills the container ── */
-.loader-canvas {
+/* ── Starfield dots ── */
+.loader-container::before {
+  content: '';
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  transition: opacity 0.5s ease;
+  background-image:
+    radial-gradient(1px   1px   at  8%  12%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 23%  74%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 37%  33%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 51%  61%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 64%  18%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 79%  82%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 91%  45%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 14%  55%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 44%  88%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 67%   6%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 85%  29%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at  5%  91%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 30%   5%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 95%  68%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 72%  52%, var(--star-color), transparent),
+    radial-gradient(1px   1px   at 18%  38%, var(--star-color), transparent),
+    radial-gradient(1.5px 1.5px at 88%  12%, var(--star-color), transparent);
+  pointer-events: none;
+  transition: opacity 1s ease;
 }
 
-/* ── Loading text + progress bar ── */
-.loader-text-overlay {
+.loader-container.light-mode::before {
+  opacity: 0.3;
+}
+
+/* ── Moving tile pattern ── */
+.loader-pattern {
   position: absolute;
-  bottom: clamp(2rem, 8vh, 5rem);
-  left: 50%;
-  transform: translateX(-50%);
+  inset: 0;
+  --s: 40px;
+  --c1: var(--pattern-c1);
+  --c2: var(--pattern-c2);
+  --_g:
+    var(--c2)  4%  14%,
+    var(--c1) 14%  24%,
+    var(--c2) 24%  34%,
+    var(--c1) 34%  44%,
+    var(--c2) 44%  56%,
+    var(--c1) 56%  66%,
+    var(--c2) 66%  76%,
+    var(--c1) 76%  86%,
+    var(--c2) 86%  96%;
+  background:
+    radial-gradient(100% 100% at 100% 0, var(--c1) 4%, var(--_g), #000a 96%, #0000),
+    radial-gradient(100% 100% at 0 100%, #0000, #000a 4%, var(--_g), var(--c1) 96%) var(--c1);
+  background-size: var(--s) var(--s);
+  animation: pattern-drift 2s linear infinite;
+  image-rendering: crisp-edges;
+  opacity: 0.4;
+  transition: --pattern-c1 1s, --pattern-c2 1s;
+}
+
+@keyframes pattern-drift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: var(--s) var(--s), var(--s) var(--s); }
+}
+
+/* ── Content container ── */
+.content-container {
+  position: relative;
   z-index: 1;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
-  padding: 1.5rem 2.5rem;
-  border-radius: 20px;
-  background: var(--overlay-bg);
-  backdrop-filter: var(--overlay-blur);
-  -webkit-backdrop-filter: var(--overlay-blur);
-  border: 1px solid var(--overlay-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+}
+
+/* ── ThreeJS Canvas Canvas ── */
+.loader-canvas {
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  display: block;
+  outline: none;
+}
+
+/* ════════════════════════════════════
+   Loading text
+════════════════════════════════════ */
+
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
   user-select: none;
-  pointer-events: none;
-  will-change: transform, opacity;
+  margin-top: -5vh; /* Pull UI up slightly into the canvas area */
 }
 
 .loader-letters {
   display: flex;
-  gap: 0.05em;
+  gap: 0.02em;
   color: var(--text-color);
   text-shadow: var(--text-shadow);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .loader-letter {
   display: inline-block;
-  font-size: 1.25rem;
-  font-weight: 600;
-  opacity: 0.4;
-  animation: loader-letter-anim 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  will-change: opacity, transform, filter;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  opacity: 0.3;
+  animation: loader-letter-anim 2.2s ease-in-out infinite;
+  will-change: opacity, transform;
 }
 
 @keyframes loader-letter-anim {
-  0%, 100% { 
-    opacity: 0.4;  
-    transform: translateY(0) scale(1); 
-    filter: blur(0px);
-  }
-  20% { 
-    opacity: 1;    
-    transform: translateY(-4px) scale(1.05); 
-    filter: blur(0.5px);
-  }
-  40% { 
-    opacity: 0.6;  
-    transform: translateY(0) scale(1); 
-    filter: blur(0px);
-  }
+  0%,
+  100% { opacity: 0.3;  transform: translateY(0); }
+  22%  { opacity: 1;    transform: translateY(-5px); }
+  50%  { opacity: 0.5;  transform: translateY(0); }
 }
 
 /* ── Sweeping progress beam ── */
 .loader-progress {
-  width: 200px;
-  height: 2px;
-  border-radius: 2px;
+  width: 160px;
+  height: 1.5px;
+  border-radius: 1px;
   background: var(--progress-track);
   overflow: hidden;
-  position: relative;
 }
 
 .loader-progress-beam {
-  position: absolute;
-  top: 0; left: 0;
   height: 100%;
-  width: 40%;
+  width: 55%;
   background: var(--progress-beam);
-  border-radius: 2px;
-  box-shadow: var(--progress-glow);
-  animation: beam-sweep 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  border-radius: 1px;
+  animation: beam-sweep 2.4s ease-in-out infinite;
   will-change: transform;
 }
 
 @keyframes beam-sweep {
-  0%   { transform: translateX(-150%); }
-  100% { transform: translateX(350%); }
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(300%); }
 }
 
 /* ════════════════════════════════════
@@ -138,45 +192,36 @@
 
 .water-dissolve {
   pointer-events: none;
-  animation: bgFade 1.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  animation: bgFade 1.4s ease forwards;
 }
 
-/* 1. Zoom the 3D canvas out into the void */
 .water-dissolve .loader-canvas {
-  animation: hyperDriveExit 1.4s cubic-bezier(0.8, 0, 0.1, 1) forwards;
+  animation: hyperDriveExit 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
-/* 2. Drop, blur, and fade the loading UI */
-.water-dissolve .loader-text-overlay {
-  animation: uiFadeOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.water-dissolve .loader-wrapper {
+  animation: textFadeOut 0.5s ease forwards;
+}
+
+.water-dissolve .loader-pattern {
+  animation: gridFade 1s ease forwards;
 }
 
 @keyframes hyperDriveExit {
-  0% {
-    transform: scale(1) translateZ(0);
-    filter: blur(0) brightness(1);
-    opacity: 1;
-  }
-  30% {
-    transform: scale(0.9) translateZ(-50px);
-    filter: blur(1px) brightness(1.2);
-  }
-  100% {
-    transform: scale(6) translateZ(200px);
-    filter: blur(25px) brightness(4);
-    opacity: 0;
-  }
+  0% { transform: scale(1); filter: blur(0) brightness(1); opacity: 1; }
+  40% { transform: scale(0.8); filter: blur(2px) brightness(1.5); }
+  100% { transform: scale(5); filter: blur(20px) brightness(3); opacity: 0; }
 }
 
-@keyframes uiFadeOut {
-  to {
-    opacity: 0;
-    transform: translate(-50%, 20px) scale(0.9);
-    filter: blur(8px);
-  }
+@keyframes textFadeOut {
+  to { opacity: 0; transform: translateY(10px) scale(0.95); letter-spacing: 0.1em; }
+}
+
+@keyframes gridFade {
+  to { opacity: 0; transform: scale(1.1); }
 }
 
 @keyframes bgFade {
-  0%, 60% { opacity: 1; }
-  100%     { opacity: 0; }
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
 }
