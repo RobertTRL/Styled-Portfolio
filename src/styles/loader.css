@@ -317,20 +317,24 @@
 
 /* curly black hair */
 .boy__hair {
-  top: -25px;
+  /* Shifted up by 15px to compensate for the gradient shift inside */
+  top: -40px; 
   left: -10px;
   width: 180px;
-  height: 80px;
+  /* Increased height to prevent clipping the bottom */
+  height: 100px; 
   background: 
-    radial-gradient(circle at 25px 50px, #222222 20px, transparent 21px),
-    radial-gradient(circle at 50px 25px, #222222 25px, transparent 26px),
-    radial-gradient(circle at 90px 15px, #222222 28px, transparent 29px),
-    radial-gradient(circle at 130px 25px, #222222 25px, transparent 26px),
-    radial-gradient(circle at 155px 50px, #222222 20px, transparent 21px);
+    /* Shifted all Y-coordinates down by 15px so the top circle doesn't clip */
+    radial-gradient(circle at 25px 65px, #222222 20px, transparent 21px),
+    radial-gradient(circle at 50px 40px, #222222 25px, transparent 26px),
+    radial-gradient(circle at 90px 30px, #222222 28px, transparent 29px),
+    radial-gradient(circle at 130px 40px, #222222 25px, transparent 26px),
+    radial-gradient(circle at 155px 65px, #222222 20px, transparent 21px);
 }
 
 .boy__hair::before {
-  top: 30px;
+  /* Shifted down by 15px to maintain its position relative to the face */
+  top: 45px; 
   left: 10px;
   width: 160px;
   height: 40px;
