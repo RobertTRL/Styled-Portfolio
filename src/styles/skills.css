@@ -215,6 +215,9 @@
   width: clamp(32px, 5vw, 48px);
   height: clamp(32px, 5vw, 48px);
   object-fit: contain;
+  aspect-ratio: 1 / 1;
+  object-position: center;
+  flex-shrink: 0;
   user-select: none;
   transition: transform 0.2s ease;
 }

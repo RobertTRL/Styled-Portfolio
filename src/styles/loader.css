@@ -111,8 +111,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Reduced gap significantly to pull text closer to the animation */
-  gap: clamp(0.5rem, 2vh, 1.5rem);
+  gap: clamp(0.5rem, 2vh, 1rem);
   margin-bottom: clamp(2rem, 8vh, 10rem); 
 }
 
@@ -161,36 +160,22 @@
   animation: bgFade 1.4s ease forwards;
 }
 
-/* 1. Zoom the scene out */
 .water-dissolve .scene-animator {
   animation: hyperDriveExit 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
-/* 2. Drop and fade the loading text */
 .water-dissolve .loader-wrapper {
   animation: textFadeOut 0.5s ease forwards;
 }
 
-/* 3. Scale and fade the background grid */
 .water-dissolve .loader-pattern {
   animation: gridFade 1s ease forwards;
 }
 
 @keyframes hyperDriveExit {
-  0% {
-    transform: scale(1) translateZ(0);
-    filter: blur(0) brightness(1);
-    opacity: 1;
-  }
-  40% {
-    transform: scale(0.8) translateZ(0);
-    filter: blur(2px) brightness(1.5);
-  }
-  100% {
-    transform: scale(5) translateZ(0);
-    filter: blur(20px) brightness(3);
-    opacity: 0;
-  }
+  0% { transform: scale(1) translateZ(0); filter: blur(0) brightness(1); opacity: 1; }
+  40% { transform: scale(0.8) translateZ(0); filter: blur(2px) brightness(1.5); }
+  100% { transform: scale(5) translateZ(0); filter: blur(20px) brightness(3); opacity: 0; }
 }
 
 @keyframes textFadeOut {
@@ -241,9 +226,7 @@
   height: 12px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow:
-    0 10px rgba(0, 0, 0, 0.1),
-    0 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px rgba(0, 0, 0, 0.1), 0 20px rgba(0, 0, 0, 0.05);
   translate: -50% 170px;
 }
 
@@ -253,9 +236,7 @@
   left: 50%;
   width: 140px;
   height: 130px;
-  background:
-    radial-gradient(closest-side, #a56345 100%, transparent 0) center -5px / 60px 40px no-repeat,
-    white;
+  background: radial-gradient(closest-side, #a56345 100%, transparent 0) center -5px / 60px 40px no-repeat, white;
   border-radius: 25px 25px 0 0;
   animation: boy var(--time) linear infinite;
 }
@@ -369,21 +350,29 @@
   background: #b97a57;
   border-radius: 50%;
   box-shadow: 60px 0 #b97a57;
-  animation: boyEyesPosition var(--time) linear infinite;
-}
-
-@keyframes boyEyesPosition {
-  0%, 100% { translate: 0 0px; }
-  0.54%, 99.36% { translate: 0 10px; }
 }
 
 .boy__eyes::before,
 .boy__eyes::after {
   width: 100%;
   height: 100%;
-  background: linear-gradient(transparent 32px, black 0) 32px 0px / 2px 100% no-repeat, white;
   border-radius: 50%;
-  animation: boyEyesSize var(--time) linear infinite, boyEyesDirection var(--time) linear infinite;
+  
+  /* Solid black pupil via fixed size radial-gradient, layered over a solid white linear-gradient. */
+  background-image: 
+    radial-gradient(circle, black 48%, transparent 52%), 
+    linear-gradient(white, white);
+  background-size: 26px 26px, 100% 100%;
+  background-repeat: no-repeat;
+  
+  /* We use custom properties for X and Y offsets. 50% centers it by default. */
+  background-position: 
+    calc(50% + var(--iris-tx, 0px)) calc(50% + var(--iris-ty, 0px)), 
+    center center;
+    
+  /* Removed the transition to allow instant (zero-delay) movement */
+  
+  animation: boyEyesSize var(--time) linear infinite;
 }
 
 @keyframes boyEyesSize {
@@ -399,14 +388,6 @@
   92.07% { scale: 1 1; }
 }
 
-@keyframes boyEyesDirection {
-  0%, 19.44%, 100% { background-position: 32px 0px; }
-  19.71%, 39.14% { background-position: 32px -15px; }
-  39.15%, 60% { background-position: 32px 0px; }
-  66.42%, 91.52% { background-position: 32px -15px; }
-  92.07% { background-position: 32px 0px; }
-}
-
 /* left eye */
 .boy__eyes::before { top: 0px; left: 0px; }
 /* right eye */
@@ -417,7 +398,6 @@
   left: 50%;
 }
 
-/* openned */
 .boy__mouth::before {
   top: 22px;
   left: 50%;
@@ -435,7 +415,6 @@
   94.77%, 95.58% { translate: -50%; scale: 0.7; }
 }
 
-/* closed */
 .boy__mouth::after {
   top: 79px;
   left: -28px;
@@ -475,7 +454,6 @@
   box-shadow: 126px 0 #ff8c94; 
 }
 
-/* nose */
 .boy__cheeks::before {
   top: -37px;
   left: 73px;
@@ -640,9 +618,7 @@
 .noodle {
   top: -28px;
   left: 50%;
-  animation:
-    noodle var(--time) linear infinite,
-    noodleLength var(--time) linear infinite;
+  animation: noodle var(--time) linear infinite, noodleLength var(--time) linear infinite;
 }
 
 @keyframes noodle {

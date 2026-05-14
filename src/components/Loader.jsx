@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/loader.css';
 
 const LETTERS = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
@@ -6,15 +6,16 @@ const LETTERS = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
 const Loader = ({ isDark, isLoading }) => {
   const [shouldRender, setShouldRender] = useState(true);
   const [scale, setScale] = useState(1);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  
+  const eyeRef = useRef(null);
 
   // Responsive scaling logic
   useEffect(() => {
     const handleResize = () => {
-      // Increased the available viewport percentages to make the scene much larger
       const scaleX = (window.innerWidth * 0.95) / 800;
       const scaleY = (window.innerHeight * 0.8) / 600; 
       
-      // Calculate max scale, capping the maximum size at 2.5x
       const calculatedScale = Math.min(scaleX, scaleY);
       setScale(Math.max(0.6, Math.min(calculatedScale, 2.5)));
     };
@@ -26,11 +27,50 @@ const Loader = ({ isDark, isLoading }) => {
 
   useEffect(() => {
     if (!isLoading) {
-      // 1.5s timer perfectly fits the 1.4s hyperdrive bgFade animation
       const timer = setTimeout(() => setShouldRender(false), 1500);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
+
+  // Track the mouse to set state dynamically
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Compute just the X/Y translation offset for the iris
+  let irisTx = 0; 
+  let irisTy = 0;
+
+  if (eyeRef.current) {
+    const rect = eyeRef.current.getBoundingClientRect();
+    
+    // .boy__eyes block contains the left eye (at 0) and right eye (at 60px).
+    // The "center" of the face/eyeline block is roughly left + 62 scaled pixels.
+    const faceCenterX = rect.left + (62 * scale); 
+    const faceCenterY = rect.top + (32 * scale);
+    
+    const rawDx = mousePos.x - faceCenterX;
+    const rawDy = mousePos.y - faceCenterY;
+    const mag = Math.sqrt(rawDx * rawDx + rawDy * rawDy);
+
+    // Limit radius the iris can slide inside the eye
+    const limitPx = 10; 
+    
+    if (mag > 0) {
+      let targetMag = mag * 0.08; 
+      if (targetMag > limitPx) {
+         targetMag = limitPx;
+      }
+      
+      irisTx = (rawDx / mag) * targetMag;
+      irisTy = (rawDy / mag) * targetMag;
+    }
+  }
 
   if (!shouldRender) return null;
 
@@ -42,7 +82,6 @@ const Loader = ({ isDark, isLoading }) => {
       <div className="content-container">
         <div className="noodle-loader-layout">
 
-          {/* Animator wrapper sizes itself dynamically based on the scaled scene to maintain document flow */}
           <div 
             className="scene-animator" 
             style={{ width: 800 * scale, height: 600 * scale }}
@@ -54,7 +93,17 @@ const Loader = ({ isDark, isLoading }) => {
               <div className="boy">
                 <div className="boy__head">
                   <div className="boy__hair"></div>
-                  <div className="boy__eyes"></div>
+                  
+                  {/* CSS Variables drive the background-position of ::before and ::after pseudo-elements */}
+                  <div 
+                    ref={eyeRef}
+                    className="boy__eyes"
+                    style={{
+                      '--iris-tx': `${irisTx}px`,
+                      '--iris-ty': `${irisTy}px`
+                    }}
+                  ></div>
+
                   <div className="boy__mouth"></div>
                   <div className="boy__cheeks"></div>
                 </div>
