@@ -10,6 +10,7 @@ import Skills from './components/Skills.jsx'
 import Contacts from './components/Contacts.jsx';
 import Loader from './components/Loader.jsx';
 import GreetingBoy from './components/GreetingBoy.jsx';
+import CustomCursor from './components/CustomCursor.jsx';
 
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -40,6 +41,7 @@ const App = () => {
 
   return (
     <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
+      <CustomCursor/>
       <Loader isDark={isDark} isLoading={isLoading} />
       <Background />
       <div className='items'>
