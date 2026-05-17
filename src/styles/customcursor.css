@@ -4,60 +4,57 @@
 *::after {
   cursor: none !important;
 }
-
+ 
 /* ─── Cursor wrapper ─── */
 .custom-cursor {
   position: fixed;
   top: 0;
   left: 0;
-
+ 
   /* pointer tip offset — adjust so your arrow's tip sits on the click point */
   margin-top: -2px;
   margin-left: -2px;
-
+ 
   pointer-events: none;
   z-index: 99999;
   will-change: transform;
-
+ 
   /* Hidden until mouse enters the window */
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-
+ 
 .custom-cursor--visible {
   opacity: 1;
 }
-
+ 
 /* ─── Cursor image ─── */
 .custom-cursor__img {
   display: block;
   width: 48px;
   height: 48px;
   object-fit: contain;
-
-  /* Prevents the image itself from being draggable or selectable */
   user-select: none;
   -webkit-user-drag: none;
+ 
+  /* Smooth filter transitions when isDark toggles */
+  transition: filter 0.2s ease;
 }
-
+ 
+/* ─── White filter — applied to text + click cursors when isDark is true ─── */
+.custom-cursor__img--white {
+  filter: brightness(0) invert(1);
+}
+ 
 /* ─── Per-state size overrides ─── */
-.custom-cursor--text .custom-cursor__img {
-  width: 24px;
-  height: 32px;
-}
-
-/* Slight press-down scale on click */
-.custom-cursor--click .custom-cursor__img {
-  scale: 0.85;
-  transition: scale 0.08s ease;
-}
-
-.custom-cursor--click .custom-cursor__img {
-    width: 64px;
-    height: 64px;
-}
-
 .custom-cursor--text .custom-cursor__img {
   width: 48px;
   height: 48px;
+}
+ 
+.custom-cursor--click .custom-cursor__img {
+  width: 64px;
+  height: 64px;
+  scale: 0.85;
+  transition: scale 0.08s ease, filter 0.2s ease;
 }

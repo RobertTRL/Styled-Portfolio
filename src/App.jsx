@@ -41,7 +41,7 @@ const App = () => {
 
   return (
     <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
-      <CustomCursor/>
+      <CustomCursor isDark={isDark}/>
       <Loader isDark={isDark} isLoading={isLoading} />
       <Background />
       <div className='items'>
