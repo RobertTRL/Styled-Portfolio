@@ -1,109 +1,121 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/loader.css';
-
+ 
 const LETTERS = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
-
+ 
+// Must match --time in loader.css exactly
+const ANIM_DURATION_MS = 11000;
+// mouthOpen peaks at 95.58% — this is the smile climax
+const SMILE_PEAK_PCT   = 0.88;
+ 
 const Loader = ({ isDark, isLoading }) => {
   const [shouldRender, setShouldRender] = useState(true);
-  const [scale, setScale] = useState(1);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  
+  const [dissolving,   setDissolving]   = useState(false);
+  const [scale,        setScale]        = useState(1);
+  const [mousePos,     setMousePos]     = useState({ x: 0, y: 0 });
+ 
   const eyeRef = useRef(null);
-
-  // Responsive scaling logic
+ 
+  // Responsive scaling
   useEffect(() => {
     const handleResize = () => {
-      const scaleX = (window.innerWidth * 0.95) / 800;
-      const scaleY = (window.innerHeight * 0.8) / 600; 
-      
-      const calculatedScale = Math.min(scaleX, scaleY);
-      setScale(Math.max(0.6, Math.min(calculatedScale, 2.5)));
+      const scaleX = (window.innerWidth  * 0.95) / 800;
+      const scaleY = (window.innerHeight * 0.80) / 600;
+      setScale(Math.max(0.6, Math.min(Math.min(scaleX, scaleY), 2.5)));
     };
-
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+ 
+  // Sync dissolve exit to smile peak keyframe
   useEffect(() => {
     if (!isLoading) {
-      const timer = setTimeout(() => setShouldRender(false), 1500);
-      return () => clearTimeout(timer);
+      const smileMs = SMILE_PEAK_PCT * ANIM_DURATION_MS; // 21027ms into cycle
+ 
+      // Read the boy animation's current position in its cycle
+      const boyEl = document.querySelector('.boy');
+      const anim  = boyEl
+        ?.getAnimations()
+        .find(a => a.animationName === 'boy');
+ 
+      let waitMs = 0;
+ 
+      if (anim && anim.currentTime != null) {
+        const currentInCycle = anim.currentTime % ANIM_DURATION_MS;
+        waitMs = smileMs - currentInCycle;
+ 
+        // If we've already passed the smile peak this cycle, wait for next cycle
+        if (waitMs < 0) waitMs += ANIM_DURATION_MS;
+ 
+        // If we're already very close (within 200ms), go now rather than
+        // making the user wait a full extra cycle
+        if (waitMs > ANIM_DURATION_MS - 200) waitMs = 0;
+      }
+ 
+      const dissolveTimer = setTimeout(() => setDissolving(true), waitMs);
+      // Unmount 1.5s after the dissolve animation starts
+      const unmountTimer  = setTimeout(() => setShouldRender(false), waitMs + 1500);
+ 
+      return () => {
+        clearTimeout(dissolveTimer);
+        clearTimeout(unmountTimer);
+      };
     }
   }, [isLoading]);
-
-  // Track the mouse to set state dynamically
+ 
+  // Mouse tracking for eye follow
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-
+    const handleMouseMove = (e) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-
-  // Compute just the X/Y translation offset for the iris
-  let irisTx = 0; 
+ 
+  // Iris offset
+  let irisTx = 0;
   let irisTy = 0;
-
+ 
   if (eyeRef.current) {
-    const rect = eyeRef.current.getBoundingClientRect();
-    
-    // .boy__eyes block contains the left eye (at 0) and right eye (at 60px).
-    // The "center" of the face/eyeline block is roughly left + 62 scaled pixels.
-    const faceCenterX = rect.left + (62 * scale); 
-    const faceCenterY = rect.top + (32 * scale);
-    
+    const rect       = eyeRef.current.getBoundingClientRect();
+    const faceCenterX = rect.left + (62 * scale);
+    const faceCenterY = rect.top  + (32 * scale);
     const rawDx = mousePos.x - faceCenterX;
     const rawDy = mousePos.y - faceCenterY;
-    const mag = Math.sqrt(rawDx * rawDx + rawDy * rawDy);
-
-    // Limit radius the iris can slide inside the eye
-    const limitPx = 10; 
-    
+    const mag   = Math.sqrt(rawDx * rawDx + rawDy * rawDy);
+    const limitPx = 10;
     if (mag > 0) {
-      let targetMag = mag * 0.08; 
-      if (targetMag > limitPx) {
-         targetMag = limitPx;
-      }
-      
+      const targetMag = Math.min(mag * 0.08, limitPx);
       irisTx = (rawDx / mag) * targetMag;
       irisTy = (rawDy / mag) * targetMag;
     }
   }
-
+ 
   if (!shouldRender) return null;
-
+ 
   return (
-    <div className={`loader-container ${isDark ? 'dark-mode' : 'light-mode'} ${!isLoading ? 'water-dissolve' : ''}`}>
+    <div className={`loader-container ${isDark ? 'dark-mode' : 'light-mode'} ${dissolving ? 'water-dissolve' : ''}`}>
       <div className="loader-pattern" />
       <div className="loader-overlay" />
-
+ 
       <div className="content-container">
         <div className="noodle-loader-layout">
-
-          <div 
-            className="scene-animator" 
+ 
+          <div
+            className="scene-animator"
             style={{ width: 800 * scale, height: 600 * scale }}
           >
-            <div 
-              className="noodle-scene" 
+            <div
+              className="noodle-scene"
               style={{ transform: `scale(${scale})` }}
             >
               <div className="boy">
                 <div className="boy__head">
                   <div className="boy__hair"></div>
-                  
-                  {/* CSS Variables drive the background-position of ::before and ::after pseudo-elements */}
-                  <div 
+                  <div
                     ref={eyeRef}
                     className="boy__eyes"
-                    style={{
-                      '--iris-tx': `${irisTx}px`,
-                      '--iris-ty': `${irisTy}px`
-                    }}
+                    style={{ '--iris-tx': `${irisTx}px`, '--iris-ty': `${irisTy}px` }}
                   ></div>
-
                   <div className="boy__mouth"></div>
                   <div className="boy__cheeks"></div>
                 </div>
@@ -116,8 +128,7 @@ const Loader = ({ isDark, isLoading }) => {
               <div className="rightArm"></div>
             </div>
           </div>
-
-          {/* ── Letters ── */}
+ 
           <div className="loader-wrapper">
             <div className="loader-letters" aria-label="Loading">
               {LETTERS.map((char, i) => (
@@ -131,11 +142,11 @@ const Loader = ({ isDark, isLoading }) => {
               ))}
             </div>
           </div>
-
+ 
         </div>
       </div>
     </div>
   );
 };
-
+ 
 export default Loader;

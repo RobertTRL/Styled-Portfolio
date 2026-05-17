@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    loader.css  —  Namespaced Noodle Scene Loader
    ═══════════════════════════════════════════════════════════════════════════ */
-
+ 
 /* ── Theme tokens ── */
 .loader-container.dark-mode {
   --bg-start:       #020818;
@@ -12,7 +12,7 @@
   --text-shadow:    0 0 24px rgba(100, 180, 255, 0.55), 0 0 48px rgba(60, 130, 220, 0.25);
   --star-color:     rgba(255, 255, 255, 0.7);
 }
-
+ 
 .loader-container.light-mode {
   --bg-start:       #cfe4f7;
   --bg-mid:         #a8cceb;
@@ -22,7 +22,7 @@
   --text-shadow:    0 1px 0 rgba(255,255,255,0.6), 0 2px 16px rgba(30, 90, 180, 0.2);
   --star-color:     rgba(30, 70, 150, 0.25);
 }
-
+ 
 /* ── Root container ── */
 .loader-container {
   position: fixed;
@@ -35,7 +35,7 @@
   font-family: Helvetica, sans-serif;
   background: radial-gradient(ellipse 90% 70% at 50% 40%, var(--bg-mid), var(--bg-start) 75%);
 }
-
+ 
 /* ── Starfield dots ── */
 .loader-container::before {
   content: '';
@@ -61,7 +61,7 @@
     radial-gradient(1.5px 1.5px at 88%  12%, var(--star-color), transparent);
   pointer-events: none;
 }
-
+ 
 /* ── Moving tile pattern ── */
 .loader-pattern {
   position: absolute;
@@ -87,12 +87,12 @@
   image-rendering: crisp-edges;
   opacity: 0.4;
 }
-
+ 
 @keyframes pattern-drift {
   0%   { background-position: 0 0, 0 0; }
   100% { background-position: var(--s) var(--s), var(--s) var(--s); }
 }
-
+ 
 /* ── Frosted overlay ── */
 .loader-overlay {
   position: absolute;
@@ -100,32 +100,30 @@
   backdrop-filter: blur(1px);
   background: transparent;
 }
-
+ 
 /* ── Content container ── */
 .content-container {
   position: relative;
   z-index: 1;
 }
-
+ 
 .noodle-loader-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* gap: clamp(0.5rem, 2vh, 1rem);
-  margin-bottom: clamp(2rem, 8vh, 5rem);  */
 }
-
+ 
 /* ════════════════════════════════════
    Loading text
 ════════════════════════════════════ */
-
+ 
 .loader-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   user-select: none;
 }
-
+ 
 .loader-letters {
   display: flex;
   gap: 0.02em;
@@ -133,7 +131,7 @@
   text-shadow: var(--text-shadow);
   letter-spacing: 0.1em;
 }
-
+ 
 .loader-letter {
   display: inline-block;
   font-family: Helvetica, sans-serif;
@@ -143,81 +141,85 @@
   animation: loader-letter-anim 2.2s ease-in-out infinite;
   will-change: opacity, transform;
 }
-
+ 
 @keyframes loader-letter-anim {
   0%,
   100% { opacity: 0.3;  transform: translateY(0); }
   22%  { opacity: 1;    transform: translateY(-5px); }
   50%  { opacity: 0.5;  transform: translateY(0); }
 }
-
+ 
 /* ════════════════════════════════════
-   Hyperdrive Exit Animations
+   Exit Animations
 ════════════════════════════════════ */
-
+ 
 .water-dissolve {
   pointer-events: none;
-  animation: bgFade 1.4s ease forwards;
+  animation: bgFade 1.5s ease forwards;
 }
-
+ 
+/* transform-origin at 50% 27% targets the face/mouth level in the 800×600 scene,
+   so the zoom rushes into the smile rather than the scene center */
 .water-dissolve .scene-animator {
-  animation: hyperDriveExit 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+  transform-origin: 50% 27%;
+  animation: smileZoomExit 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-
+ 
 .water-dissolve .loader-wrapper {
-  animation: textFadeOut 0.5s ease forwards;
+  animation: textFadeOut 0.4s ease forwards;
 }
-
+ 
 .water-dissolve .loader-pattern {
-  animation: gridFade 1s ease forwards;
+  animation: gridFade 0.8s ease forwards;
 }
-
-@keyframes hyperDriveExit {
-  0% { transform: scale(1) translateZ(0); filter: blur(0) brightness(1); opacity: 1; }
-  40% { transform: scale(0.8) translateZ(0); filter: blur(2px) brightness(1.5); }
-  100% { transform: scale(5) translateZ(0); filter: blur(20px) brightness(3); opacity: 0; }
+ 
+@keyframes smileZoomExit {
+  0%   { transform: scale(1);   filter: blur(0px)  brightness(1);   opacity: 1; }
+  30%  { transform: scale(1.4); filter: blur(0px)  brightness(1.15); opacity: 1; }
+  70%  { transform: scale(3.2); filter: blur(2px)  brightness(1.6);  opacity: 0.85; }
+  100% { transform: scale(7);   filter: blur(28px) brightness(2.8);  opacity: 0; }
 }
-
+ 
 @keyframes textFadeOut {
-  to { opacity: 0; transform: translateY(10px) scale(0.95); letter-spacing: 0.1em; }
+  to { opacity: 0; transform: translateY(8px) scale(0.96); }
 }
-
+ 
 @keyframes gridFade {
-  to { opacity: 0; transform: scale(1.1); }
+  to { opacity: 0; transform: scale(1.08); }
 }
-
+ 
 @keyframes bgFade {
-  0%, 70% { opacity: 1; }
-  100% { opacity: 0; }
+  0%, 60% { opacity: 1; }
+  100%     { opacity: 0; }
 }
-
+ 
 /* ════════════════════════════════════
    NOODLE SCENE CSS
 ════════════════════════════════════ */
-
+ 
 .scene-animator {
   display: flex;
   align-items: center;
   justify-content: center;
   transform-origin: center;
 }
-
+ 
 .noodle-scene {
   position: relative;
   width: 800px;
   height: 600px;
-  --time: 6.4s;
+  --time: 11s;
   transform-origin: center;
   flex-shrink: 0;
 }
-
+ 
 .noodle-scene *,
 .noodle-scene *::before,
 .noodle-scene *::after {
   content: "";
   position: absolute;
 }
-
+ 
 /* shadow */
 .noodle-scene::after {
   top: 50%;
@@ -229,7 +231,7 @@
   box-shadow: 0 10px rgba(0, 0, 0, 0.1), 0 20px rgba(0, 0, 0, 0.05);
   translate: -50% 170px;
 }
-
+ 
 /* body */
 .boy {
   top: 50%;
@@ -240,13 +242,13 @@
   border-radius: 25px 25px 0 0;
   animation: boy var(--time) linear infinite;
 }
-
+ 
 @keyframes boy {
   0%, 60%, 100% { translate: -50% 43px; }
   66.42%, 91.8% { translate: -50% 67px; }
   93.42% { translate: -50% 44px; }
 }
-
+ 
 /* neck */
 .boy::before {
   top: -30px;
@@ -256,7 +258,7 @@
   background-color: #a56345;
   translate: -50%;
 }
-
+ 
 .boy__head {
   top: -220px;
   left: 50%;
@@ -267,7 +269,7 @@
   border-radius: 60px 60px 10px 10px;
   animation: boyHead var(--time) linear infinite;
 }
-
+ 
 @keyframes boyHead {
   0%, 100% { translate: -50%; }
   0.54% { translate: -50% 22px; }
@@ -279,7 +281,7 @@
   91.52% { translate: -50% 16px; }
   93.42% { translate: -50% -3px; }
 }
-
+ 
 .boy__head::before {
   top: 60px;
   left: 50%;
@@ -289,13 +291,13 @@
   border-radius: 50%;
   animation: boyFace var(--time) linear infinite;
 }
-
+ 
 @keyframes boyFace {
   0%, 100% { translate: -50%; }
   0.54% { translate: -50% -9px; }
   1.08%, 99.36% { translate: -50% -16px; }
 }
-
+ 
 /* ears */
 .boy__head::after {
   top: 78px;
@@ -305,47 +307,43 @@
   background: conic-gradient(from 270deg, #b97a57 0deg 61deg, transparent 0),
     radial-gradient(#b97a57 8px, #303083 8px 10px, #b97a57 0);
   border-radius: 100%;
-  -webkit-box-reflect: right 150px; 
+  -webkit-box-reflect: right 150px;
   animation: boyEars var(--time) linear infinite;
 }
-
+ 
 @keyframes boyEars {
   0%, 100% { translate: 0 0px; }
   0.54% { translate: 0 -15px; }
   1.08%, 99.36% { translate: 0 -22px; }
 }
-
+ 
 /* curly black hair */
 .boy__hair {
-  /* Shifted up by 15px to compensate for the gradient shift inside */
-  top: -40px; 
+  top: -40px;
   left: -10px;
   width: 180px;
-  /* Increased height to prevent clipping the bottom */
-  height: 100px; 
-  background: 
-    /* Shifted all Y-coordinates down by 15px so the top circle doesn't clip */
+  height: 100px;
+  background:
     radial-gradient(circle at 25px 65px, #222222 20px, transparent 21px),
     radial-gradient(circle at 50px 40px, #222222 25px, transparent 26px),
     radial-gradient(circle at 90px 30px, #222222 28px, transparent 29px),
     radial-gradient(circle at 130px 40px, #222222 25px, transparent 26px),
     radial-gradient(circle at 155px 65px, #222222 20px, transparent 21px);
 }
-
+ 
 .boy__hair::before {
-  /* Shifted down by 15px to maintain its position relative to the face */
-  top: 45px; 
+  top: 45px;
   left: 10px;
   width: 160px;
   height: 40px;
-  background: 
+  background:
     radial-gradient(circle at 20px 10px, #222222 15px, transparent 16px),
     radial-gradient(circle at 50px 5px, #222222 18px, transparent 19px),
     radial-gradient(circle at 80px 10px, #222222 15px, transparent 16px),
     radial-gradient(circle at 110px 5px, #222222 18px, transparent 19px),
     radial-gradient(circle at 140px 10px, #222222 15px, transparent 16px);
 }
-
+ 
 .boy__eyes {
   top: 17px;
   left: 17px;
@@ -355,30 +353,23 @@
   border-radius: 50%;
   box-shadow: 60px 0 #b97a57;
 }
-
+ 
 .boy__eyes::before,
 .boy__eyes::after {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  
-  /* Solid black pupil via fixed size radial-gradient, layered over a solid white linear-gradient. */
-  background-image: 
-    radial-gradient(circle, black 48%, transparent 52%), 
+  background-image:
+    radial-gradient(circle, black 48%, transparent 52%),
     linear-gradient(white, white);
   background-size: 26px 26px, 100% 100%;
   background-repeat: no-repeat;
-  
-  /* We use custom properties for X and Y offsets. 50% centers it by default. */
-  background-position: 
-    calc(50% + var(--iris-tx, 0px)) calc(50% + var(--iris-ty, 0px)), 
+  background-position:
+    calc(50% + var(--iris-tx, 0px)) calc(50% + var(--iris-ty, 0px)),
     center center;
-    
-  /* Removed the transition to allow instant (zero-delay) movement */
-  
   animation: boyEyesSize var(--time) linear infinite;
 }
-
+ 
 @keyframes boyEyesSize {
   0%, 19.44%, 100% { scale: 1 1; }
   19.71% { scale: 1 0.2; }
@@ -391,17 +382,17 @@
   91.52% { scale: 1 0; }
   92.07% { scale: 1 1; }
 }
-
+ 
 /* left eye */
 .boy__eyes::before { top: 0px; left: 0px; }
 /* right eye */
-.boy__eyes::after { top: 0px; left: 60px; }
-
+.boy__eyes::after  { top: 0px; left: 60px; }
+ 
 .boy__mouth {
   top: 50%;
   left: 50%;
 }
-
+ 
 .boy__mouth::before {
   top: 22px;
   left: 50%;
@@ -412,13 +403,13 @@
   box-shadow: inset -65px 50px 0 -20px #be1520;
   animation: mouthOpen var(--time) linear infinite;
 }
-
+ 
 @keyframes mouthOpen {
   0%, 100% { translate: -50%; scale: 1; }
   0.54%, 91.53% { translate: -50% 22px; scale: 0; }
   94.77%, 95.58% { translate: -50%; scale: 0.7; }
 }
-
+ 
 .boy__mouth::after {
   top: 79px;
   left: -28px;
@@ -430,7 +421,7 @@
     linear-gradient(#303083, #303083) 15px 11px / 34px 2px no-repeat;
   animation: mouthClose var(--time) linear infinite, mouthMovement 0.7s linear infinite;
 }
-
+ 
 @keyframes mouthClose {
   0%, 0.53%, 91.54%, 100% { opacity: 0; }
   0.54%, 91.53% { opacity: 1; }
@@ -440,24 +431,24 @@
   0%, 1.08% { animation-play-state: running, paused; }
   1.09%, 100% { animation-play-state: running, running; }
 }
-
+ 
 @keyframes mouthMovement {
   0%, 100% { background-position: 8px 1px, 33px -12px, 15px 11px; }
   25% { background-position: 12px 1px, 33px -12px, 15px 11px; }
   50% { background-position: 12px 5px, 33px -12px, 15px 11px; }
   75% { background-position: 8px 5px, 33px -12px, 15px 11px; }
 }
-
+ 
 .boy__cheeks {
   top: 96px;
   left: 6px;
   width: 20px;
   height: 20px;
-  background: #ff8c94; 
+  background: #ff8c94;
   border-radius: 50%;
-  box-shadow: 126px 0 #ff8c94; 
+  box-shadow: 126px 0 #ff8c94;
 }
-
+ 
 .boy__cheeks::before {
   top: -37px;
   left: 73px;
@@ -469,13 +460,13 @@
   border-radius: 0 8px 100% 0 / 0 8px 60% 0;
   animation: boyNose var(--time) linear infinite;
 }
-
+ 
 @keyframes boyNose {
   0%, 100% { translate: 0 0px; }
   0.54%, 2.16% { translate: 0 10px; }
   5.4%, 98.55% { translate: 0 15px; }
 }
-
+ 
 .boy__leftArm {
   top: 0px;
   left: -10px;
@@ -487,7 +478,7 @@
   box-shadow: inset 90px 0 0 -20px white;
   animation: boyArm var(--time) linear infinite;
 }
-
+ 
 @keyframes boyArm {
   0%, 100% { rotate: 163deg; }
   0.54%, 60% { rotate: 173deg; }
@@ -496,7 +487,7 @@
   96.93% { rotate: 149deg; }
   98.55% { rotate: 138deg; }
 }
-
+ 
 .boy__leftArm::before {
   top: 0px;
   left: calc(100% - 50px);
@@ -507,7 +498,7 @@
   transform-origin: inherit;
   animation: boyArmBefore var(--time) linear infinite;
 }
-
+ 
 @keyframes boyArmBefore {
   0%, 100% { rotate: 159deg; }
   0.54%, 60% { rotate: 153deg; }
@@ -516,7 +507,7 @@
   95.58% { rotate: 138deg; }
   96.93%, 98.55% { rotate: 189deg; }
 }
-
+ 
 .boy__leftArm::after {
   top: 0px;
   left: calc(100% - 50px);
@@ -534,7 +525,7 @@
   transform-origin: inherit;
   animation: boyArmAfter var(--time) linear infinite;
 }
-
+ 
 @keyframes boyArmAfter {
   0%, 100% { transform: rotate(155deg) translate(95px, -4px); }
   0.54%, 60% { transform: rotate(159deg) translate(95px, -18px); }
@@ -543,13 +534,13 @@
   95.58% { transform: rotate(138deg) translate(100px, -8px); }
   96.93%, 98.55% { transform: rotate(189deg) translate(100px, -8px); }
 }
-
+ 
 .chopsticks {
   top: 0px;
   left: calc(100% - 50px);
   animation: chopsticks var(--time) linear infinite;
 }
-
+ 
 @keyframes chopsticks {
   0%, 100% { transform: rotate(155deg) translate(115px, -30px) rotate(0deg); }
   0.54%, 60% { transform: rotate(159deg) translate(115px, -44px) rotate(-11deg); }
@@ -559,7 +550,7 @@
   96.93% { transform: rotate(189deg) translate(93px, -20px) rotate(50deg); }
   98.55% { transform: rotate(183deg) translate(93px, -9px) rotate(50deg); }
 }
-
+ 
 .chopsticks::before {
   top: 0px;
   left: 0px;
@@ -571,7 +562,7 @@
   transform-origin: center center;
   animation: chopsticksBefore var(--time) linear infinite;
 }
-
+ 
 @keyframes chopsticksBefore {
   0%, 93.15%, 100% { rotate: 37deg; }
   93.69% { rotate: 42deg; }
@@ -579,7 +570,7 @@
   94.50% { rotate: 42deg; }
   94.77% { rotate: 37deg; }
 }
-
+ 
 .chopsticks::after {
   top: 0px;
   left: 0px;
@@ -590,12 +581,12 @@
   transform-origin: center center;
   animation: chopsticksAfter var(--time) linear infinite;
 }
-
+ 
 @keyframes chopsticksAfter {
   0%, 90.99%, 100% { translate: calc(-50% - 3px) -1px; rotate: 34deg; }
   93.42% { translate: calc(-50% - 3px) 5px; rotate: 36deg; }
 }
-
+ 
 .plate {
   top: 50%;
   left: 50%;
@@ -606,7 +597,7 @@
   translate: -50% 170px;
   z-index: 1;
 }
-
+ 
 .plate::after {
   top: -55px;
   left: 50%;
@@ -618,13 +609,13 @@
   border-radius: 0 0 35px 35px / 0 0 50px 50px;
   translate: -50%;
 }
-
+ 
 .noodle {
   top: -28px;
   left: 50%;
   animation: noodle var(--time) linear infinite, noodleLength var(--time) linear infinite;
 }
-
+ 
 @keyframes noodle {
   0%, 1.08%, 100% { translate: -50%; }
   5.40%, 60% { translate: -50% -36px; }
@@ -634,7 +625,7 @@
   0%, 77.76%, 100% { clip-path: polygon(-200% 0%, 300% 0%, 300% 100%, -200% 100%); }
   86.67%, 90.99%, 98.82% { clip-path: polygon(-200% 0%, 300% 0%, 300% 0%, -200% 0%); }
 }
-
+ 
 .noodle,
 .noodle::before,
 .noodle::after {
@@ -644,20 +635,20 @@
     radial-gradient(circle at -7px 50%, transparent 6px 8px, #ffcf8b 8px 10px, transparent 0) 3px 11px / 4px 22px repeat-y,
     radial-gradient(circle at 10px 50%, transparent 6px 8px, #ffcf8b 8px 10px, transparent 0) 0 0 / 3px 22px repeat-y;
 }
-
+ 
 .noodle::before,
 .noodle::after {
   animation: noodleLength var(--time) linear infinite;
 }
-
+ 
 @keyframes noodleLength {
   0%, 2.16% { background-position: 3px 11px, 0 0; }
   97.2%, 100% { background-position: 3px -1489px, 0 -1500px; }
 }
-
+ 
 .noodle::before { left: -7px; }
-.noodle::after { left: 7px; }
-
+.noodle::after  { left: 7px; }
+ 
 .rightArm {
   top: 50%;
   left: 50%;
@@ -670,13 +661,13 @@
   z-index: 1;
   animation: rightArm var(--time) linear infinite;
 }
-
+ 
 @keyframes rightArm {
   0%, 60%, 100% { translate: 28px 43px; rotate: 35deg; }
   66.42%, 90.99% { translate: 28px 69px; rotate: 23deg; }
   93.42% { translate: 28px 43px; rotate: 35deg; }
 }
-
+ 
 .rightArm::before {
   top: 0px;
   left: calc(100% - 50px);
@@ -687,13 +678,13 @@
   transform-origin: inherit;
   animation: rightArmBefore var(--time) linear infinite;
 }
-
+ 
 @keyframes rightArmBefore {
   0%, 60%, 100% { rotate: 144deg; }
   66.42%, 90.99% { rotate: 156deg; }
   93.42% { rotate: 144deg; }
 }
-
+ 
 .rightArm::after {
   top: 0px;
   left: calc(100% - 50px);
@@ -711,7 +702,7 @@
   transform-origin: inherit;
   animation: rightArmAfter var(--time) linear infinite;
 }
-
+ 
 @keyframes rightArmAfter {
   0%, 60%, 100% { transform: rotate(144deg) translate(104px, -3px); }
   66.42%, 90.99% { transform: rotate(156deg) translate(104px, -3px); }
