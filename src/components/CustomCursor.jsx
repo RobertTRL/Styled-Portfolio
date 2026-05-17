@@ -52,6 +52,9 @@ function detectCursorState(el) {
 // ────────────────────────────────────────────────────────────────────────────
  
 export default function CustomCursor({ isDark = false }) {
+  // True for mouse/trackpad; false for touchscreens (even on hybrid devices)
+  const hasPointer = window.matchMedia("(pointer: fine)").matches;
+ 
   const cursorRef  = useRef(null);
   const isDragging = useRef(false);
  
@@ -62,7 +65,7 @@ export default function CustomCursor({ isDark = false }) {
   useEffect(() => { stateRef.current = cursorState; }, [cursorState]);
  
   useEffect(() => {
-    if ("ontouchstart" in window) return;
+    if (!hasPointer) return;
  
     const onMove = (e) => {
       window._cursorX = e.clientX;
@@ -111,7 +114,7 @@ export default function CustomCursor({ isDark = false }) {
     };
   }, []);
  
-  if ("ontouchstart" in window) return null;
+  if (!hasPointer) return null;
  
   // Only apply the dark filter to text and click cursors
   const applyDarkFilter = isDark && (cursorState === "text" || cursorState === "click");
@@ -122,8 +125,8 @@ export default function CustomCursor({ isDark = false }) {
       className={[
         "custom-cursor",
         `custom-cursor--${cursorState}`,
-        visible   ? "custom-cursor--visible" : "",
-        isDark    ? "custom-cursor--dark"    : "",
+        visible ? "custom-cursor--visible" : "",
+        isDark  ? "custom-cursor--dark"    : "",
       ].join(" ")}
       aria-hidden="true"
     >
