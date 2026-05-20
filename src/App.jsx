@@ -11,6 +11,7 @@ import Contacts from './components/Contacts.jsx';
 import Loader from './components/Loader.jsx';
 import GreetingBoy from './components/GreetingBoy.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
+import Projects from './components/Projects.jsx';
 
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -51,6 +52,7 @@ const App = () => {
         <AboutMe isDark={isDark} />
         <Skills isDark={isDark} />
         <Contacts isDark={isDark} />
+        <Projects isDark={isDark} />
         <Navbar isDark={isDark} />
       </div>
     </div>

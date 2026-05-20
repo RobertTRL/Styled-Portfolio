@@ -1,0 +1,156 @@
+/* ── Theme Variables ── */
+.projects-section.dark-mode {
+  --text-main:    #ffffff;
+  --text-sub:     rgba(255, 255, 255, 0.55);
+  --text-label:   rgba(255, 255, 255, 0.35);
+  --bg-color:     transparent;
+  --bg-glow:      rgba(100, 120, 255, 0.07);
+  --accent:       #a5b4fc;
+  --divider:      rgba(255, 255, 255, 0.10);
+  --watermark:    rgba(255, 255, 255, 0.04);
+}
+
+.projects-section.light-mode {
+  --text-main:    #0f172a;
+  --text-sub:     #475569;
+  --text-label:   #94a3b8;
+  --bg-color:     transparent;
+  --bg-glow:      rgba(30, 58, 138, 0.04);
+  --accent:       #4f46e5;
+  --divider:      rgba(15, 23, 42, 0.10);
+  --watermark:    rgba(15, 23, 42, 0.12);
+}
+
+/* ── Section layout ── */
+.projects-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 clamp(4rem, 8vw, 8rem);
+  background: var(--bg-color);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.projects-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 30%,
+    var(--bg-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* ── Watermark — centered, top ── */
+.projects-watermark {
+  font-size: clamp(5rem, 15vw, 12rem); /* Slightly smaller max than Skills since "Projects" is a longer word */
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--watermark);
+  -webkit-text-stroke: 1px var(--accent);
+  opacity: 0.55;
+  user-select: none;
+  pointer-events: none;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  padding-top: clamp(2rem, 6vh, 5rem);
+}
+
+.projects-section.light-mode .projects-watermark {
+  -webkit-text-stroke: 1.5px var(--accent);
+  opacity: 0.75;
+}
+
+.projects-section.dark-mode .projects-watermark {
+  transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
+}
+
+.projects-section.dark-mode.in-view .projects-watermark {
+  color: #4b0082;
+  -webkit-text-stroke: 1px #4b0082;
+  opacity: 0.8;
+}
+
+/* ── Intro block ── */
+.projects-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 8vw, 8rem) clamp(2rem, 4vw, 3rem);
+  position: relative;
+  z-index: 2;
+}
+
+.projects-label {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  margin: 0 0 1.25rem;
+  transition: color 0.3s ease;
+}
+
+.projects-heading {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin: 0 0 2rem;
+  transition: color 0.3s ease;
+}
+
+/* Serif word is usually shared, but included here in case you don't have global styles */
+.serif-word {
+  font-family: Georgia, 'Palatino Linotype', serif;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.projects-divider {
+  width: 2.5rem;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.6;
+  transition: background 0.3s ease;
+}
+
+/* ── Content Area ── */
+.projects-content {
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 clamp(1.5rem, 8vw, 8rem);
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .projects-watermark {
+    font-size: clamp(3.5rem, 14vw, 6.5rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-intro {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .projects-content {
+    padding: 0 1.5rem;
+  }
+}
