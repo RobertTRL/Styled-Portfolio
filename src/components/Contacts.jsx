@@ -108,11 +108,6 @@ export default function Contacts({ isDark }) {
             just a good conversation about the web.
           </p>
 
-          <div className="availability-badge">
-            <span className="badge-dot" />
-            Available for work
-          </div>
-
           <ul className="contact-list">
             {CONTACT_LINKS.map((item) => (
               <li key={item.id}>
