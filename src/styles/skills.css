@@ -387,5 +387,15 @@
     flex-direction: column;
     gap: 0.4rem;
   }
+
+  .card-period {
+    align-self: center;
+    justify-self: center;
+  }
+
+  .card-sub, .card-title , .card-desc{
+    text-align: center;
+    align-self: center;
+  }
 }
 
