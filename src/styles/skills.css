@@ -1,4 +1,7 @@
 /* ── Theme Variables ── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&display=swap');
+
 .skills-section.dark-mode {
   --text-main:    #ffffff;
   --text-sub:     rgba(255, 255, 255, 0.55);
@@ -227,7 +230,8 @@
 }
 
 .marquee-label {
-  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  /* font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif; */
   font-size: clamp(0.65rem, 1vw, 0.75rem);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -327,11 +331,9 @@
 }
 
 .card-sub {
-  font-family: 'Helvetica Neue', sans-serif !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: clamp(0.8rem, 1.2vw, 0.9rem);
   color: var(--text-label);
-  font-family: 'Palatino Linotype', serif;
-  font-style: italic;
   margin: 0 0 0.75rem;
   transition: color 0.3s ease;
 }
@@ -340,7 +342,8 @@
   font-size: clamp(0.82rem, 1.2vw, 0.92rem);
   color: var(--text-sub);
   line-height: 1.7;
-  font-family: 'Palatino Linotype', serif;
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.8rem;
   margin: 0;
   transition: color 0.3s ease;
 }

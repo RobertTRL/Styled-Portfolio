@@ -40,10 +40,9 @@ export default function Projects({ isDark }) {
       className={`projects-section ${themeClass} ${isInView ? 'in-view' : ''}`} 
       id="projects"
     >
-      {/* ── Watermark ── */}
+
       <h1 className="projects-watermark">Projects</h1>
 
-      {/* ── Intro ── */}
       <div className="projects-intro">
         <p className="projects-label">What have I built?</p>
         <h2 className="projects-heading">
@@ -53,8 +52,7 @@ export default function Projects({ isDark }) {
         <div className="projects-divider" />
       </div>
 
-      {/* ── Projects Content Placeholder ── */}
-      <div className="projects-content">
+      <div className="github-calendar">
         {<GithubCalendar username="RobertTRL" isDark={isDark} colorSchema="green" shape="rounded"/>}
       </div>
 
