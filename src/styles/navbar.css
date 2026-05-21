@@ -8,7 +8,6 @@
   display: flex;
   align-items: center;
   padding: 6px;
-  /* width: clamp(300px, 70vw, 600px); */
   border-radius: 999px;
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
@@ -30,7 +29,6 @@
 
 /* ─── Light mode (day sky - slightly green tinted glass) ────────────────── */
 #glass-nav.light {
-  /* Swapped black for a subtle green tint */
   background: rgba(70, 130, 90, 0.20);
   backdrop-filter: blur(14px) saturate(180%) brightness(0.92);
   -webkit-backdrop-filter: blur(14px) saturate(180%) brightness(0.92);
@@ -125,6 +123,11 @@
   transition: color 0.2s, text-shadow 0.4s;
 }
 
+.nav-item-text {
+  position: relative;
+  z-index: 2; /* Sits perfectly higher than the absolute pill graphic layers */
+}
+
 #glass-nav.dark .nav-item {
   color: rgba(255, 255, 255, 0.82);
   text-shadow: none;
@@ -134,7 +137,6 @@
   color: rgba(255, 255, 255, 1);
 }
 
-/* 100% Black text for light mode */
 #glass-nav.light .nav-item {
   color: #000;
   text-shadow: none;
@@ -147,11 +149,10 @@
 /* ─── Hover pill (superimposed glass) ────────────────────────────────────── */
 #hover-pill {
   position: absolute;
+  inset: 0; /* Extends to fill the precise padding box boundary of the active .nav-item parent */
   border-radius: 999px;
   pointer-events: none;
-  opacity: 0;
   z-index: 1;
-  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #glass-nav.dark #hover-pill {
@@ -161,25 +162,23 @@
   border: 1px solid rgba(255, 255, 255, 0.68);
   box-shadow:
     0 2px 20px rgba(0, 0, 0, 0.14),
-    inset 0 2px 0     rgba(255, 255, 255, 0.96),
-    inset 0 -1px 0    rgba(255, 255, 255, 0.38),
-    inset  1.5px 0    rgba(255, 255, 255, 0.55),
-    inset -1.5px 0    rgba(255, 255, 255, 0.55);
+    inset 0 2px 0      rgba(255, 255, 255, 0.96),
+    inset 0 -1px 0     rgba(255, 255, 255, 0.38),
+    inset  1.5px 0     rgba(255, 255, 255, 0.55),
+    inset -1.5px 0     rgba(255, 255, 255, 0.55);
 }
 
-/* Slightly deeper green pill for day mode to stand out against the nav */
 #glass-nav.light #hover-pill {
-  /* Swapped black for a slightly deeper green tint */
   background: rgba(50, 100, 65, 0.28);
   backdrop-filter: blur(8px) saturate(180%) brightness(0.88);
   -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.88);
   border: 1px solid rgba(255, 255, 255, 0.30);
   box-shadow:
     0 2px 20px rgba(0, 0, 0, 0.22),
-    inset 0 1.5px 0   rgba(255, 255, 255, 0.50),
-    inset 0 -1px 0    rgba(0, 0, 0, 0.15),
-    inset  1.5px 0    rgba(255, 255, 255, 0.25),
-    inset -1.5px 0    rgba(255, 255, 255, 0.25);
+    inset 0 1.5px 0    rgba(255, 255, 255, 0.50),
+    inset 0 -1px 0     rgba(0, 0, 0, 0.15),
+    inset  1.5px 0     rgba(255, 255, 255, 0.25),
+    inset -1.5px 0     rgba(255, 255, 255, 0.25);
 }
 
 /* Broad silky gloss covering the top ~60% */
@@ -246,45 +245,31 @@
   );
 }
 
+/* ─── Media Queries ──────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   #glass-nav {
-    width: 94vw; /* Slightly wider to accommodate larger text */
+    width: 94vw;
     justify-content: space-around; 
   }
 
   .nav-item {
-    /* Increased the minimum font size (from 11px to 13px) and the scaling factor */
     font-size: clamp(13px, 4vw, 14px); 
-    /* Reduced horizontal padding to allow elements to sit closer together */
     padding: 8px 1.5vw; 
   }
 }
 
 @media (max-width: 345px) {
-  /* Instead of display: none, we maximize the container width and squeeze the padding */
   #glass-nav {
     width: 98vw;
   }
 
   .nav-item {
-    /* Locks in a readable font size for extremely small screens */
-    font-size: minmax(11px, 13px); 
-    /* Switches to tight pixel-based padding to strictly prevent overflow */
+    font-size: clamp(11px, 3.5vw, 13px); 
     padding: 6px 4px; 
-    letter-spacing: -0.02em; /* Pulls text together just a fraction more */
+    letter-spacing: -0.02em;
   }
 }
 
 #glass-nav, #glass-nav * {
   -webkit-tap-highlight-color: transparent;
-}
-
-@media (pointer: coarse) {
-  #hover-pill {
-    transition: opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1),
-                left 0.08s cubic-bezier(0.4, 0, 0.2, 1),
-                width 0.08s cubic-bezier(0.4, 0, 0.2, 1),
-                top 0.12s cubic-bezier(0.4, 0, 0.2, 1),
-                height 0.12s cubic-bezier(0.4, 0, 0.2, 1);
-  }
 }
