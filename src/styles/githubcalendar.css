@@ -1,5 +1,3 @@
-/* ── GithubCalendar.css ───────────────────────────────────────────── */
- 
 /* Loading skeleton */
 .gc-loading {
   width: 100%;
@@ -50,6 +48,7 @@
 .gc-username-text {
   font-weight: 600;
   font-size: 0.875rem;
+  /* colour is controlled via the isDark inline style in JSX */
 }
 .gc-total-text {
   font-size: 0.875rem;
@@ -119,93 +118,80 @@
 .gc-glowing { z-index: 10; }
  
 /* ═══════════════════════════════════════════════════════════════════
-   Color schemas  (light)
+   Color schemas — light
    ═══════════════════════════════════════════════════════════════════ */
  
-/* green */
-.gc-green-0 { background-color: #f4f4f5; }
-.gc-green-1 { background-color: #a7f3d0; }
-.gc-green-2 { background-color: #6ee7b7; }
-.gc-green-3 { background-color: #34d399; }
-.gc-green-4 { background-color: #10b981; }
+/* green — light */
+.gc-green-0-light { background-color: #f6f8fa; }
+.gc-green-1-light { background-color: #9be9a8; }
+.gc-green-2-light { background-color: #40c463; }
+.gc-green-3-light { background-color: #30a14e; }
+.gc-green-4-light { background-color: #216e39; }
  
-/* blue */
-.gc-blue-0 { background-color: #f4f4f5; }
-.gc-blue-1 { background-color: #bfdbfe; }
-.gc-blue-2 { background-color: #93c5fd; }
-.gc-blue-3 { background-color: #60a5fa; }
-.gc-blue-4 { background-color: #3b82f6; }
+/* blue — light */
+.gc-blue-0-light { background-color: #f6f8fa; }
+.gc-blue-1-light { background-color: #bfdbfe; }
+.gc-blue-2-light { background-color: #93c5fd; }
+.gc-blue-3-light { background-color: #60a5fa; }
+.gc-blue-4-light { background-color: #3b82f6; }
  
-/* purple */
-.gc-purple-0 { background-color: #f4f4f5; }
-.gc-purple-1 { background-color: #e9d5ff; }
-.gc-purple-2 { background-color: #d8b4fe; }
-.gc-purple-3 { background-color: #c084fc; }
-.gc-purple-4 { background-color: #a855f7; }
+/* purple — light */
+.gc-purple-0-light { background-color: #f6f8fa; }
+.gc-purple-1-light { background-color: #e9d5ff; }
+.gc-purple-2-light { background-color: #d8b4fe; }
+.gc-purple-3-light { background-color: #c084fc; }
+.gc-purple-4-light { background-color: #a855f7; }
  
-/* orange */
-.gc-orange-0 { background-color: #f4f4f5; }
-.gc-orange-1 { background-color: #fed7aa; }
-.gc-orange-2 { background-color: #fdba74; }
-.gc-orange-3 { background-color: #fb923c; }
-.gc-orange-4 { background-color: #f97316; }
+/* orange — light */
+.gc-orange-0-light { background-color: #f6f8fa; }
+.gc-orange-1-light { background-color: #fed7aa; }
+.gc-orange-2-light { background-color: #fdba74; }
+.gc-orange-3-light { background-color: #fb923c; }
+.gc-orange-4-light { background-color: #f97316; }
  
-/* gray */
-.gc-gray-0 { background-color: #f4f4f5; }
-.gc-gray-1 { background-color: #d4d4d8; }
-.gc-gray-2 { background-color: #a1a1aa; }
-.gc-gray-3 { background-color: #52525b; }
-.gc-gray-4 { background-color: #27272a; }
-
-.gc-green-0, 
-.gc-blue-0, 
-.gc-purple-0, 
-.gc-orange-0, 
-.gc-gray-0 { 
-  background-color: rgba(30, 58, 138, 0.05); 
-}
+/* gray — light */
+.gc-gray-0-light { background-color: #f6f8fa; }
+.gc-gray-1-light { background-color: #d4d4d8; }
+.gc-gray-2-light { background-color: #a1a1aa; }
+.gc-gray-3-light { background-color: #52525b; }
+.gc-gray-4-light { background-color: #27272a; }
+ 
 /* ═══════════════════════════════════════════════════════════════════
-   Dark mode overrides
+   Color schemas — dark
+   Empty tiles use #22243e — a lighter tint of the #181A31 background.
    ═══════════════════════════════════════════════════════════════════ */
-@media (prefers-color-scheme: dark) {
-  .gc-loading       { background-color: #27272a; }
-  .gc-icon          { color: #a1a1aa; }
-  .gc-total-text    { color: #a1a1aa; }
-  .gc-tooltip       { background-color: #ffffff; color: #18181b; }
-  .gc-tooltip-label { color: #71717a; }
  
-  /* green */
-  .gc-green-0 { background-color: #18181b; }
-  .gc-green-1 { background-color: #064e3b; }
-  .gc-green-2 { background-color: #047857; }
-  .gc-green-3 { background-color: #10b981; }
-  .gc-green-4 { background-color: #34d399; }
+/* green — dark */
+.gc-green-0-dark { background-color: #22243e; }
+.gc-green-1-dark { background-color: #064e3b; }
+.gc-green-2-dark { background-color: #047857; }
+.gc-green-3-dark { background-color: #10b981; }
+.gc-green-4-dark { background-color: #34d399; }
  
-  /* blue */
-  .gc-blue-0 { background-color: #18181b; }
-  .gc-blue-1 { background-color: #1e3a5f; }
-  .gc-blue-2 { background-color: #1d4ed8; }
-  .gc-blue-3 { background-color: #3b82f6; }
-  .gc-blue-4 { background-color: #60a5fa; }
+/* blue — dark */
+.gc-blue-0-dark { background-color: #22243e; }
+.gc-blue-1-dark { background-color: #1e3a5f; }
+.gc-blue-2-dark { background-color: #1d4ed8; }
+.gc-blue-3-dark { background-color: #3b82f6; }
+.gc-blue-4-dark { background-color: #60a5fa; }
  
-  /* purple */
-  .gc-purple-0 { background-color: #18181b; }
-  .gc-purple-1 { background-color: #3b0764; }
-  .gc-purple-2 { background-color: #7e22ce; }
-  .gc-purple-3 { background-color: #a855f7; }
-  .gc-purple-4 { background-color: #c084fc; }
+/* purple — dark */
+.gc-purple-0-dark { background-color: #22243e; }
+.gc-purple-1-dark { background-color: #3b0764; }
+.gc-purple-2-dark { background-color: #7e22ce; }
+.gc-purple-3-dark { background-color: #a855f7; }
+.gc-purple-4-dark { background-color: #c084fc; }
  
-  /* orange */
-  .gc-orange-0 { background-color: #18181b; }
-  .gc-orange-1 { background-color: #431407; }
-  .gc-orange-2 { background-color: #c2410c; }
-  .gc-orange-3 { background-color: #f97316; }
-  .gc-orange-4 { background-color: #fb923c; }
+/* orange — dark */
+.gc-orange-0-dark { background-color: #22243e; }
+.gc-orange-1-dark { background-color: #431407; }
+.gc-orange-2-dark { background-color: #c2410c; }
+.gc-orange-3-dark { background-color: #f97316; }
+.gc-orange-4-dark { background-color: #fb923c; }
  
-  /* gray */
-  .gc-gray-0 { background-color: #18181b; }
-  .gc-gray-1 { background-color: #27272a; }
-  .gc-gray-2 { background-color: #3f3f46; }
-  .gc-gray-3 { background-color: #71717a; }
-  .gc-gray-4 { background-color: #d4d4d8; }
-}
+/* gray — dark */
+.gc-gray-0-dark { background-color: #22243e; }
+.gc-gray-1-dark { background-color: #27272a; }
+.gc-gray-2-dark { background-color: #3f3f46; }
+.gc-gray-3-dark { background-color: #71717a; }
+.gc-gray-4-dark { background-color: #d4d4d8; }

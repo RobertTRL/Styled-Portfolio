@@ -55,7 +55,7 @@ export default function Projects({ isDark }) {
 
       {/* ── Projects Content Placeholder ── */}
       <div className="projects-content">
-        {<GithubCalendar username="RobertTRL" colorSchema="green" shape="rounded"/>}
+        {<GithubCalendar username="RobertTRL" isDark={isDark} colorSchema="green" shape="rounded"/>}
       </div>
 
     </section>
