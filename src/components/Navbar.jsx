@@ -6,7 +6,7 @@ const NAV_ITEMS = [
   { label: 'About Me', href: '#about' },
   { label: 'Skills',   href: '#skills'},
   { label: 'Contacts', href: '#contacts'},
-  { label: 'Projects', href: '#'      },
+  { label: 'Projects', href: '#projects'},
 ];
 
 export default function NavBar({ isDark }) {

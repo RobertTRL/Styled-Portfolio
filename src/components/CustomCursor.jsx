@@ -13,13 +13,10 @@ const CURSOR_IMAGES = {
   click:      cursorClick,
 };
 
-// ─── Automatic cursor state detection ───────────────────────────────────────
 function detectCursorState(el) {
-  // Manual override via data-cursor always wins
   const manual = el.closest("[data-cursor]");
   if (manual) return manual.dataset.cursor;
 
-  // Not-allowed: disabled elements
   if (
     el.matches(":disabled") ||
     el.closest(":disabled") ||
@@ -27,7 +24,6 @@ function detectCursorState(el) {
     el.closest("[aria-disabled='true']")
   ) return "notAllowed";
 
-  // Text cursor: editable inputs and contenteditable
   if (
     el.matches(
       "input[type='text'], input[type='email'], input[type='password'], " +
@@ -36,24 +32,17 @@ function detectCursorState(el) {
     el.closest("[contenteditable='true']")
   ) return "text";
 
-  // Walk up to find a clickable ancestor
-  // NOTE: label excluded here so standalone labels get the text cursor
   const clickable = el.closest(
     "button, a, input, select, [role='button'], [role='link'], [tabindex]"
   );
 
-  // Text cursor: readable text elements NOT inside something clickable
-  // NOTE: span intentionally excluded — used inside almost every UI component
   if (!clickable && el.matches("p, h1, h2, h3, h4, h5, h6, li, blockquote, label"))
     return "text";
 
   return "default";
 }
-// ────────────────────────────────────────────────────────────────────────────
 
 export default function CustomCursor({ isDark = false }) {
-  // (any-pointer: fine) catches mice on hybrid touch/mouse devices.
-  // Reactive so it updates if a mouse is plugged in or removed mid-session.
   const mql = window.matchMedia("(any-pointer: fine)");
   const [hasPointer, setHasPointer] = useState(mql.matches);
 
@@ -78,8 +67,9 @@ export default function CustomCursor({ isDark = false }) {
     const onMove = (e) => {
       window._cursorX = e.clientX;
       window._cursorY = e.clientY;
-      cursorRef.current.style.transform =
-        `translate(${e.clientX}px, ${e.clientY}px)`;
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      }
       if (!visible) setVisible(true);
     };
 
@@ -87,13 +77,22 @@ export default function CustomCursor({ isDark = false }) {
     const onMouseLeave = () => setVisible(false);
 
     const onMouseOver = (e) => {
-      if (isDragging.current) return;
-      setCursorState(detectCursorState(e.target));
+      // FIX: If they are dragging/selecting text, allow the cursor to stay/turn to text.
+      // Otherwise, lock the cursor state during normal dragging (like moving a slider or slider card)
+      const targetState = detectCursorState(e.target);
+      if (isDragging.current && stateRef.current !== "text" && targetState !== "text") return;
+      
+      setCursorState(targetState);
     };
 
-    const onMouseDown = () => {
+    const onMouseDown = (e) => {
       isDragging.current = true;
-      setCursorState(prev => prev === "notAllowed" ? "notAllowed" : "click");
+      const initialTargetState = detectCursorState(e.target);
+      if (initialTargetState === "notAllowed" || initialTargetState === "text") {
+        setCursorState(initialTargetState);
+      } else {
+        setCursorState("click");
+      }
     };
 
     const onMouseUp = () => {
@@ -120,11 +119,10 @@ export default function CustomCursor({ isDark = false }) {
       document.removeEventListener("mouseenter", onMouseEnter);
       document.removeEventListener("mouseleave", onMouseLeave);
     };
-  }, [hasPointer]);
+  }, [hasPointer, visible]);
 
   if (!hasPointer) return null;
 
-  // Only apply the dark filter to text and click cursors
   const applyDarkFilter = isDark && (cursorState === "text" || cursorState === "click");
 
   return (

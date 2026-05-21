@@ -20,7 +20,7 @@
   height: 130px;
   background: radial-gradient(closest-side, #a56345 100%, transparent 0) center -5px / 60px 40px no-repeat, white;
   border-radius: 25px 25px 0 0;
-  margin-top: 150px; /* Push down to make room for the head */
+  margin-top: 150px;
   transform: scale(0.6);
 }
 
@@ -73,20 +73,20 @@
   background: conic-gradient(from 270deg, #b97a57 0deg 61deg, transparent 0),
     radial-gradient(#b97a57 8px, #303083 8px 10px, #b97a57 0);
   border-radius: 100%;
-  -webkit-box-reflect: right 150px; 
+  -webkit-box-reflect: right 150px;
 }
 
-/* ── Hair (with fixed curls) ── */
+/* ── Hair ── */
 .boy__hair-simple {
   position: absolute;
-  top: -40px; 
+  top: -40px;
   left: -10px;
   width: 180px;
-  height: 100px; 
-  background: 
-    radial-gradient(circle at 25px 65px, #222222 20px, transparent 21px),
-    radial-gradient(circle at 50px 40px, #222222 25px, transparent 26px),
-    radial-gradient(circle at 90px 30px, #222222 28px, transparent 29px),
+  height: 100px;
+  background:
+    radial-gradient(circle at 25px 65px,  #222222 20px, transparent 21px),
+    radial-gradient(circle at 50px 40px,  #222222 25px, transparent 26px),
+    radial-gradient(circle at 90px 30px,  #222222 28px, transparent 29px),
     radial-gradient(circle at 130px 40px, #222222 25px, transparent 26px),
     radial-gradient(circle at 155px 65px, #222222 20px, transparent 21px);
 }
@@ -94,19 +94,19 @@
 .boy__hair-simple::before {
   content: "";
   position: absolute;
-  top: 45px; 
+  top: 45px;
   left: 10px;
   width: 160px;
   height: 40px;
-  background: 
-    radial-gradient(circle at 20px 10px, #222222 15px, transparent 16px),
-    radial-gradient(circle at 50px 5px, #222222 18px, transparent 19px),
-    radial-gradient(circle at 80px 10px, #222222 15px, transparent 16px),
-    radial-gradient(circle at 110px 5px, #222222 18px, transparent 19px),
+  background:
+    radial-gradient(circle at 20px  10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 50px  5px,  #222222 18px, transparent 19px),
+    radial-gradient(circle at 80px  10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 110px 5px,  #222222 18px, transparent 19px),
     radial-gradient(circle at 140px 10px, #222222 15px, transparent 16px);
 }
 
-/* ── Eyes (with a natural blink) ── */
+/* ── Eyes ── */
 .boy__eyes-simple {
   position: absolute;
   top: 17px;
@@ -125,8 +125,8 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-image: 
-    radial-gradient(circle, black 48%, transparent 52%), 
+  background-image:
+    radial-gradient(circle, black 48%, transparent 52%),
     linear-gradient(white, white);
   background-size: 26px 26px, 100% 100%;
   background-repeat: no-repeat;
@@ -134,16 +134,12 @@
   animation: naturalBlink 4s infinite;
 }
 
-.boy__eyes-simple::before { 
-    top: 0px; 
-    left: 0px; 
-    transition: clip-path 1.2s ease;
-}
-.boy__eyes-simple::after { top: 0px; left: 60px; }
+.boy__eyes-simple::before { top: 0px; left: 0px; }
+.boy__eyes-simple::after  { top: 0px; left: 60px; }
 
 @keyframes naturalBlink {
   0%, 46%, 50%, 100% { transform: scaleY(1); }
-  48% { transform: scaleY(0.1); }
+  48%                { transform: scaleY(0.1); }
 }
 
 /* ── Cheeks & Nose ── */
@@ -153,9 +149,9 @@
   left: 6px;
   width: 20px;
   height: 20px;
-  background: #ff8c94; 
+  background: #ff8c94;
   border-radius: 50%;
-  box-shadow: 126px 0 #ff8c94; 
+  box-shadow: 126px 0 #ff8c94;
 }
 
 .boy__cheeks-simple::before {
@@ -171,7 +167,7 @@
   border-radius: 0 8px 100% 0 / 0 8px 60% 0;
 }
 
-/* ── A Big Friendly Smile ── */
+/* ── Smile ── */
 .boy__smile {
   position: absolute;
   top: 105px;
@@ -182,6 +178,12 @@
   background: #ff4559;
   border-radius: 10px 10px 70px 70px;
   box-shadow: inset -20px 20px 0 -10px #be1520;
+  transition:
+    width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    height 0.5s ease,
+    border-radius 0.5s ease,
+    background 0.5s ease,
+    transform 0.5s ease;
 }
 
 /* ── Waving Arm ── */
@@ -195,12 +197,11 @@
   border-radius: 22px;
   transform-origin: 22px 22px;
   transform: rotate(60deg);
-  animation: waveMotion 1.5s ease-in-out infinite alternate;
-  z-index: -1; /* Puts the arm cleanly behind the body */
+  z-index: -1;
   animation: none;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
 }
 
-/* The Hand */
 .boy__arm-wave::after {
   content: "";
   position: absolute;
@@ -217,7 +218,7 @@
 }
 
 @keyframes waveMotion {
-  0% { transform: rotate(50deg); }
+  0%   { transform: rotate(50deg); }
   100% { transform: rotate(-10deg); }
 }
 
@@ -234,14 +235,11 @@
   font-size: 1.4rem;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
   transform-origin: bottom left;
-  opacity: 0;
-  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  animation-delay: 0.3s;
-  transform: rotateZ(-40deg);
+  transform: scale(0.5) translateY(20px) rotateZ(-45deg);
   z-index: 12;
-  pointer-events: none; /* Keeps it from interfering with the mouse until visible */
-  animation: none;      /* Remove the default animation */
-  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .speech-bubble::before {
@@ -255,121 +253,38 @@
   transform: rotateY(180deg);
 }
 
-.greeting-container:hover .speech-bubble {
-  opacity: 1;
-  pointer-events: auto;
-  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  animation-delay: 0s; /* Remove delay for instant feedback */
-}
-
-@keyframes popIn {
-  0% { 
-    opacity: 0; 
-    transform: scale(0.5) translateY(20px) rotateZ(-45deg); 
-  }
-  100% { 
-    opacity: 1; 
-    transform: scale(1) translateY(0) rotateZ(-45deg); /* Rotation stays here! */
-  }
-}
-
-.boy-simple.bored .boy__smile {
-  width: 30px; /* Shrunken for cuteness */
-  height: 6px;
-  top: 125px;
-  background: #a36b6b; 
-  border-radius: 20px 20px 5px 5px; /* Subtle "n" shape */
-  box-shadow: none;
-  transform: scale(0.9);
-  transition: all 1.2s ease;
-}
-
-/* 2. Sleepy Eyes: Drifting off to sleep */
-.boy-simple.bored .boy__eyes-simple::before,
-.boy-simple.bored .boy__eyes-simple::after {
-  transform: scaleY(0.55); /* More "closed" than before */
-  background-position: center 90%; 
-  filter: saturate(0.8);
-  transition: all 1.2s ease;
-}
-
-/* 3. Faded Blush: Barely there */
-.boy-simple.bored .boy__cheeks-simple {
-  opacity: 0.15;
-  transform: scale(0.7);
-}
-
-/* 4. Arm: Stationary and tucked away */
-.boy-simple.bored .boy__arm-wave {
-  animation: none;
-  transform: rotate(120deg);
-  opacity: 1;
-}
-
-/* --- Bubble Visibility --- */
-.speech-bubble {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-/* Only visible when the .show class is applied (Happy state) */
 .speech-bubble.show {
   opacity: 1;
   pointer-events: auto;
   transform: scale(1) translateY(0) rotateZ(-45deg);
 }
 
-/* Ensure all face parts transition smoothly */
-.boy__smile, .boy__eyes-simple::before, .boy__eyes-simple::after, .boy__cheeks-simple {
-  transition: all 1.2s ease cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.boy__smile {
-  /* ... keep your original width/height/etc ... */
-  transition: 
-    width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-    height 0.5s ease, 
-    border-radius 0.5s ease, 
-    background 0.5s ease,
-    transform 0.5s ease;
-}
-
+/* ── Shared transitions ── */
 .boy__eyes-simple::before,
 .boy__eyes-simple::after {
-  /* ... keep original styles ... */
   transition: transform 0.5s ease, background-position 0.5s ease, filter 0.5s ease;
 }
 
 .boy__cheeks-simple {
-  /* ... keep original styles ... */
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.boy__arm-wave {
-  /* ... keep original styles ... */
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
-}
-
-/* ── Bored State (The "Falling Asleep" Transitions) ── */
-
-/* These transitions trigger when the .bored class is ADDED */
+/* ── Bored state ── */
 .boy-simple.bored .boy__smile {
   width: 30px;
   height: 6px;
   top: 125px;
-  background: #a36b6b; 
+  background: #a36b6b;
   border-radius: 20px 20px 5px 5px;
   box-shadow: none;
   transform: scale(0.9);
-  /* Slower transition for "falling" into boredom */
-  transition: all 1.2s ease-in-out; 
+  transition: all 1.2s ease-in-out;
 }
 
 .boy-simple.bored .boy__eyes-simple::before,
 .boy-simple.bored .boy__eyes-simple::after {
   transform: scaleY(0.55);
-  background-position: center 90%; 
+  background-position: center 90%;
   filter: saturate(0.8);
   transition: all 1.2s ease-in-out;
 }
@@ -383,20 +298,50 @@
 .boy-simple.bored .boy__arm-wave {
   animation: none;
   transform: rotate(120deg);
-  opacity: 1;
   transition: transform 1.2s ease-in-out;
 }
 
-/* ── Speech Bubble ── */
-.speech-bubble {
-  opacity: 0;
-  pointer-events: none;
-  /* Snappy entrance for the bubble */
-  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+@media (max-width: 450px) {
+  .greeting-container {
+    /* Using absolute pixels here prevents erratic scaling on ultra-small screens */
+    width: 280px;
+    height: 280px;
+    
+    /* Bring the container back into view instead of throwing it off-screen */
+    left: -120px; 
+    top: 20px;
+    
+    /* REMOVED 'top left' origin. Keeping it centered keeps the rotation predictable */
+    transform-origin: center center;
+    transform: rotateZ(45deg) scale(0.65);
+  }
+
+  .boy-simple {
+    /* Reduce the massive top margin so he stays inside the smaller container box */
+    margin-top: 90px;
+    transform: scale(0.45);
+  }
+
+  .speech-bubble {
+    font-size: 1rem;
+    padding: 10px 18px;
+    /* Adjusting the speech bubble placement slightly for smaller bounds */
+    right: 20px;
+    top: 30px;
+  }
+
+  .speech-bubble.show {
+    transform: scale(1) translateY(0) rotateZ(-45deg);
+  }
+
+  .speech-bubble::before {
+    right: 55px;
+
+  }
 }
 
-.speech-bubble.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1) translateY(0) rotateZ(-45deg);
+@media (max-width: 260px) {
+  .greeting-container {
+    display: none;
+  }
 }
