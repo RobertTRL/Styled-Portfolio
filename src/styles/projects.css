@@ -8,6 +8,21 @@
   --accent:       #a5b4fc;
   --divider:      rgba(255, 255, 255, 0.10);
   --watermark:    rgba(255, 255, 255, 0.04);
+
+  --tab-border:         rgba(255, 255, 255, 0.14);
+  --tab-border-hover:   rgba(165, 180, 252, 0.35);
+  --tab-color:          rgba(255, 255, 255, 0.40);
+  --tab-color-hover:    rgba(255, 255, 255, 0.75);
+  --tab-underline:      rgba(255, 255, 255, 0.08);
+  --tab-active-border:  #a5b4fc;
+  --tab-active-color:   #a5b4fc;
+  --tab-active-tint:    rgba(165, 180, 252, 0.07);
+
+  --panel-cs-bg:      rgba(255, 255, 255, 0.025);
+  --panel-cs-border:  rgba(165, 180, 252, 0.18);
+  --panel-cs-shimmer-start: rgba(165, 180, 252, 0);
+  --panel-cs-shimmer-mid:   rgba(165, 180, 252, 0.12);
+  --panel-cs-shimmer-end:   rgba(165, 180, 252, 0);
 }
 
 .projects-section.light-mode {
@@ -19,6 +34,21 @@
   --accent:       #4f46e5;
   --divider:      rgba(15, 23, 42, 0.10);
   --watermark:    rgba(15, 23, 42, 0.12);
+
+  --tab-border:         rgba(15, 23, 42, 0.18);
+  --tab-border-hover:   rgba(79, 70, 229, 0.40);
+  --tab-color:          #94a3b8;
+  --tab-color-hover:    #475569;
+  --tab-underline:      rgba(15, 23, 42, 0.08);
+  --tab-active-border:  #4f46e5;
+  --tab-active-color:   #4f46e5;
+  --tab-active-tint:    rgba(79, 70, 229, 0.06);
+
+  --panel-cs-bg:      rgba(79, 70, 229, 0.03);
+  --panel-cs-border:  rgba(79, 70, 229, 0.15);
+  --panel-cs-shimmer-start: rgba(79, 70, 229, 0);
+  --panel-cs-shimmer-mid:   rgba(79, 70, 229, 0.08);
+  --panel-cs-shimmer-end:   rgba(79, 70, 229, 0);
 }
 
 /* ── Section layout ── */
@@ -48,9 +78,9 @@
   transition: background 0.3s ease;
 }
 
-/* ── Watermark — centered, top ── */
+/* ── Watermark ── */
 .projects-watermark {
-  font-size: clamp(5rem, 15vw, 12rem); /* Slightly smaller max than Skills since "Projects" is a longer word */
+  font-size: clamp(5rem, 15vw, 12rem);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -113,7 +143,6 @@
   transition: color 0.3s ease;
 }
 
-/* Serif word is usually shared, but included here in case you don't have global styles */
 .serif-word {
   font-family: Georgia, 'Palatino Linotype', serif;
   font-style: italic;
@@ -129,7 +158,7 @@
   transition: background 0.3s ease;
 }
 
-/* ── Content Area ── */
+/* ── GitHub calendar ── */
 .github-calendar {
   width: 100%;
   max-width: 1100px;
@@ -138,10 +167,197 @@
   z-index: 2;
 }
 
+/* ── Projects content wrapper ── */
+.projects-content {
+  width: 100%;
+  max-width: 1100px;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 8vw, 8rem) 0;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* ─────────────────────────────────────────
+   Tab Navigation
+───────────────────────────────────────── */
+.projects-tab-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.projects-tab-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-bottom: 1.25rem;
+}
+
+.projects-tab-btn {
+  /* reset */
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: clamp(0.78rem, 1.1vw, 0.85rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--tab-border);
+  background: transparent;
+  color: var(--tab-color);
+
+  transition:
+    color        0.2s ease,
+    border-color 0.2s ease,
+    background   0.2s ease,
+    transform    0.15s ease;
+}
+
+.projects-tab-btn:hover:not(.active) {
+  color:         var(--tab-color-hover);
+  border-color:  var(--tab-border-hover);
+  background:    transparent;
+}
+
+.projects-tab-btn:active {
+  transform: scale(0.96);
+}
+
+.projects-tab-btn.active {
+  color:         var(--tab-active-color);
+  border-color:  var(--tab-active-border);
+  background:    var(--tab-active-tint);
+}
+
+.projects-tab-underline {
+  width: 100%;
+  height: 1px;
+  background: var(--tab-underline);
+}
+
+/* ─────────────────────────────────────────
+   Panel transitions
+───────────────────────────────────────── */
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes panelOut {
+  from { opacity: 1; transform: translateY(0);    }
+  to   { opacity: 0; transform: translateY(-6px); }
+}
+
+.projects-panel {
+  min-height: 220px;
+}
+
+.projects-panel.panel-in {
+  animation: panelIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.projects-panel.panel-out {
+  animation: panelOut 0.18s ease both;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   Projects grid (for when there are cards)
+───────────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ─────────────────────────────────────────
+   Coming-soon card
+───────────────────────────────────────── */
+.coming-soon-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 220px;
+  border-radius: 1.25rem;
+  border: 1.5px dashed var(--panel-cs-border);
+  background: var(--panel-cs-bg);
+  text-align: center;
+  padding: 3rem 2rem;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+/* Shimmer sweep */
+.coming-soon-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    var(--panel-cs-shimmer-start) 0%,
+    var(--panel-cs-shimmer-mid)   50%,
+    var(--panel-cs-shimmer-end)   100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmerSweep {
+  0%   { background-position: -100% 0; }
+  60%  { background-position:  200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.coming-soon-icon {
+  font-size: 2rem;
+  color: var(--accent);
+  opacity: 0.5;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.coming-soon-title {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: clamp(0.7rem, 1vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.7;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.coming-soon-sub {
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  color: var(--text-sub);
+  margin: 0;
+  max-width: 28ch;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .projects-watermark {
     font-size: clamp(3.5rem, 14vw, 6.5rem);
+  }
+  .projects-tab-track {
+    gap: 0.4rem;
   }
 }
 
@@ -150,7 +366,13 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
-  .github-calendar {
-    padding: 0 1.5rem;
+  .github-calendar,
+  .projects-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .projects-tab-btn {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.85rem;
   }
 }
