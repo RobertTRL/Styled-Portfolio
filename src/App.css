@@ -1,20 +1,9 @@
-html, body {
+html {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; 
+  overflow-x: hidden;
   overflow-y: auto;
   height: auto;
   min-height: 100%;
 }
 
-<<<<<<< HEAD
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  min-height: 100%;
-  overscroll-behavior-y: none;
-}
-
-=======
->>>>>>> parent of f319ca2 (Made changes)
