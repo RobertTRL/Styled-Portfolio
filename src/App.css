@@ -1,29 +1,26 @@
-html, body {
+html, body , #root{
   margin: 0;
   padding: 0;
   overflow-x: hidden; 
   overflow-y: auto;
-  height: auto;
   min-height: 100%;
   overscroll-behavior-y: none;
 }
 
-#root {
-  height: auto;
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: -webkit-fill-available;
 }
 
 .app-wrapper {
   width: 100%;
-  min-height: 100vh; /* Allows the wrapper to grow as long as the content */
-  overflow-x: hidden;
-  overflow-y: visible; /* Ensures scrolling is enabled */
+  overflow-y: visible; 
 }
 
 .items {
   width: 100%;
   position: relative;
-  /* Ensure this container doesn't have a fixed height either */
 }

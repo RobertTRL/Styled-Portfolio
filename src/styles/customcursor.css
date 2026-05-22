@@ -31,8 +31,8 @@
 /* ─── Cursor image ─── */
 .custom-cursor__img {
   display: block;
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
