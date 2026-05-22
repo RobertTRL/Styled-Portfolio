@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../styles/projects.css';
 import { GithubCalendar } from './GithubCalendar';
 import { ShowcaseCard, ShowcaseCardCompact } from '../components/ShowcaseCard.jsx';
-import data from "../data/db.json"
+import { useInView } from '../hooks/useInView';
+import data from '../data/db.json';
 
 const { SOFTWARE_PROJECTS, GRAPHIC_PROJECTS, CAD_PROJECTS, ELECTRONICS_PROJECTS } = data;
 
@@ -36,20 +37,10 @@ function ComingSoon({ category }) {
 export default function Projects({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
 
-  const sectionRef = useRef(null);
-  const [isInView,     setIsInView]     = useState(false);
+  const [sectionRef, isInView] = useInView(0.3);
   const [activeTab,    setActiveTab]    = useState('software');
   const [animatingOut, setAnimatingOut] = useState(false);
   const [displayedTab, setDisplayedTab] = useState('software');
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
-      { threshold: 0.3 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
-  }, []);
 
   function handleTabClick(id) {
     if (id === activeTab) return;
@@ -91,7 +82,6 @@ export default function Projects({ isDark }) {
       </div>
 
       <div className="projects-content">
-
         <nav className="projects-tab-nav" aria-label="Project categories">
           <div className="projects-tab-track">
             {CATEGORIES.map((cat) => (
@@ -140,14 +130,13 @@ export default function Projects({ isDark }) {
                     imageUrl={project.image}
                     imageAlt={project.title}
                     isDark={isDark}
-                    onClick={() => (project.Ctalink) ? window.open(project.Ctalink, "_blank") : ''}
+                    onClick={() => project.Ctalink ? window.open(project.Ctalink, '_blank') : ''}
                   />
                 )
               )}
             </div>
           )}
         </div>
-
       </div>
     </section>
   );

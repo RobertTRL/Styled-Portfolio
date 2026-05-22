@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import '../styles/contacts.css';
+import { useInView } from '../hooks/useInView';
 
 const PHONE_NUMBER   = '+254 791 154 865';
 const PHONE_DIALABLE = '+254791154865';
@@ -45,43 +46,25 @@ const CONTACT_LINKS = [
 export default function Contacts({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
   const [copiedId, setCopiedId] = useState(null);
-
-  const sectionRef = useRef(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        setIsInView(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-
-    return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-    };
-  }, []);
+  const [sectionRef, isInView]  = useInView(0.3);
 
   function handleCopyClick(e, value) {
     e.preventDefault();
     navigator.clipboard.writeText(value).catch(() => {});
     setCopiedId('email');
     setTimeout(() => setCopiedId(null), 2200);
-}
+  }
 
   function handlePhoneClick() {
     navigator.clipboard.writeText(PHONE_NUMBER).catch(() => {});
     setCopiedId('phone');
     setTimeout(() => setCopiedId(null), 2200);
-}
+  }
 
   function handleLinkClick(e, item) {
     if (item.action === 'phone') handlePhoneClick(e);
     if (item.action === 'copy')  handleCopyClick(e, EMAIL);
-}
+  }
 
   return (
     <section
@@ -90,7 +73,6 @@ export default function Contacts({ isDark }) {
       id="contacts"
     >
       <div className="contacts-inner">
-
         <h1 className="contacts-watermark">Contacts</h1>
 
         <div className="contacts-content">
@@ -131,7 +113,6 @@ export default function Contacts({ isDark }) {
               </li>
             ))}
           </ul>
-
         </div>
       </div>
     </section>
