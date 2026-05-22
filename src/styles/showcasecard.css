@@ -1,6 +1,6 @@
 /* Showcase.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
-/* Variables for the neutral color palette used in the design */
 :root {
   --sc-bg-dark: #0a0a0a;
   --sc-bg-card: #171717;
@@ -30,6 +30,7 @@
 }
 
 .sc-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   position: absolute;
   top: 1rem;
   left: 1rem;
@@ -43,12 +44,22 @@
 .sc-hero-img-wrapper {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sc-hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.sc-border-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  pointer-events: none;
 }
 
 .sc-gradient-overlay {
@@ -66,8 +77,9 @@
 }
 
 .sc-heading {
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
   color: var(--sc-text-main);
   letter-spacing: -0.025em;
   line-height: 1.25;
@@ -75,6 +87,7 @@
 }
 
 .sc-description {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.875rem;
   color: var(--sc-text-muted);
   margin: 0 0 1rem 0;
@@ -82,6 +95,7 @@
 }
 
 .sc-cta {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   position: relative;
   padding: 0.5rem 1rem;
   border-radius: 9999px;
@@ -124,6 +138,7 @@
 }
 
 .sc-brand {
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 0.75rem;
   color: var(--sc-text-muted);
   font-weight: 500;
@@ -137,6 +152,7 @@
 }
 
 .sc-service {
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 0.75rem;
   color: var(--sc-text-dim);
 }
@@ -160,6 +176,15 @@
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sc-compact-image .sc-hero-img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
 .sc-compact-gradient {
@@ -177,13 +202,15 @@
 }
 
 .sc-compact-heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--sc-text-main);
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.4rem 0;
 }
 
 .sc-compact-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.875rem;
   color: var(--sc-text-muted);
   margin: 0;
@@ -209,7 +236,7 @@
 }
 
 .sc-horizontal-card.sc-img-right {
-  flex-direction: column; /* Overridden in media query */
+  flex-direction: column;
 }
 
 .sc-horizontal-image-wrapper {
@@ -222,7 +249,7 @@
 .sc-horizontal-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(10,10,10,0.6), transparent, transparent);
+  background: linear-gradient(to right, rgba(10, 10, 10, 0.6), transparent, transparent);
 }
 
 .sc-horizontal-content {
@@ -281,13 +308,14 @@
 .sc-grid {
   display: grid;
 }
+
 .sc-gap-sm { gap: 1rem; }
 .sc-gap-md { gap: 1.5rem; }
 .sc-gap-lg { gap: 2rem; }
 
 .sc-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 
-/* Media Queries */
+/* --- Responsive --- */
 @media (min-width: 640px) {
   .sc-tagline { top: 1.5rem; left: 1.5rem; font-size: 1rem; }
   .sc-content { padding: 0 1.5rem 1.5rem 1.5rem; }
@@ -297,8 +325,10 @@
   .sc-footer { padding: 1.25rem 1.5rem; }
   .sc-brand, .sc-service { font-size: 0.875rem; }
   .sc-services { gap: 0.75rem; }
-  
-  .sc-cols-2, .sc-cols-3, .sc-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .sc-cols-2,
+  .sc-cols-3,
+  .sc-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 768px) {
@@ -309,12 +339,68 @@
   .sc-horizontal-gradient { display: none; }
   .sc-horizontal-heading { font-size: 2.25rem; }
   .sc-horizontal-desc { font-size: 1.125rem; }
+
+  /* ── Landscape layout for ShowcaseCard ── */
+  .sc-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 900px;
+  }
+
+  .sc-image-container {
+    width: 50%;
+    aspect-ratio: auto;
+    align-self: stretch;
+    flex-shrink: 0;
+    border-radius: 1.125rem;
+    margin: 0.75rem;
+    overflow: hidden;
+  }
+
+  .sc-gradient-overlay {
+    display: none;
+  }
+
+  .sc-content {
+    flex: 1;
+    margin-top: 0;
+    padding: 1.25rem 1.25rem 1.25rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.625rem;
+  }
+
+  .sc-heading {
+    padding: 0.875rem 1.125rem;
+    margin: 0;
+    font-size: 1.125rem;
+  }
+
+  .sc-description {
+    padding: 0.875rem 1.125rem;
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .sc-footer {
+    width: 100%;
+    flex-shrink: 0;
+    padding: 0.875rem 1.375rem;
+  }
 }
 
 @media (min-width: 1024px) {
-  .sc-heading { font-size: 2.25rem; }
-  .sc-horizontal-heading { font-size: 3rem; }
   .sc-cols-3, .sc-cols-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .sc-card .sc-heading {
+    font-size: 1.25rem;
+  }
+
+  .sc-card .sc-description {
+    font-size: 0.9375rem;
+  }
 }
 
 @media (min-width: 1280px) {

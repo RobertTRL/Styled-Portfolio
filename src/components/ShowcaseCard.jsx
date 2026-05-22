@@ -106,15 +106,15 @@ function ShowcaseCard({
                     style={{
                         x: enableParallax ? parallaxX : 0,
                         y: enableParallax ? parallaxY : 0,
-                        scale: 1.1,
+                        scale: 1.0,
                     }}
                 >
                     <motion.img
                         src={imageUrl}
                         alt={imageAlt}
                         className="sc-hero-img"
-                        initial={{ scale: 1.2 }}
-                        animate={{ scale: isHovered ? 1.15 : 1.1 }}
+                        initial={{ scale: 1.0 }}
+                        animate={{ scale: isHovered ? 1.04 : 1.0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     />
                 </motion.div>
@@ -214,7 +214,7 @@ function ShowcaseCard({
 
             {/* Border glow effect */}
             <motion.div
-                className="sc-hero-img-wrapper"
+                className="sc-border-glow"
                 style={{
                     borderRadius: "1.5rem",
                     pointerEvents: "none",
