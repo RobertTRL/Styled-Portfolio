@@ -201,7 +201,7 @@ function ShowcaseCard({
                     </motion.p>
                 )}
 
-                {ctaText && (
+                {Ctalink && (
                     <motion.button
                         onClick={onCtaClick}
                         className={`sc-cta ${

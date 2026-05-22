@@ -259,14 +259,12 @@
 }
 
 /* ─────────────────────────────────────────
-   PROJECTS GRID (CONTROLLED SYSTEM)
+   PROJECTS GRID
 ───────────────────────────────────────── */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-
-  /* ensures padding doesn’t break layout math */
   width: 100%;
   box-sizing: border-box;
 }
@@ -284,7 +282,7 @@
 }
 
 /* ─────────────────────────────────────────
-   Coming-soon card
+   COMING SOON CARD (Refined)
 ───────────────────────────────────────── */
 .coming-soon-card {
   position: relative;
@@ -293,14 +291,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  min-height: 220px;
-  border-radius: 1.25rem;
-  border: 1.5px dashed var(--panel-cs-border);
+  gap: 0.5rem;
+  min-height: 240px;
+  border-radius: 1.5rem; /* Matched to main ShowcaseCard */
+  border: 1px dashed var(--panel-cs-border);
   background: var(--panel-cs-bg);
   text-align: center;
-  padding: 3rem 2rem;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  padding: 2rem;
+  user-select: none;
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s ease;
+}
+
+.coming-soon-card:hover {
+  border-color: var(--tab-border-hover);
+  transform: translateY(-2px);
 }
 
 .coming-soon-shimmer {
@@ -324,32 +332,36 @@
 }
 
 .coming-soon-icon {
-  font-size: 2rem;
-  color: var(--accent);
-  opacity: 0.5;
-  line-height: 1;
+  font-size: 1.75rem;
+  color: var(--tab-color);
+  margin-bottom: 0.5rem;
   position: relative;
   z-index: 1;
+  transition: color 0.35s ease;
+}
+
+.coming-soon-card:hover .coming-soon-icon {
+  color: var(--tab-active-color);
 }
 
 .coming-soon-title {
-  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  font-size: clamp(0.7rem, 1vw, 0.78rem);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.125rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  opacity: 0.7;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+  opacity: 0.9;
   margin: 0;
   position: relative;
   z-index: 1;
 }
 
 .coming-soon-sub {
-  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.875rem;
   color: var(--text-sub);
   margin: 0;
-  max-width: 28ch;
+  max-width: 30ch;
   line-height: 1.6;
   position: relative;
   z-index: 1;
