@@ -4,7 +4,7 @@ import '../styles/loader.css';
 const LETTERS = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
  
 // Must match --time in loader.css exactly
-const ANIM_DURATION_MS = 1500;
+const ANIM_DURATION_MS = 7000;
 // mouthOpen peaks at 95.58% — this is the smile climax
 const SMILE_PEAK_PCT   = 0.88;
  
