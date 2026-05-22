@@ -30,11 +30,12 @@
   "GRAPHIC_PROJECTS": [
     {
       "id": 1,
-      "title": "Burger King Ad",
+      "title": "Graphic Design Portfolio",
       "tagline": "Featured",
-      "services": ["Photoshop", "AI prompt engineering"],
-      "image": "/images/burgerkingad.png",
-      "description": "A sample advertisement campaign for the fast food company Burger King. It features a life-sized Whopper on the top of the KICC Towers. Cloudshaped fries fill the clear evening sky. On the KICC Towers, a bold message “Top of The World“ is on its walls."
+      "services": ["Photoshop", "AI prompt engineering", "Illustrator"],
+      "image": "/images/Portfolio text blue.png",
+      "description": "This graphic design portfolio showcases a diverse collection of creative commercial work, conceptual advertisements, and technical illustrations, demonstrating a strong command over industry-standard design suites and generative tools.",
+      "link": "https://drive.google.com/file/d/1DAaXEEq3BNhRCuTJ5tJf8Rc0LsCa2phf/view?usp=sharing"
     },
     {
       "id": 2,
