@@ -5,6 +5,7 @@ html, body {
   overflow-y: auto;
   height: auto;
   min-height: 100%;
+  overscroll-behavior-y: none;
 }
 
 #root {

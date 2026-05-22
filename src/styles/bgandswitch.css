@@ -193,17 +193,17 @@ html, body { width: 100%; height: 100%; background: #000; }
 .sky-master-container { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
 
 .sky-master-gradient {
-  position: absolute; top: 0; left: 0; width: 100%; height: 400vh;
+  position: absolute; top: 0; left: 0; width: 100%; height: 400%;
   background: linear-gradient(180deg, #050505 0%, #1b1d36 25%, #2a164a 35%, #f05a28 45%, #ffb703 55%, #87ceeb 65%, #3aaaff 75%, #b8e4f9 100%);
-  transform: translateY(-300vh); transition: transform 5s ease-in-out;
+  transform: translateY(-75%); transition: transform 5s ease-in-out;
 }
 
-.night .sky-master-gradient { transform: translateY(0vh); }
+.night .sky-master-gradient { transform: translateY(0%); }
 
 .sun-wrapper { position: absolute; top: 12%; right: 12%; width: 80px; height: 80px; z-index: 6; transform: translateY(0); transition: transform 5s ease-in-out; }
-.moon-wrapper { position: absolute; top: 15%; right: 15%; width: 80px; height: 80px; z-index: 5; transform: translateY(120vh); transition: transform 5s ease-in-out; }
+.moon-wrapper { position: absolute; top: 15%; right: 15%; width: 80px; height: 80px; z-index: 5; transform: translateY(120dvh); transition: transform 5s ease-in-out; }
 
-.night .sun-wrapper { transform: translateY(120vh); }
+.night .sun-wrapper { transform: translateY(120dvh); }
 .night .moon-wrapper { transform: translateY(0); }
 
 .sun { width: 100%; height: 100%; border-radius: 50%; background: #FFE033; box-shadow: 0 0 0 12px rgba(255, 224, 51, 0.25), 0 0 0 28px rgba(255, 224, 51, 0.12), 0 0 60px 20px rgba(255, 200, 0, 0.3); animation: sunPulse 6s ease-in-out infinite; }
