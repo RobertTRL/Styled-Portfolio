@@ -210,7 +210,7 @@
   position: relative;
   width: 800px;
   height: 600px;
-  --time: 1.5s;
+  --time: 7s;
   transform-origin: center;
   flex-shrink: 0;
 }
