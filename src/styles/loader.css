@@ -32,6 +32,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  height: 100lvh;
   font-family: Helvetica, sans-serif;
   background: radial-gradient(ellipse 90% 70% at 50% 40%, var(--bg-mid), var(--bg-start) 75%);
 }
@@ -86,6 +87,7 @@
   animation: pattern-drift 2s linear infinite;
   image-rendering: crisp-edges;
   opacity: 0.4;
+  height: 100lvh;
 }
  
 @keyframes pattern-drift {
@@ -208,7 +210,7 @@
   position: relative;
   width: 800px;
   height: 600px;
-  --time: 11s;
+  --time: 1.5s;
   transform-origin: center;
   flex-shrink: 0;
 }
