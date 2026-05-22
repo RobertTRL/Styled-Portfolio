@@ -186,7 +186,7 @@ html, body { width: 100%; height: 100%; background: #000; }
    4. Background Scene, Sky, & Celestial Bodies
    ========================================================================== */
 .scene {
-  position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden;
+  position: fixed; inset: 0; overflow: hidden;
   z-index: 1; pointer-events: none;
 }
 
@@ -338,7 +338,7 @@ html, body { width: 100%; height: 100%; background: #000; }
 
 @keyframes bobbing {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2vw); } 
+  50% { transform: clamp(-30px, -2vw, -10px); } 
 }
 @keyframes floatRotate {
   0%, 100% { transform: rotate(-6deg) translateY(0); }
@@ -348,7 +348,7 @@ html, body { width: 100%; height: 100%; background: #000; }
 /* --------------------------------------
    Day: Hot Air Balloon 
 --------------------------------------- */
-.hot-air-balloon { width: 15vw; }
+.hot-air-balloon { width: clamp(100px, 15vw, 250px); }
 
 .balloon-envelope {
   width: 100%; height: 18.3vw; 
