@@ -1,22 +1,21 @@
-html, body , #root{
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
-  overflow-y: auto;
-  min-height: 100%;
-  overscroll-behavior-y: none;
-}
-
-html {
-  height: -webkit-fill-available;
 }
 
 body {
-  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+  background: #050505;
 }
 
 .app-wrapper {
+  position: relative;
   width: 100%;
-  overflow-y: visible; 
+  min-height: 100dvh; 
 }
 
 .items {
