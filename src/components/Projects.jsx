@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import '../styles/projects.css';
 import { GithubCalendar } from './GithubCalendar';
 import { ShowcaseCard, ShowcaseCardCompact } from '../components/ShowcaseCard.jsx';
-import { useInView } from '../hooks/useInView';
+import { useInView } from '../hooks/useInView.js';
 import data from '../data/db.json';
 
 const { SOFTWARE_PROJECTS, GRAPHIC_PROJECTS, CAD_PROJECTS, ELECTRONICS_PROJECTS } = data;
