@@ -41,6 +41,7 @@ export default function NavBar({ isDark }) {
           >
             {hoveredIndex === index && (
               <motion.div
+                id="hover-pill"
                 layoutId="hover-pill"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
