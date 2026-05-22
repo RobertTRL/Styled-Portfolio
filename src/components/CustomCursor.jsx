@@ -125,7 +125,7 @@ export default function CustomCursor({ isDark = false }) {
       document.removeEventListener("mouseenter", onMouseEnter);
       document.removeEventListener("mouseleave", onMouseLeave);
     };
-  }, [hasPointer, visible]);
+  }, [hasPointer]);
 
   if (!hasPointer) return null;
 

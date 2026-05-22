@@ -31,7 +31,7 @@ const Loader = ({ isDark, isLoading }) => {
   // Sync dissolve exit to smile peak keyframe
   useEffect(() => {
     if (!isLoading) {
-      const smileMs = SMILE_PEAK_PCT * ANIM_DURATION_MS; // 21027ms into cycle
+      const smileMs = SMILE_PEAK_PCT * ANIM_DURATION_MS; 
  
       // Read the boy animation's current position in its cycle
       const boyEl = document.querySelector('.boy');

@@ -55,7 +55,8 @@ export default function Contacts({ isDark }) {
     setTimeout(() => setCopiedId(null), 2200);
   }
 
-  function handlePhoneClick() {
+  function handlePhoneClick(e) {
+    e.preventDefault();
     navigator.clipboard.writeText(PHONE_NUMBER).catch(() => {});
     setCopiedId('phone');
     setTimeout(() => setCopiedId(null), 2200);

@@ -10,7 +10,7 @@ import CSS           from '../assets/icons8-css-144.png';
 import HTMLIMG       from '../assets/html.png';
 import JavascriptIcon from '../assets/icons8-javascript-100.png';
 import ReactIcon     from '../assets/icons8-react-100.png';
-import Illustator    from '../assets/Adobe_Illustrator_CC_icon.png';
+import Illustrator    from '../assets/Adobe_Illustrator_CC_icon.png';
 import GitIcon       from '../assets/icons8-git-144.png';
 import PythonIcon    from '../assets/icons8-python-100.png';
 
@@ -21,7 +21,7 @@ const SKILL_IMAGES = [
   { src: ReactIcon,      alt: 'React'       },
   { src: PythonIcon,     alt: 'Python'      },
   { src: Photoshop,      alt: 'Photoshop'   },
-  { src: Illustator,     alt: 'Illustrator' },
+  { src: Illustrator,     alt: 'Illustrator' },
   { src: InDesign,       alt: 'Indesign'    },
   { src: GitIcon,        alt: 'Git'         },
   { src: Claude,         alt: 'Claude'      },
