@@ -12,6 +12,17 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+.app-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh; 
+}
+
+.items {
+  width: 100%;
+  position: relative;
+}
+
 /* ==========================================================================
    2. Header & Top Navigation
    ========================================================================== */
@@ -70,15 +81,12 @@
    ========================================================================== */
 .scene {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  z-index: 1;
+  z-index: -1;
   pointer-events: none;
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
 .scene * {
@@ -89,17 +97,44 @@
 .sky-master-container { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
 
 .sky-master-gradient {
-  position: absolute; top: 0; left: 0; width: 100%; height: 400%;
-  background: linear-gradient(180deg, #050505 0%, #1b1d36 25%, #2a164a 35%, #f05a28 45%, #ffb703 55%, #87ceeb 65%, #3aaaff 75%, #b8e4f9 100%);
-  transform: translateY(-75%); transition: transform 5s ease-in-out;
+  position: absolute;
+  inset: -300% 0 0 0;
+
+  background: linear-gradient(
+    180deg,
+    #050505 0%,
+    #1b1d36 25%,
+    #2a164a 35%,
+    #f05a28 45%,
+    #ffb703 55%,
+    #87ceeb 65%,
+    #3aaaff 75%,
+    #b8e4f9 100%
+  );
+
+  transform: translateY(-75%);
+  transition: transform 5s ease-in-out;
 }
 
 .night .sky-master-gradient { transform: translateY(0%); }
 
 .sun-wrapper { position: absolute; top: 12%; right: 12%; width: 80px; height: 80px; z-index: 6; transform: translateY(0); transition: transform 5s ease-in-out; }
-.moon-wrapper { position: absolute; top: 15%; right: 15%; width: 80px; height: 80px; z-index: 5; transform: translateY(120vh); transition: transform 5s ease-in-out; }
+.moon-wrapper {
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  width: 80px;
+  height: 80px;
+  z-index: 5;
 
-.night .sun-wrapper { transform: translateY(120vh); }
+  transform: translate3d(0, 120%, 0);
+  transition: transform 5s ease-in-out;
+}
+
+.night .sun-wrapper {
+  transform: translate3d(0, 120%, 0);
+}
+
 .night .moon-wrapper { transform: translateY(0); }
 
 .sun { width: 100%; height: 100%; border-radius: 50%; background: #FFE033; box-shadow: 0 0 0 12px rgba(255, 224, 51, 0.25), 0 0 0 28px rgba(255, 224, 51, 0.12), 0 0 60px 20px rgba(255, 200, 0, 0.3); animation: sunPulse 6s ease-in-out infinite; }
@@ -373,13 +408,4 @@
   border-radius: 50%;
   background: radial-gradient(circle at 38% 38%, #fff, #b2d8ea);
   box-shadow: inset -0.2vw -0.2vw 0.4vw rgba(0, 0, 0, 0.12);
-}
-
-.sky-master-gradient,
-.stars-layer,
-.clouds-container,
-.day-elements-container,
-.night-elements-container {
-  will-change: transform, opacity;
-  transform: translateZ(0);
 }

@@ -7,23 +7,12 @@ body,
   padding: 0;
 }
 
-html {
+html,
+body {
   overflow-x: hidden;
 }
 
 body {
-  overflow-x: hidden;
   background: #050505;
-  overscroll-behavior-y: none;
-}
-
-.app-wrapper {
-  position: relative;
-  width: 100%;
-  min-height: 100dvh; 
-}
-
-.items {
-  width: 100%;
-  position: relative;
+  -webkit-overflow-scrolling: touch;
 }
