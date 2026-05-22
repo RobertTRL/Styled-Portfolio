@@ -2,9 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../styles/projects.css';
 import { GithubCalendar } from './GithubCalendar';
 import { ShowcaseCard, ShowcaseCardCompact } from '../components/ShowcaseCard.jsx';
-import Portfolio from '../assets/portfolio-img.png'
-import Dictionary from "../assets/dictionary-img.png"
-import Coffee from "../assets/coffee-shop.png"
 import data from "../data/db.json"
 
 const { SOFTWARE_PROJECTS, GRAPHIC_PROJECTS, CAD_PROJECTS, ELECTRONICS_PROJECTS } = data;

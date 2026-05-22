@@ -10,15 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.6.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "framer-motion": "^12.38.0",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-router-dom": "^7.15.1",
-    "three": "^0.184.0"
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

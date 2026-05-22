@@ -43,10 +43,19 @@ function detectCursorState(el) {
 }
 
 export default function CustomCursor({ isDark = false }) {
-  const mql = window.matchMedia("(any-pointer: fine)");
-  const [hasPointer, setHasPointer] = useState(mql.matches);
+  // FIX: mql is stored in a ref so it is created once, not on every render.
+  // Previously `const mql = window.matchMedia(...)` ran on every render,
+  // leaking a new MediaQueryList each time and causing stale listener refs.
+  const mqlRef = useRef(null);
+  if (mqlRef.current === null) {
+    mqlRef.current = window.matchMedia("(any-pointer: fine)");
+  }
 
+  const [hasPointer, setHasPointer] = useState(() => mqlRef.current.matches);
+
+  // FIX: listener now correctly references the stable mqlRef.current object.
   useEffect(() => {
+    const mql     = mqlRef.current;
     const handler = (e) => setHasPointer(e.matches);
     mql.addEventListener("change", handler);
     return () => mql.removeEventListener("change", handler);
@@ -77,11 +86,8 @@ export default function CustomCursor({ isDark = false }) {
     const onMouseLeave = () => setVisible(false);
 
     const onMouseOver = (e) => {
-      // FIX: If they are dragging/selecting text, allow the cursor to stay/turn to text.
-      // Otherwise, lock the cursor state during normal dragging (like moving a slider or slider card)
       const targetState = detectCursorState(e.target);
       if (isDragging.current && stateRef.current !== "text" && targetState !== "text") return;
-      
       setCursorState(targetState);
     };
 
@@ -131,8 +137,8 @@ export default function CustomCursor({ isDark = false }) {
       className={[
         "custom-cursor",
         `custom-cursor--${cursorState}`,
-        visible ? "custom-cursor--visible" : "",
-        isDark  ? "custom-cursor--dark"    : "",
+        visible  ? "custom-cursor--visible" : "",
+        isDark   ? "custom-cursor--dark"    : "",
       ].join(" ")}
       aria-hidden="true"
     >
