@@ -5,6 +5,9 @@ import { ShowcaseCard, ShowcaseCardCompact } from '../components/ShowcaseCard.js
 import Portfolio from '../assets/portfolio-img.png'
 import Dictionary from "../assets/dictionary-img.png"
 import Coffee from "../assets/coffee-shop.png"
+import data from "../data/db.json"
+
+const { SOFTWARE_PROJECTS, GRAPHIC_PROJECTS, CAD_PROJECTS, ELECTRONICS_PROJECTS } = data;
 
 const CATEGORIES = [
   { id: 'software',    label: 'Software Engineering' },
@@ -12,35 +15,6 @@ const CATEGORIES = [
   { id: 'cad',         label: '3D & CAD Design'       },
   { id: 'electronics', label: 'Electronics'           },
 ];
-
-const SOFTWARE_PROJECTS = [
-  {
-    id: 1,
-    title: "Personal Portfolio",
-    tagline: "Featured",
-    image: Portfolio,
-    description: "A fully responsive personal portfolio built from scratch with React and Vite. Features a dark/light theme toggle, intersection observer scroll animations, a live GitHub activity calendar, and a filterable projects section.",
-    services: ["React", "Vite", "CSS"],
-  },
-  {
-    id: 2,
-    title: "Simple Dictionary Website",
-    tagline: "JavaScript · API",
-    image: Dictionary,
-    description: "A sleek, responsive dictionary SPA with real-time lexicon queries, asynchronous API integration for word definitions and phonetics, and an optimized client-side search engine.",
-  },
-  {
-    id: 3,
-    title: "Coffee Shop Page",
-    tagline: "React · json-server",
-    image: Coffee,
-    description: "A fully interactive React SPA configured as a mock full-stack environment, featuring a local REST API powered by json-server for real-time CRUD operation simulation.",
-  },
-];
-
-const GRAPHIC_PROJECTS    = [];
-const CAD_PROJECTS        = [];
-const ELECTRONICS_PROJECTS = [];
 
 const projectMap = {
   software:    SOFTWARE_PROJECTS,
@@ -159,6 +133,7 @@ export default function Projects({ isDark }) {
                     brandName="Robert"
                     services={project.services ?? []}
                     isDark={isDark}
+                    Ctalink={project.Ctalink}
                   />
                 ) : (
                   <ShowcaseCardCompact
@@ -168,6 +143,7 @@ export default function Projects({ isDark }) {
                     imageUrl={project.image}
                     imageAlt={project.title}
                     isDark={isDark}
+                    onClick={() => (project.Ctalink) ? window.open(project.Ctalink, "_blank") : ''}
                   />
                 )
               )}

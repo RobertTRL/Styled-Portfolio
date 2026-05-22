@@ -9,7 +9,6 @@ function ShowcaseCard({
     imageUrl,
     imageAlt = "Showcase image",
     ctaText,
-    onCtaClick,
     brandName,
     services = [],
     className = "",
@@ -17,6 +16,7 @@ function ShowcaseCard({
     maxTilt = 8,
     enableParallax = true,
     isDark = true,
+    Ctalink
 }) {
     const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
@@ -70,6 +70,10 @@ function ShowcaseCard({
         },
         [mouseX, mouseY, enableTilt]
     )
+
+    const onCtaClick = () => {
+        (Ctalink) ? window.open(Ctalink, "_blank") : ''
+    }
 
     const handleMouseEnter = () => setIsHovered(true)
 
