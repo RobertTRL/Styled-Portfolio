@@ -12,15 +12,6 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html, body { width: 100%; height: 100%; background: #000; }
-
-.app-wrapper {
-  width: 100%;
-  min-height: 100dvh; 
-  overflow-x: hidden; 
-  position: relative;
-}
-
 /* ==========================================================================
    2. Header & Top Navigation
    ========================================================================== */
@@ -78,8 +69,21 @@ html, body { width: 100%; height: 100%; background: #000; }
    4. Background Scene, Sky, & Celestial Bodies
    ========================================================================== */
 .scene {
-  position: fixed; inset: 0; overflow: hidden;
-  z-index: 1; pointer-events: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.scene * {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .sky-master-container { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
@@ -93,9 +97,9 @@ html, body { width: 100%; height: 100%; background: #000; }
 .night .sky-master-gradient { transform: translateY(0%); }
 
 .sun-wrapper { position: absolute; top: 12%; right: 12%; width: 80px; height: 80px; z-index: 6; transform: translateY(0); transition: transform 5s ease-in-out; }
-.moon-wrapper { position: absolute; top: 15%; right: 15%; width: 80px; height: 80px; z-index: 5; transform: translateY(120dvh); transition: transform 5s ease-in-out; }
+.moon-wrapper { position: absolute; top: 15%; right: 15%; width: 80px; height: 80px; z-index: 5; transform: translateY(120vh); transition: transform 5s ease-in-out; }
 
-.night .sun-wrapper { transform: translateY(120dvh); }
+.night .sun-wrapper { transform: translateY(120vh); }
 .night .moon-wrapper { transform: translateY(0); }
 
 .sun { width: 100%; height: 100%; border-radius: 50%; background: #FFE033; box-shadow: 0 0 0 12px rgba(255, 224, 51, 0.25), 0 0 0 28px rgba(255, 224, 51, 0.12), 0 0 60px 20px rgba(255, 200, 0, 0.3); animation: sunPulse 6s ease-in-out infinite; }
@@ -369,4 +373,13 @@ html, body { width: 100%; height: 100%; background: #000; }
   border-radius: 50%;
   background: radial-gradient(circle at 38% 38%, #fff, #b2d8ea);
   box-shadow: inset -0.2vw -0.2vw 0.4vw rgba(0, 0, 0, 0.12);
+}
+
+.sky-master-gradient,
+.stars-layer,
+.clouds-container,
+.day-elements-container,
+.night-elements-container {
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }

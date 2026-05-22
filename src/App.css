@@ -7,9 +7,14 @@ body,
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   overflow-x: hidden;
   background: #050505;
+  overscroll-behavior-y: none;
 }
 
 .app-wrapper {
