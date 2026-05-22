@@ -130,7 +130,7 @@ export default function Projects({ isDark }) {
                     imageAlt={project.title}
                     description={project.description}
                     ctaText="View project"
-                    brandName="Robert"
+                    brandName="Robert Toroitich"
                     services={project.services ?? []}
                     isDark={isDark}
                     Ctalink={project.Ctalink}
