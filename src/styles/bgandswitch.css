@@ -81,9 +81,10 @@
    ========================================================================== */
 .scene {
   position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100lvh;
   overflow: hidden;
   z-index: -1;
   pointer-events: none;
