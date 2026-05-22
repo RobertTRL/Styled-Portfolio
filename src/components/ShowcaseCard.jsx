@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import "../styles/showcasecard.css" // Import the raw CSS file
+import "../styles/showcasecard.css"
 
 function ShowcaseCard({
     tagline,
@@ -16,32 +16,52 @@ function ShowcaseCard({
     enableTilt = true,
     maxTilt = 8,
     enableParallax = true,
+    isDark = true,
 }) {
     const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
 
-    // Mouse position for tilt effect
     const mouseX = useMotionValue(0)
     const mouseY = useMotionValue(0)
 
-    // Smooth spring animation for tilt
     const springConfig = { damping: 25, stiffness: 150 }
-    const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [maxTilt, -maxTilt]), springConfig)
-    const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-maxTilt, maxTilt]), springConfig)
 
-    // Parallax transform for image
-    const parallaxX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-15, 15]), springConfig)
-    const parallaxY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-15, 15]), springConfig)
+    const rotateX = useSpring(
+        useTransform(mouseY, [-0.5, 0.5], [maxTilt, -maxTilt]),
+        springConfig
+    )
 
-    // Glow effect position
-    const glowX = useSpring(useTransform(mouseX, [-0.5, 0.5], [0, 100]), springConfig)
-    const glowY = useSpring(useTransform(mouseY, [-0.5, 0.5], [0, 100]), springConfig)
+    const rotateY = useSpring(
+        useTransform(mouseX, [-0.5, 0.5], [-maxTilt, maxTilt]),
+        springConfig
+    )
+
+    const parallaxX = useSpring(
+        useTransform(mouseX, [-0.5, 0.5], [-15, 15]),
+        springConfig
+    )
+
+    const parallaxY = useSpring(
+        useTransform(mouseY, [-0.5, 0.5], [-15, 15]),
+        springConfig
+    )
+
+    const glowX = useSpring(
+        useTransform(mouseX, [-0.5, 0.5], [0, 100]),
+        springConfig
+    )
+
+    const glowY = useSpring(
+        useTransform(mouseY, [-0.5, 0.5], [0, 100]),
+        springConfig
+    )
 
     const handleMouseMove = useCallback(
         (e) => {
             if (!cardRef.current || !enableTilt) return
 
             const rect = cardRef.current.getBoundingClientRect()
+
             const x = (e.clientX - rect.left) / rect.width - 0.5
             const y = (e.clientY - rect.top) / rect.height - 0.5
 
@@ -52,6 +72,7 @@ function ShowcaseCard({
     )
 
     const handleMouseEnter = () => setIsHovered(true)
+
     const handleMouseLeave = () => {
         setIsHovered(false)
         mouseX.set(0)
@@ -61,7 +82,9 @@ function ShowcaseCard({
     return (
         <motion.div
             ref={cardRef}
-            className={`sc-card ${className}`}
+            className={`sc-card ${
+                isDark ? "sc-card-dark" : "sc-card-light"
+            } ${className}`}
             style={{
                 transformStyle: "preserve-3d",
                 perspective: 1000,
@@ -73,26 +96,40 @@ function ShowcaseCard({
             onMouseLeave={handleMouseLeave}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            whileHover={{ scale: 1.02, boxShadow: "0 40px 80px -20px rgba(0,0,0,0.6)" }}
+            transition={{
+                duration: 0.6,
+                ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            whileHover={{
+                scale: 1.02,
+                boxShadow: isDark
+                    ? "0 40px 80px -20px rgba(0,0,0,0.6)"
+                    : "0 40px 80px -20px rgba(15,23,42,0.12)",
+            }}
         >
-            {/* Subtle glow overlay on hover */}
+            {/* Glow Overlay */}
             <motion.div
-                className="sc-hero-img-wrapper"
+                className="sc-hover-glow"
                 style={{
                     zIndex: 10,
                     pointerEvents: "none",
-                    background: `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.08) 0%, transparent 50%)`,
+                    background: isDark
+                        ? `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.08) 0%, transparent 50%)`
+                        : `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.7) 0%, transparent 55%)`,
                 }}
                 animate={{ opacity: isHovered ? 1 : 0 }}
                 transition={{ duration: 0.3 }}
             />
 
-            {/* Image Section */}
+            {/* Image */}
             <div className="sc-image-container">
                 {tagline && (
                     <motion.div
-                        className="sc-tagline"
+                        className={`sc-tagline ${
+                            isDark
+                                ? "sc-tagline-dark"
+                                : "sc-tagline-light"
+                        }`}
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.5 }}
@@ -106,26 +143,38 @@ function ShowcaseCard({
                     style={{
                         x: enableParallax ? parallaxX : 0,
                         y: enableParallax ? parallaxY : 0,
-                        scale: 1.0,
                     }}
                 >
                     <motion.img
                         src={imageUrl}
                         alt={imageAlt}
                         className="sc-hero-img"
-                        initial={{ scale: 1.0 }}
-                        animate={{ scale: isHovered ? 1.04 : 1.0 }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        initial={{ scale: 1 }}
+                        animate={{ scale: isHovered ? 1.04 : 1 }}
+                        transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                        }}
                     />
                 </motion.div>
 
-                <div className="sc-gradient-overlay" />
+                <div
+                    className={`sc-gradient-overlay ${
+                        isDark
+                            ? "sc-gradient-overlay-dark"
+                            : "sc-gradient-overlay-light"
+                    }`}
+                />
             </div>
 
-            {/* Content Section */}
+            {/* Content */}
             <div className="sc-content">
                 <motion.h2
-                    className="sc-heading"
+                    className={`sc-heading ${
+                        isDark
+                            ? "sc-heading-dark"
+                            : "sc-heading-light"
+                    }`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
@@ -135,7 +184,11 @@ function ShowcaseCard({
 
                 {description && (
                     <motion.p
-                        className="sc-description"
+                        className={`sc-description ${
+                            isDark
+                                ? "sc-description-dark"
+                                : "sc-description-light"
+                        }`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.5 }}
@@ -147,7 +200,9 @@ function ShowcaseCard({
                 {ctaText && (
                     <motion.button
                         onClick={onCtaClick}
-                        className="sc-cta"
+                        className={`sc-cta ${
+                            isDark ? "sc-cta-dark" : "sc-cta-light"
+                        }`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.5 }}
@@ -156,18 +211,32 @@ function ShowcaseCard({
                     >
                         <motion.span
                             className="sc-cta-shine"
-                            animate={isHovered ? { translateX: "200%" } : { translateX: "-100%" }}
-                            transition={{ duration: 0.6, ease: "easeInOut" }}
+                            animate={
+                                isHovered
+                                    ? { translateX: "200%" }
+                                    : { translateX: "-100%" }
+                            }
+                            transition={{
+                                duration: 0.6,
+                                ease: "easeInOut",
+                            }}
                         />
-                        <span className="sc-cta-text">{ctaText}</span>
+
+                        <span className="sc-cta-text">
+                            {ctaText}
+                        </span>
                     </motion.button>
                 )}
             </div>
 
-            {/* Footer Section */}
+            {/* Footer */}
             {(brandName || services.length > 0) && (
                 <motion.div
-                    className="sc-footer"
+                    className={`sc-footer ${
+                        isDark
+                            ? "sc-footer-dark"
+                            : "sc-footer-light"
+                    }`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6, duration: 0.5 }}
@@ -175,9 +244,16 @@ function ShowcaseCard({
                     <div className="sc-footer-flex">
                         {brandName && (
                             <motion.span
-                                className="sc-brand"
-                                whileHover={{ color: "#ffffff" }}
-                                transition={{ duration: 0.2 }}
+                                className={`sc-brand ${
+                                    isDark
+                                        ? "sc-brand-dark"
+                                        : "sc-brand-light"
+                                }`}
+                                whileHover={{
+                                    color: isDark
+                                        ? "#ffffff"
+                                        : "#111827",
+                                }}
                             >
                                 {brandName}
                             </motion.span>
@@ -188,20 +264,37 @@ function ShowcaseCard({
                                 {services.map((service, index) => (
                                     <React.Fragment key={service}>
                                         <motion.span
-                                            className="sc-service"
-                                            whileHover={{ color: "#ffffff", scale: 1.05 }}
-                                            transition={{ duration: 0.2 }}
+                                            className={`sc-service ${
+                                                isDark
+                                                    ? "sc-service-dark"
+                                                    : "sc-service-light"
+                                            }`}
+                                            whileHover={{
+                                                color: isDark
+                                                    ? "#ffffff"
+                                                    : "#111827",
+                                                scale: 1.05,
+                                            }}
                                         >
                                             {service}
                                         </motion.span>
-                                        {index < services.length - 1 && (
+
+                                        {index <
+                                            services.length - 1 && (
                                             <motion.span
-                                                className="sc-divider"
+                                                className={`sc-divider ${
+                                                    isDark
+                                                        ? "sc-divider-dark"
+                                                        : "sc-divider-light"
+                                                }`}
                                                 initial={{ rotate: 0 }}
-                                                whileHover={{ rotate: 90 }}
-                                                transition={{ duration: 0.3 }}
+                                                whileHover={{ rotate: 180 }}
+                                                transition={{
+                                                    duration: 0.35,
+                                                    ease: [0.22, 1, 0.36, 1],
+                                                }}
                                             >
-                                                ✦
+                                                <span className="sc-divider-inner">✦</span>
                                             </motion.span>
                                         )}
                                     </React.Fragment>
@@ -212,18 +305,17 @@ function ShowcaseCard({
                 </motion.div>
             )}
 
-            {/* Border glow effect */}
+            {/* Border Glow */}
             <motion.div
                 className="sc-border-glow"
-                style={{
-                    borderRadius: "1.5rem",
-                    pointerEvents: "none",
-                    boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)",
-                }}
                 animate={{
                     boxShadow: isHovered
-                        ? "inset 0 0 0 1px rgba(255,255,255,0.15)"
-                        : "inset 0 0 0 1px rgba(255,255,255,0.05)",
+                        ? isDark
+                            ? "inset 0 0 0 1px rgba(255,255,255,0.15)"
+                            : "inset 0 0 0 1px rgba(17,24,39,0.08)"
+                        : isDark
+                        ? "inset 0 0 0 1px rgba(255,255,255,0.05)"
+                        : "inset 0 0 0 1px rgba(17,24,39,0.04)",
                 }}
                 transition={{ duration: 0.3 }}
             />
@@ -238,16 +330,24 @@ function ShowcaseCardCompact({
     imageAlt = "Showcase image",
     className = "",
     onClick,
+    isDark = true,
 }) {
     const [isHovered, setIsHovered] = useState(false)
 
     return (
         <motion.div
-            className={`sc-compact-card ${className}`}
+            className={`sc-compact-card ${
+                isDark
+                    ? "sc-compact-card-dark"
+                    : "sc-compact-card-light"
+            } ${className}`}
             onClick={onClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            whileHover={{ scale: 1.02, y: -4 }}
+            whileHover={{
+                scale: 1.02,
+                y: -4,
+            }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.3 }}
         >
@@ -256,21 +356,53 @@ function ShowcaseCardCompact({
                     src={imageUrl}
                     alt={imageAlt}
                     className="sc-hero-img"
-                    animate={{ scale: isHovered ? 1.08 : 1 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    animate={{
+                        scale: isHovered ? 1.08 : 1,
+                    }}
+                    transition={{
+                        duration: 0.4,
+                        ease: "easeOut",
+                    }}
                 />
+
                 <div className="sc-compact-gradient" />
             </div>
 
             <div className="sc-compact-content">
-                <h3 className="sc-compact-heading">{heading}</h3>
-                {description && <p className="sc-compact-desc">{description}</p>}
+                <h3
+                    className={`sc-compact-heading ${
+                        isDark
+                            ? "sc-compact-heading-dark"
+                            : "sc-compact-heading-light"
+                    }`}
+                >
+                    {heading}
+                </h3>
+
+                {description && (
+                    <p
+                        className={`sc-compact-desc ${
+                            isDark
+                                ? "sc-compact-desc-dark"
+                                : "sc-compact-desc-light"
+                        }`}
+                    >
+                        {description}
+                    </p>
+                )}
             </div>
 
             <motion.div
-                className="sc-compact-icon"
+                className={`sc-compact-icon ${
+                    isDark
+                        ? "sc-compact-icon-dark"
+                        : "sc-compact-icon-light"
+                }`}
                 initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -10 }}
+                animate={{
+                    opacity: isHovered ? 1 : 0,
+                    x: isHovered ? 0 : -10,
+                }}
                 transition={{ duration: 0.2 }}
             >
                 <svg
@@ -291,120 +423,7 @@ function ShowcaseCardCompact({
     )
 }
 
-function ShowcaseCardHorizontal({
-    tagline,
-    heading,
-    description,
-    imageUrl,
-    imageAlt = "Showcase image",
-    ctaText,
-    onCtaClick,
-    brandName,
-    services = [],
-    className = "",
-    imagePosition = "left",
-}) {
-    const [isHovered, setIsHovered] = useState(false)
-
-    return (
-        <motion.div
-            className={`sc-horizontal-card ${imagePosition === "right" ? "sc-img-right" : ""} ${className}`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            whileHover={{ scale: 1.01 }}
-        >
-            <div className="sc-horizontal-image-wrapper">
-                {tagline && (
-                    <div className="sc-tagline" style={{ top: '1.5rem', left: '1.5rem' }}>
-                        {tagline}
-                    </div>
-                )}
-                <motion.img
-                    src={imageUrl}
-                    alt={imageAlt}
-                    className="sc-hero-img"
-                    animate={{ scale: isHovered ? 1.05 : 1 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                />
-                <div className="sc-horizontal-gradient" />
-            </div>
-
-            <div className="sc-horizontal-content">
-                <motion.h2
-                    className="sc-horizontal-heading"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                >
-                    {heading}
-                </motion.h2>
-
-                {description && (
-                    <motion.p
-                        className="sc-horizontal-desc"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.5 }}
-                    >
-                        {description}
-                    </motion.p>
-                )}
-
-                {ctaText && (
-                    <motion.button
-                        onClick={onCtaClick}
-                        className="sc-horizontal-cta"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.5 }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.98 }}
-                    >
-                        {ctaText}
-                    </motion.button>
-                )}
-
-                {(brandName || services.length > 0) && (
-                    <div className="sc-horizontal-footer">
-                        {brandName && <span className="sc-service">{brandName}</span>}
-                        {services.length > 0 && (
-                            <div className="sc-services">
-                                {services.map((service, index) => (
-                                    <React.Fragment key={service}>
-                                        <span className="sc-service">{service}</span>
-                                        {index < services.length - 1 && (
-                                            <span className="sc-divider">✦</span>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                )}
-            </div>
-        </motion.div>
-    )
-}
-
-function ShowcaseGrid({
-    children,
-    columns = 3,
-    gap = "md",
-    className = "",
-}) {
-    return (
-        <div className={`sc-grid sc-gap-${gap} sc-cols-${columns} ${className}`}>
-            {children}
-        </div>
-    )
-}
-
 export {
     ShowcaseCard,
     ShowcaseCardCompact,
-    ShowcaseCardHorizontal,
-    ShowcaseGrid,
 }

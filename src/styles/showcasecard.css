@@ -1,27 +1,68 @@
-/* Showcase.css */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap');
 
 :root {
-  --sc-bg-dark: #0a0a0a;
-  --sc-bg-card: #171717;
-  --sc-border: #404040;
-  --sc-text-main: #ffffff;
-  --sc-text-muted: #a3a3a3;
-  --sc-text-dim: #737373;
+  --sc-light-bg: #F3F5F7;
+  --sc-light-surface: #FFFFFF;
+  --sc-light-border: #D6DCE5;
+  --sc-light-text: #111827;
+  --sc-light-muted: #4B5563;
+  --sc-light-dim: #6B7280;
+
+  --sc-dark-bg: #0A0A0A;
+  --sc-dark-surface: #171717;
+  --sc-dark-border: #404040;
+  --sc-dark-text: #FFFFFF;
+  --sc-dark-muted: #A3A3A3;
+  --sc-dark-dim: #737373;
 }
 
-/* --- Base Card --- */
+/* =========================================================
+   BASE CARD
+========================================================= */
+
 .sc-card {
   position: relative;
   width: 100%;
   max-width: 400px;
   border-radius: 1.5rem;
   overflow: hidden;
-  background-color: var(--sc-bg-dark);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   user-select: none;
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+.sc-card-dark,
+.sc-compact-card-dark {
+  background: var(--sc-dark-bg);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow:
+    0 25px 50px -12px rgba(0,0,0,0.45);
+}
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+.sc-card-light,
+.sc-compact-card-light {
+  background: var(--sc-light-bg);
+  border: 1px solid var(--sc-light-border);
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.06),
+    0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
 
 .sc-image-container {
   position: relative;
@@ -29,21 +70,10 @@
   overflow: hidden;
 }
 
-.sc-tagline {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 20;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: -0.025em;
-}
-
 .sc-hero-img-wrapper {
   position: absolute;
   inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,78 +85,181 @@
   object-fit: contain;
 }
 
-.sc-border-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: 1.5rem;
-  pointer-events: none;
-}
-
 .sc-gradient-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, var(--sc-bg-dark), transparent, transparent);
-  opacity: 0.6;
 }
+
+.sc-gradient-overlay-dark {
+  background:
+    linear-gradient(
+      to top,
+      rgba(10,10,10,0.95),
+      transparent,
+      transparent
+    );
+}
+
+.sc-gradient-overlay-light {
+  background:
+    linear-gradient(
+      to top,
+      rgba(243,245,247,0.92),
+      transparent,
+      transparent
+    );
+}
+
+/* =========================================================
+   TAGLINE
+========================================================= */
+
+.sc-tagline {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.sc-tagline-dark {
+  color: rgba(255,255,255,0.9);
+}
+
+.sc-tagline-light {
+  color: #374151;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
 
 .sc-content {
   position: relative;
   z-index: 10;
+
   padding: 0 1rem 1rem 1rem;
   margin-top: -2rem;
 }
 
 .sc-heading {
   font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1.8rem;
   font-weight: 800;
-  color: var(--sc-text-main);
-  letter-spacing: -0.025em;
-  line-height: 1.25;
-  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+
+  margin: 0 0 0.75rem 0;
+}
+
+.sc-heading-dark {
+  color: var(--sc-dark-text);
+}
+
+.sc-heading-light {
+  color: var(--sc-light-text);
 }
 
 .sc-description {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.875rem;
-  color: var(--sc-text-muted);
-  margin: 0 0 1rem 0;
-  line-height: 1.6;
+
+  font-size: 0.95rem;
+  line-height: 1.65;
+
+  margin: 0 0 1.5rem 0;
 }
+
+.sc-description-dark {
+  color: var(--sc-dark-muted);
+}
+
+.sc-description-light {
+  color: var(--sc-light-muted);
+}
+
+/* =========================================================
+   CTA
+========================================================= */
 
 .sc-cta {
-  font-family: 'Plus Jakarta Sans', sans-serif;
   position: relative;
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  background-color: rgba(38, 38, 38, 0.8);
-  color: #e5e5e5;
-  border: 1px solid rgba(64, 64, 64, 0.5);
+
   overflow: hidden;
-  transition: border-color 0.3s;
   cursor: pointer;
+
+  border-radius: 999px;
+
+  padding: 0.75rem 1.2rem;
+
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
-.sc-cta:hover {
-  border-color: rgba(82, 82, 82, 0.8);
+.sc-cta-dark {
+  background: rgba(38,38,38,0.8);
+  color: #E5E5E5;
+  border: 1px solid rgba(64,64,64,0.5);
+}
+
+.sc-cta-dark:hover {
+  border-color: rgba(82,82,82,0.8);
+}
+
+.sc-cta-light {
+  background: #E4E9EE;
+  color: #111827;
+  border: 1px solid #D6DCE5;
+  backdrop-filter: blur(8px);
+}
+
+.sc-cta-light:hover {
+  background: #DCE3EA;
+  border-color: #C9D3DF;
 }
 
 .sc-cta-shine {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.15),
+      transparent
+    );
 }
 
 .sc-cta-text {
   position: relative;
-  z-index: 10;
+  z-index: 5;
 }
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 .sc-footer {
   padding: 1rem;
-  border-top: 1px solid rgba(38, 38, 38, 0.5);
+}
+
+.sc-footer-dark {
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.sc-footer-light {
+  border-top: 1px solid rgba(17,24,39,0.06);
 }
 
 .sc-footer-flex {
@@ -134,275 +267,238 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+
   gap: 0.5rem;
 }
 
 .sc-brand {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 0.75rem;
-  color: var(--sc-text-muted);
-  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.sc-brand-dark {
+  color: var(--sc-dark-muted);
+}
+
+.sc-brand-light {
+  color: #374151;
 }
 
 .sc-services {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .sc-service {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 0.75rem;
-  color: var(--sc-text-dim);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+}
+
+.sc-service-dark {
+  color: var(--sc-dark-dim);
+}
+
+.sc-service-light {
+  color: var(--sc-light-dim);
 }
 
 .sc-divider {
-  color: #525252;
+  width: 14px;
+  height: 14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  transform-origin: center center;
+  will-change: transform;
 }
 
-/* --- Compact Card --- */
+.sc-divider-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;
+  transform-origin: center center;
+}
+
+.sc-divider-dark {
+  color: rgba(255,255,255,0.28);
+}
+
+.sc-divider-light {
+  color: rgba(17,24,39,0.28);
+}
+
+/* =========================================================
+   BORDER GLOW
+========================================================= */
+
+.sc-border-glow {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+
+/* =========================================================
+   COMPACT CARD
+========================================================= */
+
 .sc-compact-card {
   position: relative;
+
   width: 100%;
-  border-radius: 1rem;
   overflow: hidden;
+
+  border-radius: 1rem;
+
   cursor: pointer;
-  background-color: var(--sc-bg-card);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .sc-compact-image {
   position: relative;
+
   aspect-ratio: 16 / 10;
   overflow: hidden;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.sc-compact-image .sc-hero-img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-}
-
 .sc-compact-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, var(--sc-bg-card), transparent, transparent);
-  opacity: 0.8;
 }
 
 .sc-compact-content {
-  padding: 1rem;
-  margin-top: -1.5rem;
   position: relative;
   z-index: 10;
+
+  padding: 1rem;
+  margin-top: -1.5rem;
 }
 
 .sc-compact-heading {
   font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--sc-text-main);
-  margin: 0 0 0.4rem 0;
+  font-weight: 700;
+
+  margin: 0 0 0.5rem 0;
+}
+
+.sc-compact-heading-dark {
+  color: var(--sc-dark-text);
+}
+
+.sc-compact-heading-light {
+  color: var(--sc-light-text);
 }
 
 .sc-compact-desc {
   font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.875rem;
-  color: var(--sc-text-muted);
+  line-height: 1.6;
+
   margin: 0;
+}
+
+.sc-compact-desc-dark {
+  color: var(--sc-dark-muted);
+}
+
+.sc-compact-desc-light {
+  color: var(--sc-light-muted);
 }
 
 .sc-compact-icon {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  color: var(--sc-text-muted);
 }
 
-/* --- Horizontal Card --- */
-.sc-horizontal-card {
-  position: relative;
-  width: 100%;
-  border-radius: 1.5rem;
-  overflow: hidden;
-  background-color: var(--sc-bg-dark);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-direction: column;
+.sc-compact-icon-dark {
+  color: var(--sc-dark-muted);
 }
 
-.sc-horizontal-card.sc-img-right {
-  flex-direction: column;
+.sc-compact-icon-light {
+  color: #4B5563;
 }
 
-.sc-horizontal-image-wrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-}
+/* =========================================================
+   HOVER GLOW
+========================================================= */
 
-.sc-horizontal-gradient {
+.sc-hover-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(10, 10, 10, 0.6), transparent, transparent);
 }
 
-.sc-horizontal-content {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-.sc-horizontal-heading {
-  font-size: 1.875rem;
-  font-weight: 500;
-  color: var(--sc-text-main);
-  letter-spacing: -0.025em;
-  line-height: 1.25;
-  margin: 0 0 1rem 0;
-}
-
-.sc-horizontal-desc {
-  font-size: 1rem;
-  color: var(--sc-text-muted);
-  margin: 0 0 2rem 0;
-  line-height: 1.6;
-  max-width: 28rem;
-}
-
-.sc-horizontal-cta {
-  width: fit-content;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  background-color: #ffffff;
-  color: #0a0a0a;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.sc-horizontal-cta:hover {
-  background-color: #e5e5e5;
-}
-
-.sc-horizontal-footer {
-  margin-top: auto;
-  padding-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* --- Grid System --- */
-.sc-grid {
-  display: grid;
-}
-
-.sc-gap-sm { gap: 1rem; }
-.sc-gap-md { gap: 1.5rem; }
-.sc-gap-lg { gap: 2rem; }
-
-.sc-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-
-/* --- Responsive --- */
 @media (min-width: 640px) {
-  .sc-tagline { top: 1.5rem; left: 1.5rem; font-size: 1rem; }
-  .sc-content { padding: 0 1.5rem 1.5rem 1.5rem; }
-  .sc-heading { font-size: 1.875rem; margin-bottom: 0.75rem; }
-  .sc-description { font-size: 1rem; margin-bottom: 1.5rem; }
-  .sc-cta { padding: 0.625rem 1.25rem; }
-  .sc-footer { padding: 1.25rem 1.5rem; }
-  .sc-brand, .sc-service { font-size: 0.875rem; }
-  .sc-services { gap: 0.75rem; }
+  .sc-content {
+    padding: 0 1.5rem 1.5rem;
+  }
 
-  .sc-cols-2,
-  .sc-cols-3,
-  .sc-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sc-heading {
+    font-size: 2rem;
+  }
+
+  .sc-description {
+    font-size: 1rem;
+  }
 }
 
 @media (min-width: 768px) {
-  .sc-horizontal-card { flex-direction: row; }
-  .sc-horizontal-card.sc-img-right { flex-direction: row-reverse; }
-  .sc-horizontal-image-wrapper { width: 50%; aspect-ratio: auto; min-height: 400px; }
-  .sc-horizontal-content { width: 50%; padding: 2.5rem; }
-  .sc-horizontal-gradient { display: none; }
-  .sc-horizontal-heading { font-size: 2.25rem; }
-  .sc-horizontal-desc { font-size: 1.125rem; }
-
-  /* ── Landscape layout for ShowcaseCard ── */
   .sc-card {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+
     max-width: 900px;
   }
 
   .sc-image-container {
     width: 50%;
-    aspect-ratio: auto;
-    align-self: stretch;
-    flex-shrink: 0;
-    border-radius: 1.125rem;
-    margin: 0.75rem;
-    overflow: hidden;
-  }
 
-  .sc-gradient-overlay {
-    display: none;
+    margin: 0.75rem;
+    border-radius: 1.2rem;
+
+    aspect-ratio: auto;
+
+    overflow: hidden;
   }
 
   .sc-content {
     flex: 1;
-    margin-top: 0;
-    padding: 1.25rem 1.25rem 1.25rem 0.5rem;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.625rem;
-  }
 
-  .sc-heading {
-    padding: 0.875rem 1.125rem;
-    margin: 0;
-    font-size: 1.125rem;
-  }
-
-  .sc-description {
-    padding: 0.875rem 1.125rem;
-    margin: 0;
-    font-size: 0.875rem;
+    padding: 1.5rem;
+    margin-top: 0;
   }
 
   .sc-footer {
     width: 100%;
-    flex-shrink: 0;
-    padding: 0.875rem 1.375rem;
   }
-}
-
-@media (min-width: 1024px) {
-  .sc-cols-3, .sc-cols-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-
-  .sc-card .sc-heading {
-    font-size: 1.25rem;
-  }
-
-  .sc-card .sc-description {
-    font-size: 0.9375rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .sc-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }

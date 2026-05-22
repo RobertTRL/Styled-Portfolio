@@ -158,6 +158,7 @@ export default function Projects({ isDark }) {
                     ctaText="View project"
                     brandName="Robert"
                     services={project.services ?? []}
+                    isDark={isDark}
                   />
                 ) : (
                   <ShowcaseCardCompact
@@ -166,6 +167,7 @@ export default function Projects({ isDark }) {
                     description={project.description}
                     imageUrl={project.image}
                     imageAlt={project.title}
+                    isDark={isDark}
                   />
                 )
               )}
