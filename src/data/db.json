@@ -27,7 +27,40 @@
     }
   ],
 
-  "GRAPHIC_PROJECTS": [],
+  "GRAPHIC_PROJECTS": [
+    {
+      "id": 1,
+      "title": "Burger King Ad",
+      "tagline": "Featured",
+      "services": ["Photoshop", "AI prompt engineering"],
+      "image": "../images/burger king ad.jpg",
+      "description": "A sample advertisement campaign for the fast food company Burger King. It features a life-sized Whopper on the top of the KICC Towers. Cloudshaped fries fill the clear evening sky. On the KICC Towers, a bold message “Top of The World“ is on its walls."
+    },
+    {
+      "id": 2,
+      "title": "Magical Kenya Promotion",
+      "tagline": "JavaScript · API",
+      "image": "../images/antelope colour retouching.jpg",
+      "description": "The designabove is a sample advertisement for the Ritz-Carlton hotel. It features a table set up for an evening meal. In the viscinity, an antelope is eating grass eyeing the delicacy. In the background,the biannual wildebeest migration is ongoing."
+    
+    },
+    {
+      "id": 3,
+      "title": "Toxic Lyrikali Poster",
+      "tagline": "JavaScript · API",
+      "image": "../images/toxic-lyrikali.jpg",
+      "description": "The design beside features a poster of popular Kenyan artist Toxic Lyrikali. It features the artist’s image, a Mercedes S-Class, a woman’s bosom , a Mercedes hood ornament in rectangular frames and have used various effects. The design has been constructed using a brutalist manner."
+    
+    },
+    {
+      "id": 4,
+      "title": "Coca-Cola Ad",
+      "tagline": "AI prompt engineering",
+      "image": "../images/santa coca cola.jpg",
+      "description": "A sample advertisement campaign for the company Coca-Cola. It features Santa Claus in a sled with various gifts displaying a Coca-Cola Bottle to the camera. Three lions, visibly starving, are astounded by the flying antelopes. In the background, a view of Nairobi City is visible."
+    
+    }
+  ],
   "CAD_PROJECTS": [],
   "ELECTRONICS_PROJECTS": []
 }

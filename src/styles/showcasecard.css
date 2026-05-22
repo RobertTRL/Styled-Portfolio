@@ -85,7 +85,7 @@
   object-fit: contain;
 }
 
-.sc-gradient-overlay {
+/* .sc-gradient-overlay {
   position: absolute;
   inset: 0;
 }
@@ -108,7 +108,7 @@
       transparent,
       transparent
     );
-}
+} */
 
 /* =========================================================
    TAGLINE
@@ -370,7 +370,6 @@
 
 .sc-compact-image {
   position: relative;
-
   aspect-ratio: 16 / 10;
   overflow: hidden;
 

@@ -259,21 +259,26 @@
 }
 
 /* ─────────────────────────────────────────
-   Projects grid
+   PROJECTS GRID (CONTROLLED SYSTEM)
 ───────────────────────────────────────── */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+
+  /* ensures padding doesn’t break layout math */
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* All showcase cards inside the grid stretch to fill their cell */
+/* Cards stretch cleanly inside grid */
 .projects-grid .sc-card,
 .projects-grid .sc-compact-card {
   max-width: none;
+  width: 100%;
 }
 
-/* Hero card spans every column in its row */
+/* Hero card spans full width */
 .projects-grid .sc-card.projects-hero-card {
   grid-column: 1 / -1;
 }
@@ -350,7 +355,19 @@
   z-index: 1;
 }
 
-/* ── Responsive ── */
+/* ─────────────────────────────────────────
+   BREAKPOINTS / RESPONSIVE
+───────────────────────────────────────── */
+
+/* Large tablets / small laptops */
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* Medium screens */
 @media (max-width: 900px) {
   .projects-watermark {
     font-size: clamp(3.5rem, 14vw, 6.5rem);
@@ -360,6 +377,7 @@
   }
 }
 
+/* Mobile */
 @media (max-width: 600px) {
   .projects-intro {
     padding-left: 1.5rem;
@@ -373,5 +391,10 @@
   .projects-tab-btn {
     font-size: 0.75rem;
     padding: 0.4rem 0.2rem;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
