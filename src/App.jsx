@@ -12,6 +12,7 @@ import Loader from './components/Loader.jsx';
 import GreetingBoy from './components/GreetingBoy.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import Projects from './components/Projects.jsx';
+import { Analytics } from '@vercel/analytics/react'
 
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -25,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => setIsPreload(false), 50);
-    const loadId = setTimeout(() => setIsLoading(false), 6000);
+    const loadId = setTimeout(() => setIsLoading(false), 3000);
     return () => {
       clearTimeout(timeoutId)
       clearTimeout(loadId)
@@ -55,6 +56,7 @@ const App = () => {
         <Projects isDark={isDark} />
         <Navbar isDark={isDark} />
       </div>
+      <Analytics />
     </div>
   );
 };
