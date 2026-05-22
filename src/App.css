@@ -5,5 +5,9 @@ html {
   overflow-y: auto;
   height: auto;
   min-height: 100%;
+  scrollbar-width: none; /* Firefox */
 }
 
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
