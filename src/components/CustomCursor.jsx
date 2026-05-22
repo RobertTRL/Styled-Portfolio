@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/customcursor.css";
 
-import cursorDefault    from "../assets/arrowhead-rounded-outline.svg";
+import cursorDefault    from "../assets/default-cursor.svg";
 import cursorNotAllowed from "../assets/not-allowed.svg";
 import cursorText       from "../assets/v2.svg";
 import cursorClick      from "../assets/icons8-hand-cursor.svg";
