@@ -2,6 +2,9 @@ import React, { useRef, useState, useCallback } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import "../styles/showcasecard.css"
 
+// FIX: moved outside the component so it's not recreated on every render
+const SPRING_CONFIG = { damping: 25, stiffness: 150 }
+
 function ShowcaseCard({
     tagline,
     heading,
@@ -24,36 +27,34 @@ function ShowcaseCard({
     const mouseX = useMotionValue(0)
     const mouseY = useMotionValue(0)
 
-    const springConfig = { damping: 25, stiffness: 150 }
-
     const rotateX = useSpring(
         useTransform(mouseY, [-0.5, 0.5], [maxTilt, -maxTilt]),
-        springConfig
+        SPRING_CONFIG
     )
 
     const rotateY = useSpring(
         useTransform(mouseX, [-0.5, 0.5], [-maxTilt, maxTilt]),
-        springConfig
+        SPRING_CONFIG
     )
 
     const parallaxX = useSpring(
         useTransform(mouseX, [-0.5, 0.5], [-15, 15]),
-        springConfig
+        SPRING_CONFIG
     )
 
     const parallaxY = useSpring(
         useTransform(mouseY, [-0.5, 0.5], [-15, 15]),
-        springConfig
+        SPRING_CONFIG
     )
 
     const glowX = useSpring(
         useTransform(mouseX, [-0.5, 0.5], [0, 100]),
-        springConfig
+        SPRING_CONFIG
     )
 
     const glowY = useSpring(
         useTransform(mouseY, [-0.5, 0.5], [0, 100]),
-        springConfig
+        SPRING_CONFIG
     )
 
     const handleMouseMove = useCallback(
@@ -61,7 +62,6 @@ function ShowcaseCard({
             if (!cardRef.current || !enableTilt) return
 
             const rect = cardRef.current.getBoundingClientRect()
-
             const x = (e.clientX - rect.left) / rect.width - 0.5
             const y = (e.clientY - rect.top) / rect.height - 0.5
 
@@ -71,8 +71,9 @@ function ShowcaseCard({
         [mouseX, mouseY, enableTilt]
     )
 
+    // FIX: replaced void ternary expression with a clean if statement
     const onCtaClick = () => {
-        (Ctalink) ? window.open(Ctalink, "_blank") : ''
+        if (Ctalink) window.open(Ctalink, "_blank")
     }
 
     const handleMouseEnter = () => setIsHovered(true)
@@ -86,9 +87,7 @@ function ShowcaseCard({
     return (
         <motion.div
             ref={cardRef}
-            className={`sc-card ${
-                isDark ? "sc-card-dark" : "sc-card-light"
-            } ${className}`}
+            className={`sc-card ${isDark ? "sc-card-dark" : "sc-card-light"} ${className}`}
             style={{
                 transformStyle: "preserve-3d",
                 perspective: 1000,
@@ -129,11 +128,7 @@ function ShowcaseCard({
             <div className="sc-image-container">
                 {tagline && (
                     <motion.div
-                        className={`sc-tagline ${
-                            isDark
-                                ? "sc-tagline-dark"
-                                : "sc-tagline-light"
-                        }`}
+                        className={`sc-tagline ${isDark ? "sc-tagline-dark" : "sc-tagline-light"}`}
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.5 }}
@@ -164,9 +159,7 @@ function ShowcaseCard({
 
                 <div
                     className={`sc-gradient-overlay ${
-                        isDark
-                            ? "sc-gradient-overlay-dark"
-                            : "sc-gradient-overlay-light"
+                        isDark ? "sc-gradient-overlay-dark" : "sc-gradient-overlay-light"
                     }`}
                 />
             </div>
@@ -174,11 +167,7 @@ function ShowcaseCard({
             {/* Content */}
             <div className="sc-content">
                 <motion.h2
-                    className={`sc-heading ${
-                        isDark
-                            ? "sc-heading-dark"
-                            : "sc-heading-light"
-                    }`}
+                    className={`sc-heading ${isDark ? "sc-heading-dark" : "sc-heading-light"}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
@@ -188,11 +177,7 @@ function ShowcaseCard({
 
                 {description && (
                     <motion.p
-                        className={`sc-description ${
-                            isDark
-                                ? "sc-description-dark"
-                                : "sc-description-light"
-                        }`}
+                        className={`sc-description ${isDark ? "sc-description-dark" : "sc-description-light"}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.5 }}
@@ -204,9 +189,7 @@ function ShowcaseCard({
                 {Ctalink && (
                     <motion.button
                         onClick={onCtaClick}
-                        className={`sc-cta ${
-                            isDark ? "sc-cta-dark" : "sc-cta-light"
-                        }`}
+                        className={`sc-cta ${isDark ? "sc-cta-dark" : "sc-cta-light"}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.5 }}
@@ -225,10 +208,7 @@ function ShowcaseCard({
                                 ease: "easeInOut",
                             }}
                         />
-
-                        <span className="sc-cta-text">
-                            {ctaText}
-                        </span>
+                        <span className="sc-cta-text">{ctaText}</span>
                     </motion.button>
                 )}
             </div>
@@ -236,11 +216,7 @@ function ShowcaseCard({
             {/* Footer */}
             {(brandName || services.length > 0) && (
                 <motion.div
-                    className={`sc-footer ${
-                        isDark
-                            ? "sc-footer-dark"
-                            : "sc-footer-light"
-                    }`}
+                    className={`sc-footer ${isDark ? "sc-footer-dark" : "sc-footer-light"}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6, duration: 0.5 }}
@@ -248,16 +224,8 @@ function ShowcaseCard({
                     <div className="sc-footer-flex">
                         {brandName && (
                             <motion.span
-                                className={`sc-brand ${
-                                    isDark
-                                        ? "sc-brand-dark"
-                                        : "sc-brand-light"
-                                }`}
-                                whileHover={{
-                                    color: isDark
-                                        ? "#ffffff"
-                                        : "#111827",
-                                }}
+                                className={`sc-brand ${isDark ? "sc-brand-dark" : "sc-brand-light"}`}
+                                whileHover={{ color: isDark ? "#ffffff" : "#111827" }}
                             >
                                 {brandName}
                             </motion.span>
@@ -268,29 +236,18 @@ function ShowcaseCard({
                                 {services.map((service, index) => (
                                     <React.Fragment key={service}>
                                         <motion.span
-                                            className={`sc-service ${
-                                                isDark
-                                                    ? "sc-service-dark"
-                                                    : "sc-service-light"
-                                            }`}
+                                            className={`sc-service ${isDark ? "sc-service-dark" : "sc-service-light"}`}
                                             whileHover={{
-                                                color: isDark
-                                                    ? "#ffffff"
-                                                    : "#111827",
+                                                color: isDark ? "#ffffff" : "#111827",
                                                 scale: 1.05,
                                             }}
                                         >
                                             {service}
                                         </motion.span>
 
-                                        {index <
-                                            services.length - 1 && (
+                                        {index < services.length - 1 && (
                                             <motion.span
-                                                className={`sc-divider ${
-                                                    isDark
-                                                        ? "sc-divider-dark"
-                                                        : "sc-divider-light"
-                                                }`}
+                                                className={`sc-divider ${isDark ? "sc-divider-dark" : "sc-divider-light"}`}
                                                 initial={{ rotate: 0 }}
                                                 whileHover={{ rotate: 180 }}
                                                 transition={{
@@ -341,17 +298,12 @@ function ShowcaseCardCompact({
     return (
         <motion.div
             className={`sc-compact-card ${
-                isDark
-                    ? "sc-compact-card-dark"
-                    : "sc-compact-card-light"
+                isDark ? "sc-compact-card-dark" : "sc-compact-card-light"
             } ${className}`}
             onClick={onClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            whileHover={{
-                scale: 1.02,
-                y: -4,
-            }}
+            whileHover={{ scale: 1.02, y: -4 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.3 }}
         >
@@ -360,24 +312,16 @@ function ShowcaseCardCompact({
                     src={imageUrl}
                     alt={imageAlt}
                     className="sc-hero-img"
-                    animate={{
-                        scale: isHovered ? 1.08 : 1,
-                    }}
-                    transition={{
-                        duration: 0.4,
-                        ease: "easeOut",
-                    }}
+                    animate={{ scale: isHovered ? 1.08 : 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
                 />
-
                 <div className="sc-compact-gradient" />
             </div>
 
             <div className="sc-compact-content">
                 <h3
                     className={`sc-compact-heading ${
-                        isDark
-                            ? "sc-compact-heading-dark"
-                            : "sc-compact-heading-light"
+                        isDark ? "sc-compact-heading-dark" : "sc-compact-heading-light"
                     }`}
                 >
                     {heading}
@@ -386,9 +330,7 @@ function ShowcaseCardCompact({
                 {description && (
                     <p
                         className={`sc-compact-desc ${
-                            isDark
-                                ? "sc-compact-desc-dark"
-                                : "sc-compact-desc-light"
+                            isDark ? "sc-compact-desc-dark" : "sc-compact-desc-light"
                         }`}
                     >
                         {description}
@@ -398,9 +340,7 @@ function ShowcaseCardCompact({
 
             <motion.div
                 className={`sc-compact-icon ${
-                    isDark
-                        ? "sc-compact-icon-dark"
-                        : "sc-compact-icon-light"
+                    isDark ? "sc-compact-icon-dark" : "sc-compact-icon-light"
                 }`}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{
@@ -427,7 +367,4 @@ function ShowcaseCardCompact({
     )
 }
 
-export {
-    ShowcaseCard,
-    ShowcaseCardCompact,
-}
+export { ShowcaseCard, ShowcaseCardCompact }

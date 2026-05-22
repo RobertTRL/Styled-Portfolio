@@ -2,15 +2,13 @@ const ThemeButton = ({ isDark, onToggle }) => {
   return (
     <div className="theme-toggle-wrapper">
       {/* Changed from <button> to <div> to prevent nesting quirks */}
-      <div 
-        className="theme-switch-btn theme-switch" 
-        onClick={onToggle}
-        role="button"
-        tabIndex={0}
-        aria-label="Toggle Dark Mode"
-        aria-pressed={isDark}
-        style={{ cursor: 'pointer' }} /* Ensures you get the pointer finger! */
-      >
+      <button
+          className="theme-switch-btn theme-switch"
+          onClick={onToggle}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onToggle()}
+          aria-label="Toggle Dark Mode"
+          aria-pressed={isDark}
+        >
         <div className="theme-switch__container">
           <div className="theme-switch__clouds"></div>
           <div className="theme-switch__stars-container">
@@ -24,7 +22,7 @@ const ThemeButton = ({ isDark, onToggle }) => {
             </div>
           </div>
         </div>
-      </div>
+      </button>
     </div>
   );
 };

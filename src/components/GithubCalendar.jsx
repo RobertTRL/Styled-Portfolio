@@ -1,5 +1,3 @@
-"use client"
- 
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import "../styles/githubcalendar.css"
@@ -171,7 +169,7 @@ export function GithubCalendar({
                                         setHoveredDate(day.date)
                                         setHoveredCount(day.contributionCount)
                                         const rect = e.currentTarget.getBoundingClientRect()
-                                        const parentRect = e.currentTarget.offsetParent.getBoundingClientRect()
+                                        const parentRect = e.currentTarget.offsetParent?.getBoundingClientRect() ?? { left: 0, top: 0 }
                                         setMousePos({
                                             x: rect.left - parentRect.left + rect.width / 2,
                                             y: rect.top - parentRect.top,
