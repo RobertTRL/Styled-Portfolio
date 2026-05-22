@@ -12,8 +12,8 @@ import Loader from './components/Loader.jsx';
 import GreetingBoy from './components/GreetingBoy.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import Projects from './components/Projects.jsx';
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from "@vercel/speed-insights/react"
+// import { Analytics } from '@vercel/analytics/react'
+// import { SpeedInsights } from "@vercel/speed-insights/react"
 
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -57,8 +57,8 @@ const App = () => {
         <Projects isDark={isDark} />
         <Navbar isDark={isDark} />
       </div>
-      <Analytics />
-      <SpeedInsights />
+      {/* <Analytics />
+      <SpeedInsights /> */}
     </div>
   );
 };
