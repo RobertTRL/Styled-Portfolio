@@ -108,7 +108,7 @@ export default function Skills({ isDark }) {
       <div className="skills-content">
 
         <div className="edu-cert-grid">
-          <div className="edu-cert-col">
+          {/* <div className="edu-cert-col">
             <h3 className="col-heading">
             Education
             </h3>
@@ -124,7 +124,7 @@ export default function Skills({ isDark }) {
                 )}
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* Certifications */}
           <div className="edu-cert-col">
