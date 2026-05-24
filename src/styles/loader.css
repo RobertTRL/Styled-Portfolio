@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    loader.css  —  Namespaced Noodle Scene Loader
    ═══════════════════════════════════════════════════════════════════════════ */
-
+ 
 /* ── Theme tokens ── */
 .loader-container.dark-mode {
   --bg-start:       #020818;
@@ -12,7 +12,7 @@
   --text-shadow:    0 0 24px rgba(100, 180, 255, 0.55), 0 0 48px rgba(60, 130, 220, 0.25);
   --star-color:     rgba(255, 255, 255, 0.7);
 }
-
+ 
 .loader-container.light-mode {
   --bg-start:       #cfe4f7;
   --bg-mid:         #a8cceb;
@@ -22,7 +22,7 @@
   --text-shadow:    0 1px 0 rgba(255,255,255,0.6), 0 2px 16px rgba(30, 90, 180, 0.2);
   --star-color:     rgba(30, 70, 150, 0.25);
 }
-
+ 
 /* ── Root container ── */
 .loader-container {
   position: fixed;
@@ -36,7 +36,7 @@
   font-family: Helvetica, sans-serif;
   background: radial-gradient(ellipse 90% 70% at 50% 40%, var(--bg-mid), var(--bg-start) 75%);
 }
-
+ 
 /* ── Starfield dots ── */
 .loader-container::before {
   content: '';
@@ -62,7 +62,7 @@
     radial-gradient(1.5px 1.5px at 88%  12%, var(--star-color), transparent);
   pointer-events: none;
 }
-
+ 
 /* ── Moving tile pattern ── */
 .loader-pattern {
   position: absolute;
@@ -89,12 +89,12 @@
   opacity: 0.4;
   height: 100lvh;
 }
-
+ 
 @keyframes pattern-drift {
   0%   { background-position: 0 0, 0 0; }
   100% { background-position: var(--s) var(--s), var(--s) var(--s); }
 }
-
+ 
 /* ── Frosted overlay ── */
 .loader-overlay {
   position: absolute;
@@ -102,30 +102,30 @@
   backdrop-filter: blur(1px);
   background: transparent;
 }
-
+ 
 /* ── Content container ── */
 .content-container {
   position: relative;
   z-index: 1;
 }
-
+ 
 .noodle-loader-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
+ 
 /* ════════════════════════════════════
    Loading text
 ════════════════════════════════════ */
-
+ 
 .loader-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   user-select: none;
 }
-
+ 
 .loader-letters {
   display: flex;
   gap: 0.02em;
@@ -133,7 +133,7 @@
   text-shadow: var(--text-shadow);
   letter-spacing: 0.1em;
 }
-
+ 
 .loader-letter {
   display: inline-block;
   font-family: Helvetica, sans-serif;
@@ -143,80 +143,69 @@
   animation: loader-letter-anim 2.2s ease-in-out infinite;
   will-change: opacity, transform;
 }
-
+ 
 @keyframes loader-letter-anim {
   0%,
   100% { opacity: 0.3;  transform: translateY(0); }
   22%  { opacity: 1;    transform: translateY(-5px); }
   50%  { opacity: 0.5;  transform: translateY(0); }
 }
-
+ 
 /* ════════════════════════════════════
    Exit Animations
 ════════════════════════════════════ */
-
+ 
 .water-dissolve {
   pointer-events: none;
   animation: bgFade 1.5s ease forwards;
 }
-
-/* transform-origin at 50% 27% targets the face/mouth level in the 800×600
-   scene, so the zoom rushes into the smile rather than the scene centre */
+ 
+/* transform-origin at 50% 27% targets the face/mouth level in the 800×600 scene,
+   so the zoom rushes into the smile rather than the scene center */
 .water-dissolve .scene-animator {
   transform-origin: 50% 27%;
   animation: smileZoomExit 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-
+ 
 .water-dissolve .loader-wrapper {
   animation: textFadeOut 0.4s ease forwards;
 }
-
+ 
 .water-dissolve .loader-pattern {
   animation: gridFade 0.8s ease forwards;
 }
-
+ 
 @keyframes smileZoomExit {
-  0%   { transform: scale(1);   filter: blur(0px)  brightness(1);    opacity: 1; }
+  0%   { transform: scale(1);   filter: blur(0px)  brightness(1);   opacity: 1; }
   30%  { transform: scale(1.4); filter: blur(0px)  brightness(1.15); opacity: 1; }
   70%  { transform: scale(3.2); filter: blur(2px)  brightness(1.6);  opacity: 0.85; }
   100% { transform: scale(7);   filter: blur(28px) brightness(2.8);  opacity: 0; }
 }
-
+ 
 @keyframes textFadeOut {
   to { opacity: 0; transform: translateY(8px) scale(0.96); }
 }
-
+ 
 @keyframes gridFade {
   to { opacity: 0; transform: scale(1.08); }
 }
-
+ 
 @keyframes bgFade {
   0%, 60% { opacity: 1; }
   100%     { opacity: 0; }
 }
-
-/* ════════════════════════════════════════════════════════════════════════════
+ 
+/* ════════════════════════════════════
    NOODLE SCENE CSS
-   ─────────────────────────────────────────────────────────────────────────
-   Animation timeline (--time = 7s):
-
-     0 %  –  5.4 %   Initial bite: head dips, first noodle slurp
-     5.4% – 60.0%    Main eating loop: chewing, eye blinks, steady slurp
-    60.0% – 66.4%    Head drops toward bowl for a deeper slurp
-    66.4% – 86.7%    Deep-slurp hold: body lower, noodle shortening
-    86.7% – 90.9%    Noodle fully gone; head snaps back up
-    90.9% – 94.8%    Recovery bounce
-    94.8% – 95.6%    Big open-mouth smile peak
-    95.6% – 100%     Reset / transition back to start
-════════════════════════════════════════════════════════════════════════════ */
-
+════════════════════════════════════ */
+ 
 .scene-animator {
   display: flex;
   align-items: center;
   justify-content: center;
   transform-origin: center;
 }
-
+ 
 .noodle-scene {
   position: relative;
   width: 800px;
@@ -225,14 +214,14 @@
   transform-origin: center;
   flex-shrink: 0;
 }
-
+ 
 .noodle-scene *,
 .noodle-scene *::before,
 .noodle-scene *::after {
   content: "";
   position: absolute;
 }
-
+ 
 /* shadow */
 .noodle-scene::after {
   top: 50%;
@@ -244,35 +233,24 @@
   box-shadow: 0 10px rgba(0, 0, 0, 0.1), 0 20px rgba(0, 0, 0, 0.05);
   translate: -50% 170px;
 }
-
-/* ── Body ── */
+ 
+/* body */
 .boy {
   top: 50%;
   left: 50%;
   width: 140px;
   height: 130px;
-  background:
-    radial-gradient(closest-side, #a56345 100%, transparent 0) center -5px / 60px 40px no-repeat,
-    white;
+  background: radial-gradient(closest-side, #a56345 100%, transparent 0) center -5px / 60px 40px no-repeat, white;
   border-radius: 25px 25px 0 0;
   animation: boy var(--time) linear infinite;
 }
-
-/*
- * Body vertical movement.
- * animation-timing-function at a keyframe controls the curve to the NEXT stop.
- * ease-in before drops → ease-out on landing feels physically natural.
- */
+ 
 @keyframes boy {
-  0%, 100%      { translate: -50% 43px; }
-  /* ↓ ease-in: accelerate into the drop toward the bowl */
-  60%           { translate: -50% 43px; animation-timing-function: cubic-bezier(0.4, 0, 1, 0.6); }
-  /* ↓ ease-out: decelerate on landing */
-  66.42%        { translate: -50% 67px; animation-timing-function: cubic-bezier(0, 0.4, 0.6, 1); }
-  91.8%         { translate: -50% 67px; animation-timing-function: cubic-bezier(0.4, 0, 1, 0.6); }
-  93.42%        { translate: -50% 44px; }
+  0%, 60%, 100% { translate: -50% 43px; }
+  66.42%, 91.8% { translate: -50% 67px; }
+  93.42% { translate: -50% 44px; }
 }
-
+ 
 /* neck */
 .boy::before {
   top: -30px;
@@ -282,8 +260,7 @@
   background-color: #a56345;
   translate: -50%;
 }
-
-/* ── Head ── */
+ 
 .boy__head {
   top: -220px;
   left: 50%;
@@ -294,31 +271,19 @@
   border-radius: 60px 60px 10px 10px;
   animation: boyHead var(--time) linear infinite;
 }
-
-/*
- * Head movement.
- * Easing is added at the keyframe BEFORE each large positional jump so the
- * head accelerates into movement (ease-in) and decelerates on arrival (ease-out).
- */
+ 
 @keyframes boyHead {
-  0%, 100%      { translate: -50%; }
-  /* initial bite */
-  0.54%         { translate: -50% 22px; animation-timing-function: ease-out; }
-  1.08%, 5.4%   { translate: -50% 31px; }
-  /* main eating hold — ease-in before the deep drop */
-  5.4%          { translate: -50% -2px; }
-  60%           { translate: -50% -2px; animation-timing-function: cubic-bezier(0.4, 0, 1, 0.6); }
-  /* deep slurp — ease-out as head settles into the low position */
-  66.42%        { translate: -50% 33px; animation-timing-function: cubic-bezier(0, 0.4, 0.6, 1); }
-  86.67%        { translate: -50% 46px; animation-timing-function: cubic-bezier(0.2, 0, 0.8, 1); }
-  /* snap back up */
-  87.75%        { translate: -50% -2px; animation-timing-function: ease-out; }
-  90.99%        { translate: -50% -2px; animation-timing-function: ease-in; }
-  /* recovery bounce */
-  91.52%        { translate: -50% 16px; animation-timing-function: ease-out; }
-  93.42%        { translate: -50% -3px; }
+  0%, 100% { translate: -50%; }
+  0.54% { translate: -50% 22px; }
+  1.08%, 5.4% { translate: -50% 31px; }
+  5.4%, 60% { translate: -50% -2px; }
+  66.42% { translate: -50% 33px; }
+  86.67% { translate: -50% 46px; }
+  87.75%, 90.99% { translate: -50% -2px; }
+  91.52% { translate: -50% 16px; }
+  93.42% { translate: -50% -3px; }
 }
-
+ 
 .boy__head::before {
   top: 60px;
   left: 50%;
@@ -328,61 +293,59 @@
   border-radius: 50%;
   animation: boyFace var(--time) linear infinite;
 }
-
+ 
 @keyframes boyFace {
-  0%, 100%    { translate: -50%; }
-  0.54%       { translate: -50% -9px; }
+  0%, 100% { translate: -50%; }
+  0.54% { translate: -50% -9px; }
   1.08%, 99.36% { translate: -50% -16px; }
 }
-
+ 
 /* ears */
 .boy__head::after {
   top: 78px;
   left: -45px;
   width: 50px;
   height: 50px;
-  background:
-    conic-gradient(from 270deg, #b97a57 0deg 61deg, transparent 0),
+  background: conic-gradient(from 270deg, #b97a57 0deg 61deg, transparent 0),
     radial-gradient(#b97a57 8px, #303083 8px 10px, #b97a57 0);
   border-radius: 100%;
   -webkit-box-reflect: right 150px;
   animation: boyEars var(--time) linear infinite;
 }
-
+ 
 @keyframes boyEars {
-  0%, 100%    { translate: 0 0px; }
-  0.54%       { translate: 0 -15px; }
+  0%, 100% { translate: 0 0px; }
+  0.54% { translate: 0 -15px; }
   1.08%, 99.36% { translate: 0 -22px; }
 }
-
-/* ── Hair ── */
+ 
+/* curly black hair */
 .boy__hair {
   top: -40px;
   left: -10px;
   width: 180px;
   height: 100px;
   background:
-    radial-gradient(circle at 25px  65px, #222222 20px, transparent 21px),
-    radial-gradient(circle at 50px  40px, #222222 25px, transparent 26px),
-    radial-gradient(circle at 90px  30px, #222222 28px, transparent 29px),
+    radial-gradient(circle at 25px 65px, #222222 20px, transparent 21px),
+    radial-gradient(circle at 50px 40px, #222222 25px, transparent 26px),
+    radial-gradient(circle at 90px 30px, #222222 28px, transparent 29px),
     radial-gradient(circle at 130px 40px, #222222 25px, transparent 26px),
     radial-gradient(circle at 155px 65px, #222222 20px, transparent 21px);
 }
-
+ 
 .boy__hair::before {
   top: 45px;
   left: 10px;
   width: 160px;
   height: 40px;
   background:
-    radial-gradient(circle at 20px  10px, #222222 15px, transparent 16px),
-    radial-gradient(circle at 50px  5px,  #222222 18px, transparent 19px),
-    radial-gradient(circle at 80px  10px, #222222 15px, transparent 16px),
-    radial-gradient(circle at 110px 5px,  #222222 18px, transparent 19px),
+    radial-gradient(circle at 20px 10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 50px 5px, #222222 18px, transparent 19px),
+    radial-gradient(circle at 80px 10px, #222222 15px, transparent 16px),
+    radial-gradient(circle at 110px 5px, #222222 18px, transparent 19px),
     radial-gradient(circle at 140px 10px, #222222 15px, transparent 16px);
 }
-
-/* ── Eyes ── */
+ 
 .boy__eyes {
   top: 17px;
   left: 17px;
@@ -392,7 +355,7 @@
   border-radius: 50%;
   box-shadow: 60px 0 #b97a57;
 }
-
+ 
 .boy__eyes::before,
 .boy__eyes::after {
   width: 100%;
@@ -408,32 +371,30 @@
     center center;
   animation: boyEyesSize var(--time) linear infinite;
 }
-
+ 
 @keyframes boyEyesSize {
   0%, 19.44%, 100% { scale: 1 1; }
-  19.71%           { scale: 1 0.2; }
-  20.25%, 38.34%   { scale: 1 1; }
-  38.88%           { scale: 1 0.2; }
-  39.15%, 60%      { scale: 1 1; }
-  66.42%           { scale: 1 0.2; }
-  86.67%           { scale: 1 0.05; }
-  87.21%, 90.99%   { scale: 1 1; }
-  91.52%           { scale: 1 0; }
-  92.07%           { scale: 1 1; }
+  19.71% { scale: 1 0.2; }
+  20.25%, 38.34% { scale: 1 1; }
+  38.88% { scale: 1 0.2; }
+  39.15%, 60% { scale: 1 1; }
+  66.42% { scale: 1 0.2; }
+  86.67% { scale: 1 0.05; }
+  87.21%, 90.99% { scale: 1 1; }
+  91.52% { scale: 1 0; }
+  92.07% { scale: 1 1; }
 }
-
+ 
 /* left eye */
 .boy__eyes::before { top: 0px; left: 0px; }
 /* right eye */
 .boy__eyes::after  { top: 0px; left: 60px; }
-
-/* ── Mouth ── */
+ 
 .boy__mouth {
   top: 50%;
   left: 50%;
 }
-
-/* Open / smile mouth */
+ 
 .boy__mouth::before {
   top: 22px;
   left: 50%;
@@ -444,14 +405,13 @@
   box-shadow: inset -65px 50px 0 -20px #be1520;
   animation: mouthOpen var(--time) linear infinite;
 }
-
+ 
 @keyframes mouthOpen {
-  0%, 100%         { translate: -50%; scale: 1; }
-  0.54%, 91.53%    { translate: -50% 22px; scale: 0; }
-  94.77%, 95.58%   { translate: -50%; scale: 0.7; }
+  0%, 100% { translate: -50%; scale: 1; }
+  0.54%, 91.53% { translate: -50% 22px; scale: 0; }
+  94.77%, 95.58% { translate: -50%; scale: 0.7; }
 }
-
-/* Closed / chewing mouth */
+ 
 .boy__mouth::after {
   top: 79px;
   left: -28px;
@@ -463,25 +423,24 @@
     linear-gradient(#303083, #303083) 15px 11px / 34px 2px no-repeat;
   animation: mouthClose var(--time) linear infinite, mouthMovement 0.7s linear infinite;
 }
-
+ 
 @keyframes mouthClose {
   0%, 0.53%, 91.54%, 100% { opacity: 0; }
-  0.54%, 91.53%           { opacity: 1; }
-  1.08%, 60%              { translate: 0px -4px; }
-  66.42%, 86.67%          { translate: 0px -30px; }
-  86.94%, 90.99%          { translate: -7px -30px; }
-  0%, 1.08%  { animation-play-state: running, paused; }
+  0.54%, 91.53% { opacity: 1; }
+  1.08%, 60% { translate: 0px -4px; }
+  66.42%, 86.67% { translate: 0px -30px; }
+  86.94%, 90.99% { translate: -7px -30px; }
+  0%, 1.08% { animation-play-state: running, paused; }
   1.09%, 100% { animation-play-state: running, running; }
 }
-
+ 
 @keyframes mouthMovement {
-  0%, 100% { background-position: 8px 1px,  33px -12px, 15px 11px; }
-  25%      { background-position: 12px 1px, 33px -12px, 15px 11px; }
-  50%      { background-position: 12px 5px, 33px -12px, 15px 11px; }
-  75%      { background-position: 8px 5px,  33px -12px, 15px 11px; }
+  0%, 100% { background-position: 8px 1px, 33px -12px, 15px 11px; }
+  25% { background-position: 12px 1px, 33px -12px, 15px 11px; }
+  50% { background-position: 12px 5px, 33px -12px, 15px 11px; }
+  75% { background-position: 8px 5px, 33px -12px, 15px 11px; }
 }
-
-/* ── Cheeks & nose ── */
+ 
 .boy__cheeks {
   top: 96px;
   left: 6px;
@@ -491,7 +450,7 @@
   border-radius: 50%;
   box-shadow: 126px 0 #ff8c94;
 }
-
+ 
 .boy__cheeks::before {
   top: -37px;
   left: 73px;
@@ -503,14 +462,13 @@
   border-radius: 0 8px 100% 0 / 0 8px 60% 0;
   animation: boyNose var(--time) linear infinite;
 }
-
+ 
 @keyframes boyNose {
-  0%, 100%    { translate: 0 0px; }
+  0%, 100% { translate: 0 0px; }
   0.54%, 2.16% { translate: 0 10px; }
   5.4%, 98.55% { translate: 0 15px; }
 }
-
-/* ── Left arm ── */
+ 
 .boy__leftArm {
   top: 0px;
   left: -10px;
@@ -522,18 +480,16 @@
   box-shadow: inset 90px 0 0 -20px white;
   animation: boyArm var(--time) linear infinite;
 }
-
+ 
 @keyframes boyArm {
-  0%, 100%          { rotate: 163deg; }
-  0.54%, 60%        { rotate: 173deg; }
-  /* ease-in into the swing, ease-out on settle */
-  60%               { rotate: 173deg; animation-timing-function: ease-in; }
-  66.42%, 90.99%    { rotate: 150deg; animation-timing-function: ease-out; }
-  93.42%, 95.58%    { rotate: 170deg; }
-  96.93%            { rotate: 149deg; }
-  98.55%            { rotate: 138deg; }
+  0%, 100% { rotate: 163deg; }
+  0.54%, 60% { rotate: 173deg; }
+  66.42%, 90.99% { rotate: 150deg; }
+  93.42%, 95.58% { rotate: 170deg; }
+  96.93% { rotate: 149deg; }
+  98.55% { rotate: 138deg; }
 }
-
+ 
 .boy__leftArm::before {
   top: 0px;
   left: calc(100% - 50px);
@@ -544,17 +500,16 @@
   transform-origin: inherit;
   animation: boyArmBefore var(--time) linear infinite;
 }
-
+ 
 @keyframes boyArmBefore {
-  0%, 100%       { rotate: 159deg; }
-  0.54%, 60%     { rotate: 153deg; }
-  60%            { rotate: 153deg; animation-timing-function: ease-in; }
-  66.42%, 90.99% { rotate: 209deg; animation-timing-function: ease-out; }
+  0%, 100% { rotate: 159deg; }
+  0.54%, 60% { rotate: 153deg; }
+  66.42%, 90.99% { rotate: 209deg; }
   93.42%, 94.77% { rotate: 114deg; }
-  95.58%         { rotate: 138deg; }
+  95.58% { rotate: 138deg; }
   96.93%, 98.55% { rotate: 189deg; }
 }
-
+ 
 .boy__leftArm::after {
   top: 0px;
   left: calc(100% - 50px);
@@ -572,34 +527,32 @@
   transform-origin: inherit;
   animation: boyArmAfter var(--time) linear infinite;
 }
-
+ 
 @keyframes boyArmAfter {
-  0%, 100%       { transform: rotate(155deg) translate(95px, -4px); }
-  0.54%, 60%     { transform: rotate(159deg) translate(95px, -18px); }
-  60%            { transform: rotate(159deg) translate(95px, -18px); animation-timing-function: ease-in; }
-  66.42%, 90.99% { transform: rotate(209deg) translate(95px, -18px); animation-timing-function: ease-out; }
+  0%, 100% { transform: rotate(155deg) translate(95px, -4px); }
+  0.54%, 60% { transform: rotate(159deg) translate(95px, -18px); }
+  66.42%, 90.99% { transform: rotate(209deg) translate(95px, -18px); }
   93.42%, 94.77% { transform: rotate(114deg) translate(100px, -8px); }
-  95.58%         { transform: rotate(138deg) translate(100px, -8px); }
+  95.58% { transform: rotate(138deg) translate(100px, -8px); }
   96.93%, 98.55% { transform: rotate(189deg) translate(100px, -8px); }
 }
-
-/* ── Chopsticks ── */
+ 
 .chopsticks {
   top: 0px;
   left: calc(100% - 50px);
   animation: chopsticks var(--time) linear infinite;
 }
-
+ 
 @keyframes chopsticks {
-  0%, 100%       { transform: rotate(155deg) translate(115px, -30px) rotate(0deg); }
-  0.54%, 60%     { transform: rotate(159deg) translate(115px, -44px) rotate(-11deg); }
+  0%, 100% { transform: rotate(155deg) translate(115px, -30px) rotate(0deg); }
+  0.54%, 60% { transform: rotate(159deg) translate(115px, -44px) rotate(-11deg); }
   66.42%, 90.99% { transform: rotate(209deg) translate(85px, -24px) rotate(-11deg); }
   93.42%, 94.77% { transform: rotate(114deg) translate(142px, -30px) rotate(64deg); }
-  95.58%         { transform: rotate(138deg) translate(126px, -32px) rotate(50deg); }
-  96.93%         { transform: rotate(189deg) translate(93px, -20px) rotate(50deg); }
-  98.55%         { transform: rotate(183deg) translate(93px, -9px)  rotate(50deg); }
+  95.58% { transform: rotate(138deg) translate(126px, -32px) rotate(50deg); }
+  96.93% { transform: rotate(189deg) translate(93px, -20px) rotate(50deg); }
+  98.55% { transform: rotate(183deg) translate(93px, -9px) rotate(50deg); }
 }
-
+ 
 .chopsticks::before {
   top: 0px;
   left: 0px;
@@ -611,15 +564,15 @@
   transform-origin: center center;
   animation: chopsticksBefore var(--time) linear infinite;
 }
-
+ 
 @keyframes chopsticksBefore {
   0%, 93.15%, 100% { rotate: 37deg; }
-  93.69%           { rotate: 42deg; }
-  93.96%, 94.23%   { rotate: 37deg; }
-  94.50%           { rotate: 42deg; }
-  94.77%           { rotate: 37deg; }
+  93.69% { rotate: 42deg; }
+  93.96%, 94.23% { rotate: 37deg; }
+  94.50% { rotate: 42deg; }
+  94.77% { rotate: 37deg; }
 }
-
+ 
 .chopsticks::after {
   top: 0px;
   left: 0px;
@@ -630,13 +583,12 @@
   transform-origin: center center;
   animation: chopsticksAfter var(--time) linear infinite;
 }
-
+ 
 @keyframes chopsticksAfter {
   0%, 90.99%, 100% { translate: calc(-50% - 3px) -1px; rotate: 34deg; }
-  93.42%           { translate: calc(-50% - 3px) 5px;  rotate: 36deg; }
+  93.42% { translate: calc(-50% - 3px) 5px; rotate: 36deg; }
 }
-
-/* ── Plate / bowl ── */
+ 
 .plate {
   top: 50%;
   left: 50%;
@@ -647,7 +599,7 @@
   translate: -50% 170px;
   z-index: 1;
 }
-
+ 
 .plate::after {
   top: -55px;
   left: 50%;
@@ -659,52 +611,23 @@
   border-radius: 0 0 35px 35px / 0 0 50px 50px;
   translate: -50%;
 }
-
-/* ── Noodle ── */
-/*
- * Gap fix: the noodle top was 13 px below the closed-mouth position
- * (mouthClose / .boy__mouth::after) throughout the eating phase.
- * All three translate-Y values below have been shifted up by 13 px:
- *   5.40 % / 60 % :  -36 px → -49 px
- *   66.42 %        :  -27 px → -40 px
- *   86.67 % / 98.81%: -14 px → -27 px
- *
- * Derivation (all coords relative to .boy):
- *   mouthClose top = head_top(-220) + headTranslate + 70 + 79 + mouthTranslate
- *   noodle top     = -28 + noodleTranslate
- *   gap            = noodleTop − mouthTop  (should be ≤ 0 to touch/overlap)
- */
+ 
 .noodle {
   top: -28px;
   left: 50%;
-  animation:
-    noodle       var(--time) linear infinite,
-    noodleLength var(--time) linear infinite;
+  animation: noodle var(--time) linear infinite, noodleLength var(--time) linear infinite;
 }
-
+ 
 @keyframes noodle {
-  /* ── translate ── */
   0%, 1.08%, 100% { translate: -50%; }
-
-  /* main eating hold: noodle raised to meet mouth */
-  5.40%, 60%   { translate: -50% -49px; }  /* fixed: was -36px */
-
-  /* deep slurp: head drops, noodle follows to stay in mouth */
-  66.42%       { translate: -50% -40px; animation-timing-function: ease-in; }  /* fixed: was -27px */
-
-  /* noodle at shortest before clip-out */
-  86.67%, 98.81% { translate: -50% -27px; }  /* fixed: was -14px */
-
-  /* noodle snaps back down for next cycle */
-  98.82%       { translate: -50% 105px; }
-
-  /* ── clip-path: controls which part of the noodle is visible ── */
-  /*    full height visible during main eating phase */
-  0%, 77.76%, 100%       { clip-path: polygon(-200% 0%, 300% 0%, 300% 100%, -200% 100%); }
-  /*    collapses to zero height (noodle fully slurped) */
-  86.67%, 90.99%, 98.82% { clip-path: polygon(-200% 0%, 300% 0%, 300%    0%, -200%    0%); }
+  5.40%, 60% { translate: -50% -36px; }
+  66.42% { translate: -50% -27px; }
+  86.67%, 98.81% { translate: -50% -14px; }
+  98.82% { translate: -50% 105px; }
+  0%, 77.76%, 100% { clip-path: polygon(-200% 0%, 300% 0%, 300% 100%, -200% 100%); }
+  86.67%, 90.99%, 98.82% { clip-path: polygon(-200% 0%, 300% 0%, 300% 0%, -200% 0%); }
 }
-
+ 
 .noodle,
 .noodle::before,
 .noodle::after {
@@ -712,23 +635,22 @@
   height: 160px;
   background:
     radial-gradient(circle at -7px 50%, transparent 6px 8px, #ffcf8b 8px 10px, transparent 0) 3px 11px / 4px 22px repeat-y,
-    radial-gradient(circle at 10px 50%, transparent 6px 8px, #ffcf8b 8px 10px, transparent 0) 0 0   / 3px 22px repeat-y;
+    radial-gradient(circle at 10px 50%, transparent 6px 8px, #ffcf8b 8px 10px, transparent 0) 0 0 / 3px 22px repeat-y;
 }
-
+ 
 .noodle::before,
 .noodle::after {
   animation: noodleLength var(--time) linear infinite;
 }
-
+ 
 @keyframes noodleLength {
-  0%, 2.16%    { background-position: 3px 11px, 0 0; }
-  97.2%, 100%  { background-position: 3px -1489px, 0 -1500px; }
+  0%, 2.16% { background-position: 3px 11px, 0 0; }
+  97.2%, 100% { background-position: 3px -1489px, 0 -1500px; }
 }
-
+ 
 .noodle::before { left: -7px; }
 .noodle::after  { left: 7px; }
-
-/* ── Right arm ── */
+ 
 .rightArm {
   top: 50%;
   left: 50%;
@@ -741,16 +663,13 @@
   z-index: 1;
   animation: rightArm var(--time) linear infinite;
 }
-
+ 
 @keyframes rightArm {
-  0%, 100%       { translate: 28px 43px; rotate: 35deg; }
-  /* ease-in before drop */
-  60%            { translate: 28px 43px; rotate: 35deg; animation-timing-function: ease-in; }
-  /* ease-out on settle */
-  66.42%, 90.99% { translate: 28px 69px; rotate: 23deg; animation-timing-function: ease-out; }
-  93.42%         { translate: 28px 43px; rotate: 35deg; }
+  0%, 60%, 100% { translate: 28px 43px; rotate: 35deg; }
+  66.42%, 90.99% { translate: 28px 69px; rotate: 23deg; }
+  93.42% { translate: 28px 43px; rotate: 35deg; }
 }
-
+ 
 .rightArm::before {
   top: 0px;
   left: calc(100% - 50px);
@@ -761,14 +680,13 @@
   transform-origin: inherit;
   animation: rightArmBefore var(--time) linear infinite;
 }
-
+ 
 @keyframes rightArmBefore {
-  0%, 60%, 100%  { rotate: 144deg; }
-  60%            { rotate: 144deg; animation-timing-function: ease-in; }
-  66.42%, 90.99% { rotate: 156deg; animation-timing-function: ease-out; }
-  93.42%         { rotate: 144deg; }
+  0%, 60%, 100% { rotate: 144deg; }
+  66.42%, 90.99% { rotate: 156deg; }
+  93.42% { rotate: 144deg; }
 }
-
+ 
 .rightArm::after {
   top: 0px;
   left: calc(100% - 50px);
@@ -786,10 +704,9 @@
   transform-origin: inherit;
   animation: rightArmAfter var(--time) linear infinite;
 }
-
+ 
 @keyframes rightArmAfter {
-  0%, 60%, 100%  { transform: rotate(144deg) translate(104px, -3px); }
-  60%            { transform: rotate(144deg) translate(104px, -3px); animation-timing-function: ease-in; }
-  66.42%, 90.99% { transform: rotate(156deg) translate(104px, -3px); animation-timing-function: ease-out; }
-  93.42%         { transform: rotate(144deg) translate(104px, -3px); }
+  0%, 60%, 100% { transform: rotate(144deg) translate(104px, -3px); }
+  66.42%, 90.99% { transform: rotate(156deg) translate(104px, -3px); }
+  93.42% { transform: rotate(144deg) translate(104px, -3px); }
 }
