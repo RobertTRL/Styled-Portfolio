@@ -1,62 +1,68 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/navbar.css';
-
+ 
 const NAV_ITEMS = [
-  { label: 'Home',     href: '#home'  },
-  { label: 'About Me', href: '#about' },
-  { label: 'Skills',   href: '#skills'},
-  { label: 'Contacts', href: '#contacts'},
-  { label: 'Projects', href: '#projects'},
+  { label: 'Home',     href: '#home'     },
+  { label: 'About Me', href: '#about'    },
+  { label: 'Skills',   href: '#skills'   },
+  { label: 'Contacts', href: '#contacts' },
+  { label: 'Projects', href: '#projects' },
 ];
-
+ 
 export default function NavBar({ isDark }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
+ 
   function handleItemClick(e, href) {
     if (!href || href === '#') return;
-
     e.preventDefault();
-    const id = href.replace('#', '');
-    const target = document.getElementById(id);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    const target = document.getElementById(href.replace('#', ''));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-
+ 
   return (
     <nav
       id="glass-nav"
       className={isDark ? 'dark' : 'light'}
       onMouseLeave={() => setHoveredIndex(null)}
     >
-      <AnimatePresence>
-        {NAV_ITEMS.map(({ label, href }, index) => (
-          <a
-            key={label}
-            href={href}
-            className="nav-item"
-            onMouseEnter={() => setHoveredIndex(index)}
-            onClick={(e) => handleItemClick(e, href)}
-          >
+      {NAV_ITEMS.map(({ label, href }, index) => (
+        <a
+          key={label}
+          href={href}
+          className="nav-item"
+          onMouseEnter={() => setHoveredIndex(index)}
+          onClick={(e) => handleItemClick(e, href)}
+        >
+          {/*
+           * The pill lives inside each nav-item so it inherits the item's
+           * bounding box via `inset: 0` in CSS. layoutId="hover-pill" tells
+           * Framer Motion to treat every conditional instance as the SAME
+           * element and morph between positions instead of fade-out/fade-in.
+           *
+           * Crucially: NO initial/animate/exit opacity props here.
+           * Those would fight layoutId and cause the flash you saw.
+           * AnimatePresence (below) only orchestrates the very first appear
+           * and very last disappear; mid-nav movement is pure layout morph.
+           */}
+          <AnimatePresence>
             {hoveredIndex === index && (
               <motion.div
                 id="hover-pill"
                 layoutId="hover-pill"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
                 transition={{
-                  type: 'tween',
-                  ease: [0.76, 0, 0.24, 1], 
-                  duration: 0.45,           
+                  type: 'spring',
+                  stiffness: 380,
+                  damping: 32,
+                  mass: 0.9,
                 }}
               />
             )}
-            <span className="nav-item-text">{label}</span>
-          </a>
-        ))}
-      </AnimatePresence>
+          </AnimatePresence>
+ 
+          <span className="nav-item-text">{label}</span>
+        </a>
+      ))}
     </nav>
   );
 }

@@ -11,37 +11,39 @@
   border-radius: 999px;
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
-
-/* ─── Dark mode (night sky - light clear glass) ─────────────────────────── */
+ 
+/* ─── Dark mode ─────────────────────────────────────────────────────────────
+   Clear glass: no backdrop-filter, no tint.
+   The border rim + inset highlights + top-shine pseudo-elements
+   are all that's needed to read as glass.
+   ─────────────────────────────────────────────────────────────────────────── */
 #glass-nav.dark {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(10px) saturate(160%) brightness(1.06);
-  -webkit-backdrop-filter: blur(10px) saturate(160%) brightness(1.06);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.40),
-    0 6px 18px rgba(0, 0, 0, 0.22),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.72),
-    inset 0 -1px 0  rgba(255, 255, 255, 0.08),
-    inset  1px 0    rgba(255, 255, 255, 0.22),
-    inset -1px 0    rgba(255, 255, 255, 0.22);
+    0 20px 60px rgba(0, 0, 0, 0.36),
+    0 6px 18px  rgba(0, 0, 0, 0.18),
+    inset 0  1.5px 0 rgba(255, 255, 255, 0.70),
+    inset 0 -1px  0 rgba(255, 255, 255, 0.07),
+    inset  1px 0    rgba(255, 255, 255, 0.20),
+    inset -1px 0    rgba(255, 255, 255, 0.20);
 }
-
-/* ─── Light mode (day sky - slightly green tinted glass) ────────────────── */
+ 
+/* ─── Light mode ────────────────────────────────────────────────────────────
+   Same clear-glass treatment — no backdrop-filter, no green tint.
+   ─────────────────────────────────────────────────────────────────────────── */
 #glass-nav.light {
-  background: rgba(70, 130, 90, 0.20);
-  backdrop-filter: blur(14px) saturate(180%) brightness(0.92);
-  -webkit-backdrop-filter: blur(14px) saturate(180%) brightness(0.92);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.36);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.28),
-    0 6px 18px rgba(0, 0, 0, 0.16),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.38),
-    inset 0 -1px 0  rgba(255, 255, 255, 0.06),
-    inset  1px 0    rgba(255, 255, 255, 0.14),
-    inset -1px 0    rgba(255, 255, 255, 0.14);
+    0 20px 60px rgba(0, 0, 0, 0.18),
+    0 6px 18px  rgba(0, 0, 0, 0.10),
+    inset 0  1.5px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -1px  0 rgba(255, 255, 255, 0.12),
+    inset  1px 0    rgba(255, 255, 255, 0.28),
+    inset -1px 0    rgba(255, 255, 255, 0.28);
 }
-
+ 
 /* ─── Wide gloss band sweeping down from the top ────────────────────────── */
 #glass-nav::before {
   content: '';
@@ -52,27 +54,27 @@
   z-index: 0;
   transition: background 0.4s ease;
 }
-
+ 
 #glass-nav.dark::before {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.46)  0%,
-    rgba(255, 255, 255, 0.18) 18%,
-    rgba(255, 255, 255, 0.04) 42%,
+    rgba(255, 255, 255, 0.44)  0%,
+    rgba(255, 255, 255, 0.16) 18%,
+    rgba(255, 255, 255, 0.03) 42%,
     transparent               100%
   );
 }
-
+ 
 #glass-nav.light::before {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.22)  0%,
-    rgba(255, 255, 255, 0.08) 20%,
-    rgba(255, 255, 255, 0.02) 45%,
+    rgba(255, 255, 255, 0.56)  0%,
+    rgba(255, 255, 255, 0.22) 20%,
+    rgba(255, 255, 255, 0.04) 45%,
     transparent               100%
   );
 }
-
+ 
 /* ─── Tight specular streak at the very top crown ───────────────────────── */
 #glass-nav::after {
   content: '';
@@ -86,25 +88,25 @@
   z-index: 0;
   transition: background 0.4s ease;
 }
-
+ 
 #glass-nav.dark::after {
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(255, 255, 255, 0.55)  0%,
-    rgba(255, 255, 255, 0.10) 55%,
+    rgba(255, 255, 255, 0.52)  0%,
+    rgba(255, 255, 255, 0.08) 55%,
     transparent               80%
   );
 }
-
+ 
 #glass-nav.light::after {
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(255, 255, 255, 0.28)  0%,
-    rgba(255, 255, 255, 0.05) 55%,
+    rgba(255, 255, 255, 0.70)  0%,
+    rgba(255, 255, 255, 0.18) 55%,
     transparent               80%
   );
 }
-
+ 
 /* ─── Nav items ──────────────────────────────────────────────────────────── */
 .nav-item {
   position: relative;
@@ -122,66 +124,60 @@
   white-space: nowrap;
   transition: color 0.2s, text-shadow 0.4s;
 }
-
+ 
+/* nav-item-text sits above the absolutely-positioned pill */
 .nav-item-text {
   position: relative;
-  z-index: 2; /* Sits perfectly higher than the absolute pill graphic layers */
+  z-index: 2;
 }
-
+ 
 #glass-nav.dark .nav-item {
   color: rgba(255, 255, 255, 0.82);
-  text-shadow: none;
 }
-
 #glass-nav.dark .nav-item:hover {
   color: rgba(255, 255, 255, 1);
 }
-
+ 
 #glass-nav.light .nav-item {
-  color: #000;
-  text-shadow: none;
+  color: rgba(0, 0, 0, 0.75);
 }
-
 #glass-nav.light .nav-item:hover {
-  color: #000;
+  color: rgba(0, 0, 0, 1);
 }
-
-/* ─── Hover pill (superimposed glass) ────────────────────────────────────── */
+ 
+/* ─── Hover pill ─────────────────────────────────────────────────────────── */
 #hover-pill {
   position: absolute;
-  inset: 0; /* Extends to fill the precise padding box boundary of the active .nav-item parent */
+  inset: 0;           /* fills the nav-item's padding box */
   border-radius: 999px;
   pointer-events: none;
   z-index: 1;
 }
-
+ 
+/* Clear glass pill — no backdrop-filter, no tint */
 #glass-nav.dark #hover-pill {
-  background: rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(6px) saturate(200%) brightness(1.22) contrast(1.06);
-  -webkit-backdrop-filter: blur(6px) saturate(200%) brightness(1.22) contrast(1.06);
-  border: 1px solid rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.62);
   box-shadow:
-    0 2px 20px rgba(0, 0, 0, 0.14),
-    inset 0 2px 0      rgba(255, 255, 255, 0.96),
-    inset 0 -1px 0     rgba(255, 255, 255, 0.38),
-    inset  1.5px 0     rgba(255, 255, 255, 0.55),
-    inset -1.5px 0     rgba(255, 255, 255, 0.55);
+    0 2px 20px  rgba(0, 0, 0, 0.12),
+    inset 0  2px 0    rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0    rgba(255, 255, 255, 0.30),
+    inset  1.5px 0    rgba(255, 255, 255, 0.50),
+    inset -1.5px 0    rgba(255, 255, 255, 0.50);
 }
-
+ 
 #glass-nav.light #hover-pill {
-  background: rgba(50, 100, 65, 0.28);
-  backdrop-filter: blur(8px) saturate(180%) brightness(0.88);
-  -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.88);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
-    0 2px 20px rgba(0, 0, 0, 0.22),
-    inset 0 1.5px 0    rgba(255, 255, 255, 0.50),
-    inset 0 -1px 0     rgba(0, 0, 0, 0.15),
-    inset  1.5px 0     rgba(255, 255, 255, 0.25),
-    inset -1.5px 0     rgba(255, 255, 255, 0.25);
+    0 2px 20px  rgba(0, 0, 0, 0.10),
+    inset 0  2px 0    rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0    rgba(255, 255, 255, 0.20),
+    inset  1.5px 0    rgba(255, 255, 255, 0.40),
+    inset -1.5px 0    rgba(255, 255, 255, 0.40);
 }
-
-/* Broad silky gloss covering the top ~60% */
+ 
+/* Broad silky gloss covering the top ~60% of the pill */
 #hover-pill::before {
   content: '';
   position: absolute;
@@ -189,30 +185,29 @@
   border-radius: 999px;
   pointer-events: none;
   z-index: 1;
-  transition: background 0.4s ease;
 }
-
+ 
 #glass-nav.dark #hover-pill::before {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.78)  0%,
-    rgba(255, 255, 255, 0.42) 22%,
-    rgba(255, 255, 255, 0.10) 50%,
-    rgba(255, 255, 255, 0.02) 72%,
+    rgba(255, 255, 255, 0.74)  0%,
+    rgba(255, 255, 255, 0.38) 22%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.01) 72%,
     transparent               100%
   );
 }
-
+ 
 #glass-nav.light #hover-pill::before {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.38)  0%,
-    rgba(255, 255, 255, 0.14) 24%,
-    rgba(255, 255, 255, 0.03) 52%,
+    rgba(255, 255, 255, 0.82)  0%,
+    rgba(255, 255, 255, 0.40) 24%,
+    rgba(255, 255, 255, 0.08) 52%,
     transparent               100%
   );
 }
-
+ 
 /* Tight hot-spot glint at the very crown */
 #hover-pill::after {
   content: '';
@@ -224,52 +219,57 @@
   border-radius: 999px;
   pointer-events: none;
   z-index: 2;
-  transition: background 0.4s ease;
 }
-
+ 
 #glass-nav.dark #hover-pill::after {
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(255, 255, 255, 0.92)  0%,
-    rgba(255, 255, 255, 0.30) 40%,
+    rgba(255, 255, 255, 0.90)  0%,
+    rgba(255, 255, 255, 0.28) 40%,
     transparent               75%
   );
 }
-
+ 
 #glass-nav.light #hover-pill::after {
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(255, 255, 255, 0.45)  0%,
-    rgba(255, 255, 255, 0.12) 40%,
+    rgba(255, 255, 255, 0.95)  0%,
+    rgba(255, 255, 255, 0.35) 40%,
     transparent               75%
   );
 }
-
+ 
 /* ─── Media Queries ──────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   #glass-nav {
     width: 94vw;
-    justify-content: space-around; 
+    justify-content: space-around;
   }
-
+ 
   .nav-item {
-    font-size: clamp(13px, 4vw, 14px); 
-    padding: 8px 1.5vw; 
+    font-size: clamp(13px, 4vw, 14px);
+    padding: 8px 1.5vw;
+  }
+ 
+  /* Pill looks cramped at this width — disable it entirely */
+  #hover-pill {
+    display: none !important;
   }
 }
-
+ 
 @media (max-width: 345px) {
   #glass-nav {
     width: 98vw;
   }
-
+ 
   .nav-item {
-    font-size: clamp(11px, 3.5vw, 13px); 
-    padding: 6px 4px; 
+    font-size: clamp(11px, 3.5vw, 13px);
+    padding: 6px 4px;
     letter-spacing: -0.02em;
   }
 }
-
-#glass-nav, #glass-nav * {
+ 
+#glass-nav,
+#glass-nav * {
   -webkit-tap-highlight-color: transparent;
 }
