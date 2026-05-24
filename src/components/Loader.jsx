@@ -3,10 +3,15 @@ import '../styles/loader.css';
  
 const LETTERS = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
  
-// Must match --time in loader.css exactly
+// ─── Timing constants ──────────────────────────────────────────────────────
+// ANIM_DURATION_MS must exactly match `--time` in loader.css.
 const ANIM_DURATION_MS = 7000;
-// mouthOpen peaks at 95.58% — this is the smile climax
-const SMILE_PEAK_PCT   = 0.88;
+ 
+// The dissolve starts at 88% of the cycle so that, 420 ms later (the 30%
+// mark of the 1.4 s smileZoomExit), the zoom coincides with the open-mouth
+// smile keyframe at 94.77 % — making the exit feel like the boy "bursts"
+// out of the screen mid-smile.
+const DISSOLVE_START_PCT = 0.88;
  
 const Loader = ({ isDark, isLoading }) => {
   const [shouldRender, setShouldRender] = useState(true);
@@ -16,84 +21,91 @@ const Loader = ({ isDark, isLoading }) => {
  
   const eyeRef = useRef(null);
  
-  // Responsive scaling
+  // ── Responsive scaling ────────────────────────────────────────────────────
   useEffect(() => {
     const handleResize = () => {
-      const scaleX = (window.innerWidth  * 0.95) / 800;
-      const scaleY = (window.innerHeight * 0.80) / 600;
-      setScale(Math.max(0.6, Math.min(Math.min(scaleX, scaleY), 2.5)));
+      const sx = (window.innerWidth  * 0.95) / 800;
+      const sy = (window.innerHeight * 0.80) / 600;
+      setScale(Math.max(0.6, Math.min(Math.min(sx, sy), 2.5)));
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
  
-  // Sync dissolve exit to smile peak keyframe
+  // ── Sync dissolve exit to smile keyframe ──────────────────────────────────
   useEffect(() => {
-    if (!isLoading) {
-      const smileMs = SMILE_PEAK_PCT * ANIM_DURATION_MS; 
+    if (isLoading) return;
  
-      // Read the boy animation's current position in its cycle
+    let waitMs = 0;
+ 
+    try {
       const boyEl = document.querySelector('.boy');
       const anim  = boyEl
-        ?.getAnimations()
+        ?.getAnimations?.()
         .find(a => a.animationName === 'boy');
  
-      let waitMs = 0;
- 
-      if (anim && anim.currentTime != null) {
+      if (anim?.currentTime != null) {
+        const targetMs      = DISSOLVE_START_PCT * ANIM_DURATION_MS;
         const currentInCycle = anim.currentTime % ANIM_DURATION_MS;
-        waitMs = smileMs - currentInCycle;
+        waitMs = targetMs - currentInCycle;
  
-        // If we've already passed the smile peak this cycle, wait for next cycle
+        // Already past the target this cycle — wait for the next one
         if (waitMs < 0) waitMs += ANIM_DURATION_MS;
  
-        // If we're already very close (within 200ms), go now rather than
-        // making the user wait a full extra cycle
+        // Within 200 ms of the target: fire now rather than waiting a full
+        // extra cycle (avoids a near-miss adding 7 s of delay)
         if (waitMs > ANIM_DURATION_MS - 200) waitMs = 0;
       }
- 
-      const dissolveTimer = setTimeout(() => setDissolving(true), waitMs);
-      // Unmount 1.5s after the dissolve animation starts
-      const unmountTimer  = setTimeout(() => setShouldRender(false), waitMs + 1500);
- 
-      return () => {
-        clearTimeout(dissolveTimer);
-        clearTimeout(unmountTimer);
-      };
+    } catch {
+      // getAnimations unsupported or element missing — dissolve immediately
+      waitMs = 0;
     }
+ 
+    const dissolveTimer = setTimeout(() => setDissolving(true), waitMs);
+    const unmountTimer  = setTimeout(() => setShouldRender(false), waitMs + 1500);
+ 
+    return () => {
+      clearTimeout(dissolveTimer);
+      clearTimeout(unmountTimer);
+    };
   }, [isLoading]);
  
-  // Mouse tracking for eye follow
+  // ── Mouse tracking for eye follow ─────────────────────────────────────────
   useEffect(() => {
     const handleMouseMove = (e) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
  
-  // Iris offset
+  // ── Iris offset (computed per-render, driven by mousePos state) ───────────
   let irisTx = 0;
   let irisTy = 0;
  
   if (eyeRef.current) {
-    const rect       = eyeRef.current.getBoundingClientRect();
-    const faceCenterX = rect.left + (62 * scale);
-    const faceCenterY = rect.top  + (32 * scale);
+    const rect        = eyeRef.current.getBoundingClientRect();
+    const faceCenterX = rect.left + 62 * scale;
+    const faceCenterY = rect.top  + 32 * scale;
     const rawDx = mousePos.x - faceCenterX;
     const rawDy = mousePos.y - faceCenterY;
     const mag   = Math.sqrt(rawDx * rawDx + rawDy * rawDy);
-    const limitPx = 10;
     if (mag > 0) {
-      const targetMag = Math.min(mag * 0.08, limitPx);
-      irisTx = (rawDx / mag) * targetMag;
-      irisTy = (rawDy / mag) * targetMag;
+      const travel = Math.min(mag * 0.08, 10);
+      irisTx = (rawDx / mag) * travel;
+      irisTy = (rawDy / mag) * travel;
     }
   }
  
   if (!shouldRender) return null;
  
   return (
-    <div className={`loader-container ${isDark ? 'dark-mode' : 'light-mode'} ${dissolving ? 'water-dissolve' : ''}`}>
+    <div
+      className={[
+        'loader-container',
+        isDark ? 'dark-mode' : 'light-mode',
+        dissolving ? 'water-dissolve' : '',
+      ].join(' ')}
+    >
       <div className="loader-pattern" />
       <div className="loader-overlay" />
  
@@ -110,22 +122,25 @@ const Loader = ({ isDark, isLoading }) => {
             >
               <div className="boy">
                 <div className="boy__head">
-                  <div className="boy__hair"></div>
+                  <div className="boy__hair" />
                   <div
                     ref={eyeRef}
                     className="boy__eyes"
-                    style={{ '--iris-tx': `${irisTx}px`, '--iris-ty': `${irisTy}px` }}
-                  ></div>
-                  <div className="boy__mouth"></div>
-                  <div className="boy__cheeks"></div>
+                    style={{
+                      '--iris-tx': `${irisTx}px`,
+                      '--iris-ty': `${irisTy}px`,
+                    }}
+                  />
+                  <div className="boy__mouth" />
+                  <div className="boy__cheeks" />
                 </div>
-                <div className="noodle"></div>
+                <div className="noodle" />
                 <div className="boy__leftArm">
-                  <div className="chopsticks"></div>
+                  <div className="chopsticks" />
                 </div>
               </div>
-              <div className="plate"></div>
-              <div className="rightArm"></div>
+              <div className="plate" />
+              <div className="rightArm" />
             </div>
           </div>
  
