@@ -72,6 +72,8 @@
   align-items: flex-start;
   gap: clamp(1rem, 3vw, 3rem);
   width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 /* ── Watermark ── */
