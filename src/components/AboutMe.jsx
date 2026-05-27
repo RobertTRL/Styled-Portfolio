@@ -35,8 +35,8 @@ export default function AboutMe({ isDark }) {
             I'm <span className="highlight name">Robert Toroitich</span>, a{' '}
             <span className="highlight role">Full-Stack Software Engineer</span> and{' '}
             <span className="highlight role">Graphic Designer</span>. I especially
-            focus on building detailed, pragmatic and{' '}
-            <span className="highlight exp">immersive web experiences</span>.
+            focus on building detailed, pragmatic and immersive{' '}
+            <span className="highlight exp">web experiences</span>.
             Walk with me as I turn your ideas into production-ready websites.
           </p>
         </div>
