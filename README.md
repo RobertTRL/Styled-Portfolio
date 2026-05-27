@@ -6,7 +6,7 @@ A personal portfolio built from scratch with React and Vite. Designed to be imme
 
 ## Live Demo
 
-> _https://personal-portfolio-seven-liard.vercel.app/_
+> _https://robertktoroitich.com/_
 
 ---
 
