@@ -363,6 +363,14 @@
   border-radius: 4px;
 }
 
+.card-desc-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .skills-watermark {

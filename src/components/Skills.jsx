@@ -42,11 +42,25 @@ const CERTIFICATIONS = [
     name:   'Software Engineering',
     issuer: 'Moringa School',
     year:   '2026',
+    description: [
+      'Mastered full-stack web development across HTML, CSS, JavaScript, React, Python, and Flask — building real-world projects at every stage.',
+      'Developed interactive front-end applications using React, including component-based architecture, state management, and API integration.',
+      'Built secure REST APIs and relational database systems using Flask, SQLAlchemy, and JWT authentication.',
+      'Completed a full-stack capstone project with a React frontend, Flask backend, and a relational database, solving a real business problem.',
+      'Strengthened professional skills through career coaching, mock interviews, and portfolio development with job-hunting support.',
+    ],
   },
   {
-    name:   'Graphic Design MasterClass',
+    name:   'Graphic Design Masterclass',
     issuer: 'Udemy.com',
     year:   '2026',
+    description: [
+      'Gained a strong foundation in design theory — covering color theory, typography, composition, layout rules, and grid systems.',
+      'Built hands-on proficiency in Adobe Photoshop, Illustrator, and InDesign through real-world advertising and branding projects.',
+      'Designed complete brand identities from scratch, including logos, business cards, letterheads, and multi-page editorial layouts.',
+      'Constructed a personal design portfolio of original work produced throughout the course, ready for client and employer presentation.',
+      'Learned to integrate AI tools such as Nano Banana Pro into the design workflow for faster, more creative output.',
+    ],
   },
 ];
 
@@ -103,6 +117,13 @@ export default function Skills({ isDark }) {
                   <span className="card-period">{item.year}</span>
                 </div>
                 <p className="card-sub">{item.issuer}</p>
+                {item.description && (
+                  <ul className="card-desc-list">
+                  {item.description.map((point, j) => (
+                      <li key={j} className="card-desc">{point}</li>
+                  ))}
+                 </ul>
+                )}
               </div>
             ))}
           </div>
