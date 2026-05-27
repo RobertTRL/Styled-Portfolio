@@ -4,7 +4,7 @@
 /* ── Theme Variables ── */
 .hero-section.dark-mode {
   --text-main: #ffffff;
-  --text-desc: rgba(255, 255, 255, 0.45);
+  --text-desc: rgba(255, 255, 255, 0.58);
   --bg-glow: rgba(100, 120, 255, 0.07);
   /* Leaves it transparent to show your black page, or you can set it to #000000 */
   --bg-color: transparent; 
@@ -36,7 +36,7 @@
   z-index: 2;
   overflow: hidden;
   transition: background-color 0.3s ease;
-  padding-bottom: 13.5vw;
+  padding-bottom: 10.5vw;
 }
 
 /* subtle radial glow centered in the background */
@@ -79,15 +79,17 @@
 
 /* ── description ── */
 .description {
-  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-  color: var(--text-desc);
-  max-width: 480px;
-  line-height: 1.7;
   font-family: 'Libre Baskerville', serif;
-  font-size: 1rem;
-  margin: 0 auto 2.5rem auto; 
+  font-size: clamp(1rem, 1.6vw, 1.36rem);
   font-weight: 400;
-  letter-spacing: 0.01em;
+  color: var(--text-desc);
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+  max-width: 520px;
+  margin: 0 auto 2.5rem auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid currentColor;
+  opacity: 0.9;            
   transition: color 0.3s ease;
 }
 

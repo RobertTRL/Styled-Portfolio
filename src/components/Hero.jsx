@@ -29,8 +29,7 @@ export default function Hero({ isDark }) {
       </div>
 
       <p className="description">
-        Hi there. I'm Robert Toroitich, and you've just landed on my portfolio page.
-        I'm your go-to Full-stack Developer!
+        Hi there. I'm Robert Toroitich, and you've just landed on my portfolio page!
       </p>
 
       <motion.button
