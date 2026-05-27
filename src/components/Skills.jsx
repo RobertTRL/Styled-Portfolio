@@ -56,7 +56,7 @@ const CERTIFICATIONS = [
     year:   '2026',
     description: [
       'Gained a strong foundation in design theory — covering color theory, typography, composition, layout rules, and grid systems.',
-      'Built hands-on proficiency in Adobe Photoshop, Illustrator, and InDesign through real-world advertising and branding projects.',
+      'Built hands-on projects in Adobe Photoshop, Illustrator, and InDesign through real-world advertising and branding projects.',
       'Designed complete brand identities from scratch, including logos, business cards, letterheads, and multi-page editorial layouts.',
       'Constructed a personal design portfolio of original work produced throughout the course, ready for client and employer presentation.',
       'Learned to integrate AI tools such as Nano Banana Pro into the design workflow for faster, more creative output.',
