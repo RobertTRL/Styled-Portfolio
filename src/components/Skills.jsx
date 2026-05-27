@@ -47,7 +47,7 @@ const CERTIFICATIONS = [
       'Developed interactive front-end applications using React, including component-based architecture, state management, and API integration.',
       'Built secure REST APIs and relational database systems using Flask, SQLAlchemy, and JWT authentication.',
       'Completed a full-stack capstone project with a React frontend, Flask backend, and a relational database, solving a real business problem.',
-      'Strengthened professional skills through career coaching, mock interviews, and portfolio development with job-hunting support.',
+      'Strengthened professional skills through career coaching, mock interviews, and learning soft skills with job-hunting support.',
     ],
   },
   {
