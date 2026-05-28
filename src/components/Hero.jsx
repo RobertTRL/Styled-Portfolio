@@ -1,47 +1,42 @@
 import '../styles/hero.css';
-import { motion } from 'framer-motion';
 
 export default function Hero({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
 
   function scrollToAbout() {
-    document.getElementById('about')?.scrollIntoView({
+    const options = {
       behavior: 'smooth',
       block: 'start',
-    });
+    };
+    const target = document.getElementById('about');
+
+    if (target) {
+      target.scrollIntoView(options);
+      return;
+    }
+
+    window.setTimeout(() => {
+      document.getElementById('about')?.scrollIntoView(options);
+    }, 700);
   }
 
   return (
     <div className={`hero-section ${themeClass}`} id="home">
       <div className="main-text-wrapper">
-        <motion.h1
-          className="main-text"
-          whileHover={{ y: -12 }}
-          transition={{
-            type: 'spring',
-            stiffness: 400,
-            damping: 10,
-          }}
-        >
+        <h1 className="main-text">
           I focus on making<br />
           <span className="serif-word">immersive</span> experiences.
-        </motion.h1>
+        </h1>
       </div>
 
       <p className="description">
         Hi there. I'm Robert Toroitich, and you've just landed on my portfolio page!
       </p>
 
-      <motion.button
-        className="hero-btn"
-        onClick={scrollToAbout}
-        whileHover={{ x: 6 }}
-        whileTap={{ x: 3, opacity: 0.6 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-      >
+      <button className="hero-btn" onClick={scrollToAbout}>
         Learn More
-        <span className="hero-btn-arrow" aria-hidden="true">↓</span>
-      </motion.button>
+        <span className="hero-btn-arrow" aria-hidden="true">&darr;</span>
+      </button>
     </div>
   );
 }
