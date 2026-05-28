@@ -1,19 +1,44 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import Header from './components/Header';
-import Background from './components/Background.jsx';
 import './App.css';
 import './styles/bgandswitch.css';
-import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
-import AboutMe from './components/AboutMe.jsx'
-import Skills from './components/Skills.jsx'
-import Contacts from './components/Contacts.jsx';
-import Loader from './components/Loader.jsx';
-import GreetingBoy from './components/GreetingBoy.jsx';
-import CustomCursor from './components/CustomCursor.jsx';
-import Projects from './components/Projects.jsx';
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from "@vercel/speed-insights/react"
+
+const AboutMe = lazy(() => import('./components/AboutMe.jsx'));
+const Background = lazy(() => import('./components/Background.jsx'));
+const Contacts = lazy(() => import('./components/Contacts.jsx'));
+const CustomCursor = lazy(() => import('./components/CustomCursor.jsx'));
+const GreetingBoy = lazy(() => import('./components/GreetingBoy.jsx'));
+const Navbar = lazy(() => import('./components/Navbar.jsx'));
+const Projects = lazy(() => import('./components/Projects.jsx'));
+const Skills = lazy(() => import('./components/Skills.jsx'));
+const Analytics = lazy(() =>
+  import('@vercel/analytics/react').then((module) => ({ default: module.Analytics }))
+);
+const SpeedInsights = lazy(() =>
+  import('@vercel/speed-insights/react').then((module) => ({ default: module.SpeedInsights }))
+);
+
+function scheduleIdle(callback, delay = 0, timeout = 1500) {
+  let idleId;
+  const timeoutId = window.setTimeout(() => {
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(callback, { timeout });
+    } else {
+      idleId = window.setTimeout(callback, 0);
+    }
+  }, delay);
+
+  return () => {
+    window.clearTimeout(timeoutId);
+    if (idleId === undefined) return;
+    if ('cancelIdleCallback' in window) {
+      window.cancelIdleCallback(idleId);
+    } else {
+      window.clearTimeout(idleId);
+    }
+  };
+}
 
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -23,14 +48,24 @@ const App = () => {
   });
 
   const [isPreload, setIsPreload] = useState(true);
-  const [isLoading, setIsLoading] = useState(true)
+  const [showBackground, setShowBackground] = useState(false);
+  const [showBelowFold, setShowBelowFold] = useState(false);
+  const [showEnhancements, setShowEnhancements] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => setIsPreload(false), 50);
-    const loadId = setTimeout(() => setIsLoading(false), 5500);
+    const cancelBackground = scheduleIdle(() => setShowBackground(true), 250);
+    const cancelBelowFold = scheduleIdle(() => setShowBelowFold(true), 600);
+    const cancelEnhancements = scheduleIdle(() => setShowEnhancements(true), 900);
+    const cancelAnalytics = scheduleIdle(() => setShowAnalytics(true), 2500, 3000);
+
     return () => {
-      clearTimeout(timeoutId)
-      clearTimeout(loadId)
+      clearTimeout(timeoutId);
+      cancelBackground();
+      cancelBelowFold();
+      cancelEnhancements();
+      cancelAnalytics();
     };
   }, []);
 
@@ -44,23 +79,43 @@ const App = () => {
 
   return (
     <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
-      <CustomCursor isDark={isDark}/>
-      {/* <Loader isDark={isDark} isLoading={isLoading} /> */}
-      <Background />
-      <div className='items'>
-        <Header isDark={isDark} onToggle={handleToggle} />
-        <GreetingBoy/>
+      <Suspense fallback={null}>
+        {showEnhancements && <CustomCursor isDark={isDark} />}
+        {showBackground && <Background />}
+      </Suspense>
+
+      <Header isDark={isDark} onToggle={handleToggle} />
+
+      <main className="items" id="content">
+        <Suspense fallback={null}>
+          {showEnhancements && <GreetingBoy />}
+        </Suspense>
         <Hero isDark={isDark} />
-        <AboutMe isDark={isDark} />
-        <Skills isDark={isDark} />
-        <Contacts isDark={isDark} />
-        <Projects isDark={isDark} />
-        <Navbar isDark={isDark} />
-      </div>
-      <Analytics />
-      <SpeedInsights />
+
+        <Suspense fallback={null}>
+          {showBelowFold && (
+            <>
+              <AboutMe isDark={isDark} />
+              <Skills isDark={isDark} />
+              <Contacts isDark={isDark} />
+              <Projects isDark={isDark} />
+            </>
+          )}
+        </Suspense>
+      </main>
+
+      <Suspense fallback={null}>
+        {showEnhancements && <Navbar isDark={isDark} />}
+        {showAnalytics && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
+      </Suspense>
     </div>
   );
 };
+
 
 export default App;
