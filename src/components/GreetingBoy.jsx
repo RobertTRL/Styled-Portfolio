@@ -5,6 +5,8 @@ const GreetingBoy = ({ greeting = "Hello!" }) => {
   const [mood, setMood] = useState('happy');
  
   useEffect(() => {
+    if (mood !== 'happy') return undefined;
+
     const timer = setTimeout(() => {
       setMood('bored');
     }, 22000);
@@ -19,6 +21,7 @@ const GreetingBoy = ({ greeting = "Hello!" }) => {
       className="greeting-container"
       onMouseEnter={goHappy}
       onClick={goHappy}
+      aria-hidden="true"
     >
       <div className={`speech-bubble ${mood === 'happy' ? 'show' : ''}`}>
         {greeting}
