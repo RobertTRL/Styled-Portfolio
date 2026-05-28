@@ -79,7 +79,7 @@ export default function CustomCursor({ isDark = false }) {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
       }
-      if (!visible) setVisible(true);
+      setVisible((current) => current || true);
     };
 
     const onMouseEnter = () => setVisible(true);
