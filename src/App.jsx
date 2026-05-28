@@ -22,6 +22,18 @@ const App = () => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
+  const [isPreload, setIsPreload] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setIsPreload(false), 50);
+    const loadId = setTimeout(() => setIsLoading(false), 5500);
+    return () => {
+      clearTimeout(timeoutId)
+      clearTimeout(loadId)
+    };
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('isDark', JSON.stringify(isDark));
   }, [isDark]);
@@ -33,6 +45,7 @@ const App = () => {
   return (
     <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
       <CustomCursor isDark={isDark}/>
+      {/* <Loader isDark={isDark} isLoading={isLoading} /> */}
       <Background />
       <div className='items'>
         <Header isDark={isDark} onToggle={handleToggle} />
