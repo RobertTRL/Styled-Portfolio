@@ -1,45 +1,40 @@
-import * as React from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import "../styles/githubcalendar.css"
- 
-// Join truthy class names (replaces the cn() / clsx utility)
+import * as React from "react";
+import "../styles/githubcalendar.css";
+
 function cx(...classes) {
-    return classes.filter(Boolean).join(" ")
+    return classes.filter(Boolean).join(" ");
 }
- 
-// Maps a contribution level + schema + theme to a CSS class name
+
 function getLevelClass(level, schema = "green", isDark = false) {
-    const theme = isDark ? "dark" : "light"
+    const theme = isDark ? "dark" : "light";
     const map = {
-        NONE:           `gc-${schema}-0-${theme}`,
+        NONE: `gc-${schema}-0-${theme}`,
         FIRST_QUARTILE: `gc-${schema}-1-${theme}`,
-        SECOND_QUARTILE:`gc-${schema}-2-${theme}`,
+        SECOND_QUARTILE: `gc-${schema}-2-${theme}`,
         THIRD_QUARTILE: `gc-${schema}-3-${theme}`,
-        FOURTH_QUARTILE:`gc-${schema}-4-${theme}`,
-    }
-    return map[level] ?? `gc-${schema}-0-${theme}`
+        FOURTH_QUARTILE: `gc-${schema}-4-${theme}`,
+    };
+    return map[level] ?? `gc-${schema}-0-${theme}`;
 }
- 
-// Maps shape prop to a CSS class name
+
 function getShapeClass(shape) {
     const map = {
-        circle:   "gc-shape-circle",
-        square:   "gc-shape-square",
+        circle: "gc-shape-circle",
+        square: "gc-shape-square",
         squircle: "gc-shape-squircle",
-        rounded:  "gc-shape-rounded",
-    }
-    return map[shape] ?? "gc-shape-rounded"
+        rounded: "gc-shape-rounded",
+    };
+    return map[shape] ?? "gc-shape-rounded";
 }
- 
-// Glow colour per schema
+
 const glowColors = {
-    green:  "#10b981",
-    blue:   "#3b82f6",
+    green: "#10b981",
+    blue: "#3b82f6",
     purple: "#a855f7",
     orange: "#f97316",
-    gray:   "#a1a1aa",
-}
- 
+    gray: "#a1a1aa",
+};
+
 export function GithubCalendar({
     username,
     variant = "default",
@@ -50,46 +45,50 @@ export function GithubCalendar({
     colorSchema = "green",
     isDark = false,
 }) {
-    const [data, setData] = React.useState(null)
-    const [loading, setLoading] = React.useState(true)
-    const [error, setError] = React.useState(null)
-    const [hoveredDate, setHoveredDate] = React.useState(null)
-    const [hoveredCount, setHoveredCount] = React.useState(null)
-    const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 })
- 
+    const [data, setData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(null);
+    const [hoveredDate, setHoveredDate] = React.useState(null);
+    const [hoveredCount, setHoveredCount] = React.useState(null);
+    const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
+
     React.useEffect(() => {
-        const fetchData = async () => {
+        if (!username) return undefined;
+
+        const controller = new AbortController();
+
+        async function fetchData() {
             try {
-                setLoading(true)
+                setLoading(true);
                 const response = await fetch(
-                    `https://github-contributions-api.deno.dev/${username}.json`
-                )
-                if (!response.ok) throw new Error("Failed to fetch GitHub data")
-                setData(await response.json())
+                    `https://github-contributions-api.deno.dev/${username}.json`,
+                    { signal: controller.signal }
+                );
+                if (!response.ok) throw new Error("Failed to fetch GitHub data");
+                setData(await response.json());
             } catch (err) {
-                setError(err instanceof Error ? err.message : "An error occurred")
+                if (err.name !== "AbortError") {
+                    setError(err instanceof Error ? err.message : "An error occurred");
+                }
             } finally {
-                setLoading(false)
+                if (!controller.signal.aborted) setLoading(false);
             }
         }
- 
-        if (username) fetchData()
-    }, [username])
- 
+
+        fetchData();
+        return () => controller.abort();
+    }, [username]);
+
     if (error) {
-        return (
-            <div className={cx("gc-error", className)}>
-                Error: {error}
-            </div>
-        )
+        return <div className={cx("gc-error", className)}>Error: {error}</div>;
     }
- 
+
     if (loading) {
-        return <div className={cx("gc-loading", className)} />
+        return <div className={cx("gc-loading", className)} aria-hidden="true" />;
     }
- 
-    const weeks = data?.contributions || []
- 
+
+    const weeks = data?.contributions || [];
+
     return (
         <div className={cx("gc-container", className)}>
             {showTotal && (
@@ -116,79 +115,69 @@ export function GithubCalendar({
                     </span>
                 </div>
             )}
- 
+
             <div
                 className="gc-grid"
                 onMouseLeave={() => {
-                    setHoveredDate(null)
-                    setHoveredCount(null)
+                    setHoveredDate(null);
+                    setHoveredCount(null);
                 }}
+                aria-label={`GitHub contribution calendar for ${username}`}
             >
-                {/* Tooltip */}
-                <AnimatePresence>
-                    {hoveredDate && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 5, scale: 0.9 }}
-                            transition={{ duration: 0.2 }}
-                            className="gc-tooltip"
-                            style={{ left: mousePos.x, top: mousePos.y - 40 }}
-                        >
-                            <span className="gc-tooltip-count">{hoveredCount}</span>
-                            <span className="gc-tooltip-label">contributions on {hoveredDate}</span>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
- 
+                {hoveredDate && (
+                    <div
+                        className="gc-tooltip"
+                        style={{ left: mousePos.x, top: mousePos.y - 40 }}
+                    >
+                        <span className="gc-tooltip-count">{hoveredCount}</span>
+                        <span className="gc-tooltip-label">contributions on {hoveredDate}</span>
+                    </div>
+                )}
+
                 {weeks.map((week, weekIndex) => (
                     <div key={weekIndex} className="gc-week">
-                        {week.map((day, dayIndex) => {
-                            const isGlowing = variant === "city-lights" && day.contributionCount > 0
-                            const isMinimal = variant === "minimal"
- 
-                            const glowPx = day.contributionCount > 3
-                                ? glowIntensity * 1.5
-                                : glowIntensity
-                            const glowStyle = isGlowing && day.contributionLevel !== "NONE"
-                                ? { boxShadow: `0 0 ${glowPx}px ${glowColors[colorSchema] ?? "#10b981"}` }
-                                : undefined
- 
+                        {week.map((day) => {
+                            const isGlowing = variant === "city-lights" && day.contributionCount > 0;
+                            const isMinimal = variant === "minimal";
+                            const glowPx =
+                                day.contributionCount > 3 ? glowIntensity * 1.5 : glowIntensity;
+                            const glowStyle =
+                                isGlowing && day.contributionLevel !== "NONE"
+                                    ? { boxShadow: `0 0 ${glowPx}px ${glowColors[colorSchema] ?? "#10b981"}` }
+                                    : undefined;
+
                             return (
-                                <motion.div
+                                <div
                                     key={day.date}
-                                    initial={{ opacity: 0, scale: 0 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                        delay: weekIndex * 0.01 + dayIndex * 0.01,
-                                        type: "spring",
-                                        stiffness: 260,
-                                        damping: 20,
-                                    }}
                                     onMouseEnter={(e) => {
-                                        setHoveredDate(day.date)
-                                        setHoveredCount(day.contributionCount)
-                                        const rect = e.currentTarget.getBoundingClientRect()
-                                        const parentRect = e.currentTarget.offsetParent?.getBoundingClientRect() ?? { left: 0, top: 0 }
+                                        setHoveredDate(day.date);
+                                        setHoveredCount(day.contributionCount);
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        const parentRect =
+                                            e.currentTarget.offsetParent?.getBoundingClientRect() ?? {
+                                                left: 0,
+                                                top: 0,
+                                            };
                                         setMousePos({
                                             x: rect.left - parentRect.left + rect.width / 2,
                                             y: rect.top - parentRect.top,
-                                        })
+                                        });
                                     }}
                                     className={cx(
                                         "gc-day",
                                         getLevelClass(day.contributionLevel, colorSchema, isDark),
                                         getShapeClass(shape),
                                         isGlowing && "gc-glowing",
-                                        isMinimal && "gc-minimal",
+                                        isMinimal && "gc-minimal"
                                     )}
                                     style={glowStyle}
+                                    title={`${day.contributionCount} contributions on ${day.date}`}
                                 />
-                            )
+                            );
                         })}
                     </div>
                 ))}
             </div>
         </div>
-    )
+    );
 }
