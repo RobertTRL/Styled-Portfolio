@@ -1,6 +1,6 @@
 import '../styles/about.css';
-import smilingEmoji from '../assets/smiling-emoji.png';
-import wavingHandSign from '../assets/waving-hand-sign.png';
+import smilingEmoji from '../assets/smiling-emoji.webp';
+import wavingHandSign from '../assets/waving-hand-sign.webp';
 import { useInView } from '../hooks/useInView';
 
 export default function AboutMe({ isDark }) {
