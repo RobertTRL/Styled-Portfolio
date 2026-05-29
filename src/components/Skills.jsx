@@ -2,17 +2,17 @@ import '../styles/skills.css';
 import SkillsMarquee from './SkillsMarquee';
 import { useInView } from '../hooks/useInView';
 
-import InDesign      from '../assets/Adobe-InDesign-Logo.png';
-import Photoshop     from '../assets/Adobe-Photoshop-Logo.png';
+import InDesign      from '../assets/Adobe-InDesign-Logo.webp';
+import Photoshop     from '../assets/Adobe-Photoshop-Logo.webp';
 import Claude        from '../assets/claude-logo.svg';
-import Gemini        from '../assets/Google-Gemini.png';
-import CSS           from '../assets/icons8-css-144.png';
-import HTMLIMG       from '../assets/html.png';
-import JavascriptIcon from '../assets/icons8-javascript-100.png';
-import ReactIcon     from '../assets/icons8-react-100.png';
-import Illustrator    from '../assets/Adobe_Illustrator_CC_icon.png';
-import GitIcon       from '../assets/icons8-git-144.png';
-import PythonIcon    from '../assets/icons8-python-100.png';
+import Gemini        from '../assets/Google-Gemini.webp';
+import CSS           from '../assets/icons8-css-144.webp';
+import HTMLIMG       from '../assets/html.webp';
+import JavascriptIcon from '../assets/icons8-javascript-100.webp';
+import ReactIcon     from '../assets/icons8-react-100.webp';
+import Illustrator    from '../assets/Adobe_Illustrator_CC_icon.webp';
+import GitIcon       from '../assets/icons8-git-144.webp';
+import PythonIcon    from '../assets/icons8-python-100.webp';
 
 const SKILL_IMAGES = [
   { src: HTMLIMG,        alt: 'HTML'        },
