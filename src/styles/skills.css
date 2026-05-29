@@ -1,7 +1,4 @@
 /* ── Theme Variables ── */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&display=swap');
-
 .skills-section.dark-mode {
   --text-main:    #ffffff;
   --text-sub:     rgba(255, 255, 255, 0.55);
