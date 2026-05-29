@@ -20,8 +20,6 @@ const SpeedInsights = lazy(() =>
   import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights }))
 );
 
-// Pre-warm: kicks off the network fetch/parse for each chunk NOW,
-// so by the time isReady flips, React finds them already cached.
 const preloadAll = () =>
   Promise.all([
     import('./components/Background.jsx'),
