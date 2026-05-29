@@ -6,7 +6,7 @@ import { useInView } from '../hooks/useInView';
 export default function AboutMe({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
   const [sectionRef, isInView] = useInView(0.3);
-
+  // 
   return (
     <section
       ref={sectionRef}

@@ -1,6 +1,6 @@
 # Styled Portfolio
 
-A personal portfolio built from scratch with React and Vite. Designed to be immersive — featuring a fully animated day/night sky, a custom CSS character loader, and a custom cursor system — while remaining fast and responsive.
+A personal portfolio built from scratch with React and Vite. Designed to be immersive — featuring a fully animated day/night sky and a custom cursor system — while remaining fast and responsive.
 
 ---
 
@@ -14,7 +14,6 @@ A personal portfolio built from scratch with React and Vite. Designed to be imme
 
 - **Day / Night theme** — toggle switches between a full daytime and nighttime sky scene, persisted via `localStorage` and synced to `prefers-color-scheme` on first visit
 - **Animated background** — pure-CSS sky with parallax stars, shooting meteors, drifting clouds, a hot-air balloon (day), and a floating satellite (night)
-- **Custom loader** — CSS-animated noodle-eating character with mouse-tracking eyes; dissolve exit is synced to the smile-peak keyframe of the animation cycle
 - **Custom cursor** — context-aware cursor that switches between default, text, click, and not-allowed states; pointer-device detection prevents it rendering on touch screens
 - **Scroll animations** — each section fades in on scroll via `IntersectionObserver`
 - **Projects** — tabbed layout across Software, Graphic Design, 3D & CAD, and Electronics categories; sourced from a local `db.json`
