@@ -5,7 +5,7 @@ import { useInView } from '../hooks/useInView';
 import InDesign      from '../assets/Adobe-InDesign-Logo.webp';
 import Photoshop     from '../assets/Adobe-Photoshop-Logo.webp';
 import Claude        from '../assets/claude-logo.svg';
-import Gemini        from '../assets/Google-Gemini.webp';
+import Gemini        from '../assets/Google_Gemini.webp';
 import CSS           from '../assets/icons8-css-144.webp';
 import HTMLIMG       from '../assets/html.webp';
 import JavascriptIcon from '../assets/icons8-javascript-100.webp';
