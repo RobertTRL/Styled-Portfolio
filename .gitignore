@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+src/components/Loader.jsx
+src/styles/loader.css
 
 # Editor directories and files
 .vscode/*

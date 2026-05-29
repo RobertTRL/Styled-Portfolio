@@ -47,7 +47,6 @@ src/
 │   ├── GithubCalendar.jsx
 │   ├── Header.jsx
 │   ├── Hero.jsx
-│   ├── Loader.jsx
 │   ├── Navbar.jsx
 │   ├── Projects.jsx
 │   ├── ShowcaseCard.jsx
@@ -66,7 +65,6 @@ src/
 │   ├── greetingboy.css
 │   ├── githubgalendar.css
 │   ├── hero.css
-│   ├── loader.css
 │   ├── navbar.css
 │   ├── projects.css
 │   ├── showcasecard.css
