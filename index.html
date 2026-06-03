@@ -9,6 +9,23 @@
       content="Robert Toroitich - full-stack developer specializing in React and Node.js. Explore projects, skills, design work, and an interactive portfolio."
     />
     <meta name="theme-color" content="#050505" />
+
+    <style>
+      html { background: #020818; }
+      html.light-flash { background: #cfe4f7; }
+    </style>
+    <script>
+      (function () {
+        try {
+          let saved = localStorage.getItem('isDark');
+          let isDark = saved !== null
+            ? JSON.parse(saved)
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (!isDark) document.documentElement.classList.add('light-flash');
+        } catch (e) {}
+      })();
+    </script>
+ 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -33,7 +50,7 @@
     <meta name="twitter:title" content="Robert Toroitich — Full-Stack Developer and Graphic Designer" />
     <meta name="twitter:description" content="Full-Stack Software Engineer and Graphic Designer skilled in HTML, CSS, JavaScript, React, Python, Flask, Photoshop, Illustrator, Indesign, and AI prompt engineering. I especially focus on building detailed, pragmatic and immersive web experiences" />
     <meta name="twitter:image" content="https://robertktoroitich.com/images/og-preview.webp" />
-      </head>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
