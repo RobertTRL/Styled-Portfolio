@@ -4,7 +4,7 @@ import { useInView } from '../hooks/useInView';
 
 const PHONE_NUMBER   = '+254 791 154 865';
 const PHONE_DIALABLE = '+254791154865';
-const EMAIL          = 'robertojnr2802@gmail.com';
+const EMAIL          = 'robertktoroitich@gmail.com';
 const LINKEDIN_URL   = 'https://www.linkedin.com/in/robert-toroitich-82b24639a/';
 const GITHUB_URL     = 'https://github.com/RobertTRL';
 
