@@ -48,7 +48,8 @@
     radial-gradient(100% 100% at 100% 0, var(--c1) 4%, var(--_g), #000a 96%, #0000),
     radial-gradient(100% 100% at 0 100%, #0000, #000a 4%, var(--_g), var(--c1) 96%) var(--c1);
   background-size: var(--s) var(--s);
-  animation: pattern-drift 2s linear infinite;
+  /* Negative delay jumps into the animation immediately — no static first frame */
+  animation: pattern-drift 2s linear -0.5s infinite;
   image-rendering: crisp-edges;
   opacity: 0.4;
   height: 100lvh;
@@ -77,6 +78,7 @@
 }
 
 .water-dissolve .loader-pattern {
+  /* Override the drift and play the fade-out instead */
   animation: gridFade 0.8s ease forwards;
 }
 
