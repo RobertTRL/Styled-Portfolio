@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero.jsx';
 import GreetingBoy from './components/GreetingBoy.jsx';
+import Loader from './components/Loader.jsx';
 
 import './App.css';
 import './styles/bgandswitch.css';
@@ -42,24 +43,16 @@ const preloadAll = () =>
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('isDark');
-
-    if (saved !== null) {
-      return JSON.parse(saved);
-    }
-
+    if (saved !== null) return JSON.parse(saved);
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   const [isPreload, setIsPreload] = useState(true);
-  const [isReady, setIsReady] = useState(false);
+  const [isReady,   setIsReady]   = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setIsPreload(false), 50);
-
-    preloadAll().then(() => {
-      setIsReady(true);
-    });
-
+    preloadAll().then(() => setIsReady(true));
     return () => clearTimeout(t);
   }, []);
 
@@ -68,11 +61,10 @@ const App = () => {
   }, [isDark]);
 
   return (
-    <div
-      className={`app-wrapper ${
-        isPreload ? 'preload' : ''
-      } ${isDark ? 'night' : ''}`}
-    >
+    <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
+
+      <Loader isDark={isDark} isLoading={!isReady} />
+
       {isReady && (
         <Suspense fallback={null}>
           <GreetingBoy isDark={isDark} isLoading={!isReady} />

@@ -1,0 +1,90 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   loader.css  —  Pattern-only Loader
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Theme tokens ── */
+.loader-container.dark-mode {
+  --bg-start:       #020818;
+  --bg-mid:         #061330;
+  --pattern-c1:     #0d0e1f;
+  --pattern-c2:     #3b0070;
+}
+
+.loader-container.light-mode {
+  --bg-start:       #cfe4f7;
+  --bg-mid:         #a8cceb;
+  --pattern-c1:     #f8b195;
+  --pattern-c2:     #355c7d;
+}
+
+/* ── Root container ── */
+.loader-container {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  overflow: hidden;
+  height: 100lvh;
+  background: radial-gradient(ellipse 90% 70% at 50% 40%, var(--bg-mid), var(--bg-start) 75%);
+}
+
+/* ── Moving tile pattern ── */
+.loader-pattern {
+  position: absolute;
+  inset: 0;
+  --s: 40px;
+  --c1: var(--pattern-c1);
+  --c2: var(--pattern-c2);
+  --_g:
+    var(--c2)  4%  14%,
+    var(--c1) 14%  24%,
+    var(--c2) 24%  34%,
+    var(--c1) 34%  44%,
+    var(--c2) 44%  56%,
+    var(--c1) 56%  66%,
+    var(--c2) 66%  76%,
+    var(--c1) 76%  86%,
+    var(--c2) 86%  96%;
+  background:
+    radial-gradient(100% 100% at 100% 0, var(--c1) 4%, var(--_g), #000a 96%, #0000),
+    radial-gradient(100% 100% at 0 100%, #0000, #000a 4%, var(--_g), var(--c1) 96%) var(--c1);
+  background-size: var(--s) var(--s);
+  animation: pattern-drift 2s linear infinite;
+  image-rendering: crisp-edges;
+  opacity: 0.4;
+  height: 100lvh;
+}
+
+@keyframes pattern-drift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: var(--s) var(--s), var(--s) var(--s); }
+}
+
+/* ── Frosted overlay ── */
+.loader-overlay {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(1px);
+  background: transparent;
+}
+
+/* ════════════════════════════════════
+   Exit Animation
+════════════════════════════════════ */
+
+.water-dissolve {
+  pointer-events: none;
+  animation: bgFade 1.5s ease forwards;
+}
+
+.water-dissolve .loader-pattern {
+  animation: gridFade 0.8s ease forwards;
+}
+
+@keyframes gridFade {
+  to { opacity: 0; transform: scale(1.08); }
+}
+
+@keyframes bgFade {
+  0%, 60% { opacity: 1; }
+  100%     { opacity: 0; }
+}
