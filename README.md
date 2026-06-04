@@ -47,8 +47,10 @@ src/
 │   ├── GithubCalendar.jsx
 │   ├── Header.jsx
 │   ├── Hero.jsx
+    ├── Loader.jsx
 │   ├── Navbar.jsx
 │   ├── Projects.jsx
+│   ├── ProjectsScrollEffect.jsx
 │   ├── ShowcaseCard.jsx
 │   ├── Skills.jsx
 │   ├── SkillsMarquee.jsx
@@ -62,11 +64,13 @@ src/
 │   ├── bgandswitch.css
 │   ├── contacts.css
 │   ├── customcursor.css
-│   ├── greetingboy.css
-│   ├── githubgalendar.css
+│   ├── githubcalendar.css
+│   ├── greetingboy.css 
 │   ├── hero.css
+│   ├── loader.css
 │   ├── navbar.css
 │   ├── projects.css
+│   ├── projectsscrolleffect.css
 │   ├── showcasecard.css
 │   └── skills.css
 ├── App.jsx
