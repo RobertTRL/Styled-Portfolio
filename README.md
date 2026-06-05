@@ -50,7 +50,6 @@ src/
     ├── Loader.jsx
 │   ├── Navbar.jsx
 │   ├── Projects.jsx
-│   ├── ProjectsScrollEffect.jsx
 │   ├── ShowcaseCard.jsx
 │   ├── Skills.jsx
 │   ├── SkillsMarquee.jsx
@@ -70,7 +69,6 @@ src/
 │   ├── loader.css
 │   ├── navbar.css
 │   ├── projects.css
-│   ├── projectsscrolleffect.css
 │   ├── showcasecard.css
 │   └── skills.css
 ├── App.jsx
