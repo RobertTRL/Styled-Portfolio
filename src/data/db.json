@@ -12,17 +12,17 @@
     {
       "id": 2,
       "title": "Simple Dictionary Website",
-      "tagline": "JavaScript · API",
       "image": "/images/dictionary-img.webp",
       "description": "A sleek, responsive dictionary SPA with real-time lexicon queries, asynchronous API integration for word definitions and phonetics, and an optimized client-side search engine.",
+      "services": ["JavaScript", "Free Dictionary API"],
       "Ctalink" : "https://github.com/RobertTRL/Wordly-SPA"
     },
     {
       "id": 3,
       "title": "Coffee Shop Page",
-      "tagline": "React · json-server",
       "image": "/images/coffee-shop.webp",
       "description": "A fully interactive React SPA configured as a mock full-stack environment, featuring a local REST API powered by json-server for real-time CRUD operation simulation.",
+      "services": ["React", "JSON-server"],
       "Ctalink" : "https://github.com/RobertTRL/Module-3-Summative-Lab"
     }
   ],
@@ -41,21 +41,25 @@
       "id": 2,
       "title": "Magical Kenya Promotion",
       "image": "/images/antelopecolourretouching.webp",
-      "description": "The design above is a sample advertisement for the Ritz-Carlton hotel. It features a table set up for an evening meal. In the vicinity, an antelope is eating grass eyeing the delicacy. In the background,the biannual wildebeest migration is ongoing."
+      "description": "The design above is a sample advertisement for the Ritz-Carlton hotel. It features a table set up for an evening meal. In the vicinity, an antelope is eating grass eyeing the delicacy. In the background,the biannual wildebeest migration is ongoing.",
+      "services": ["AI image generation", "Photoshop"]
     
     },
     {
       "id": 3,
       "title": "Toxic Lyrikali Poster",
       "image": "/images/toxic-lyrikali.webp",
-      "description": "The design beside features a poster of popular Kenyan artist Toxic Lyrikali. It features the artist’s image, a Mercedes S-Class, a woman’s bosom , a Mercedes hood ornament in rectangular frames and have used various effects. The design has been constructed using a brutalist manner."
+      "description": "The design beside features a poster of popular Kenyan artist Toxic Lyrikali. It features the artist’s image, a Mercedes S-Class, a woman’s bosom , a Mercedes hood ornament in rectangular frames and have used various effects. The design has been constructed using a brutalist manner.",
+      "services": ["Photoshop", "Illustrator"]
+    
     
     },
     {
       "id": 4,
       "title": "Coca-Cola Ad",
       "image": "/images/santacocacola.webp",
-      "description": "A sample advertisement campaign for the company Coca-Cola. It features Santa Claus in a sled with various gifts displaying a Coca-Cola Bottle to the camera. Three lions, visibly starving, are astounded by the flying antelopes. In the background, a view of Nairobi City is visible."
+      "description": "A sample advertisement campaign for the company Coca-Cola. It features Santa Claus in a sled with various gifts displaying a Coca-Cola Bottle to the camera. Three lions, visibly starving, are astounded by the flying antelopes. In the background, a view of Nairobi City is visible.",
+      "services": ["AI prompt engineering", "Photoshop"]
     
     }
   ],
