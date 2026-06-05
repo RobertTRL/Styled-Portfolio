@@ -107,7 +107,7 @@ export default function Projects({ isDark }) {
           ) : (
             <div className="projects-grid">
               {projects.map((project, i) =>
-                // i === 0 ? (
+                i === 0 ? (
                   <ShowcaseCard
                     key={project.id}
                     className="projects-hero-card"
@@ -124,17 +124,17 @@ export default function Projects({ isDark }) {
                     enableParallax={!i}
                     enableTilt={!i}
                   />
-                // ) : (
-                //   <ShowcaseCardCompact
-                //     key={project.id}
-                //     heading={project.title}
-                //     description={project.description}
-                //     imageUrl={project.image}
-                //     imageAlt={project.title}
-                //     isDark={isDark}
-                //     onClick={() => project.Ctalink ? window.open(project.Ctalink, '_blank') : ''}
-                //   />
-                // )
+                ) : (
+                  <ShowcaseCardCompact
+                    key={project.id}
+                    heading={project.title}
+                    description={project.description}
+                    imageUrl={project.image}
+                    imageAlt={project.title}
+                    isDark={isDark}
+                    onClick={() => project.Ctalink ? window.open(project.Ctalink, '_blank') : ''}
+                  />
+                )
               )}
             </div>
           )}
