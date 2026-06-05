@@ -16,7 +16,7 @@ function ShowcaseCard({
     services = [],
     className = "",
     enableTilt = true,
-    maxTilt = 8,
+    maxTilt = 12,
     enableParallax = true,
     isDark = true,
     Ctalink
