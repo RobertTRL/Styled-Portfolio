@@ -2,7 +2,7 @@
   "SOFTWARE_PROJECTS": [
     {
       "id": 1,
-      "title": "M-Pesa Prompting App",
+      "title": "Mpesa Prompting App",
       "tagline": "Featured",
       "image": "/images/phonepayment.webp",
       "description": "A full-stack M-Pesa payment application built with Safaricom Daraja API, featuring STK Push payments, real-time transaction status updates, callback handling, and seamless payment verification.",
