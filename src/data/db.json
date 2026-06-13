@@ -2,6 +2,15 @@
   "SOFTWARE_PROJECTS": [
     {
       "id": 1,
+      "title": "M-Pesa Prompting App",
+      "tagline": "Featured",
+      "image": "/images/phonepayment.webp",
+      "description": "A full-stack M-Pesa payment application built with Safaricom Daraja API, featuring STK Push payments, real-time transaction status updates, callback handling, and seamless payment verification.",
+      "services": ["React", "Python", "Daraja API"],
+      "Ctalink" : "https://github.com/RobertTRL/mpesa-app"
+    },
+    {
+      "id": 2,
       "title": "Personal Portfolio",
       "tagline": "Featured",
       "image": "/images/portfolio-img.webp",
@@ -10,7 +19,7 @@
       "Ctalink" : "https://github.com/RobertTRL/Styled-Portfolio"
     },
     {
-      "id": 2,
+      "id": 3,
       "title": "Simple Dictionary Website",
       "image": "/images/dictionary-img.webp",
       "description": "A sleek, responsive dictionary SPA with real-time lexicon queries, asynchronous API integration for word definitions and phonetics, and an optimized client-side search engine.",
@@ -18,7 +27,7 @@
       "Ctalink" : "https://github.com/RobertTRL/Wordly-SPA"
     },
     {
-      "id": 3,
+      "id": 4,
       "title": "Coffee Shop Page",
       "image": "/images/coffee-shop.webp",
       "description": "A fully interactive React SPA configured as a mock full-stack environment, featuring a local REST API powered by json-server for real-time CRUD operation simulation.",
