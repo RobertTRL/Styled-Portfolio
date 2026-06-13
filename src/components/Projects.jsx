@@ -67,7 +67,7 @@ export default function Projects({ isDark }) {
         <p className="projects-label">What have I built?</p>
         <h2 className="projects-heading">
           Selected works displaying{' '}
-          <span className="serif-word">creativity</span> in action.
+          <span className="serif-word">ingenuity</span> in action.
         </h2>
         <div className="projects-divider" />
       </div>
