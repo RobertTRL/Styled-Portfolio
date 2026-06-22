@@ -260,7 +260,7 @@
 
 .col-heading {
   font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -268,6 +268,7 @@
   margin: 0 0 1.5rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   transition: color 0.3s ease;
 }
