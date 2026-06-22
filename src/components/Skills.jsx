@@ -29,13 +29,13 @@ const SKILL_IMAGES = [
 ];
 
 const EDUCATION = [
-  {
-    institution: 'Jomo Kenyatta University of Agriculture and Technology',
-    degree:      'Bachelor of Science in Electrical and Electronics Engineering',
-    period:      '2026 – 2030',
-    description: 'Add a short summary of your studies, focus areas, or notable achievements here.',
-    type:        'education',
-  },
+  // {
+  //   institution: 'Jomo Kenyatta University of Agriculture and Technology',
+  //   degree:      'Bachelor of Science in Electrical and Electronics Engineering',
+  //   period:      '2026 – 2030',
+  //   description: 'Add a short summary of your studies, focus areas, or notable achievements here.',
+  //   type:        'education',
+  // },
   {
     name:        'Software Engineering',
     institution: 'Moringa School',
@@ -136,7 +136,7 @@ export default function Skills({ isDark }) {
           </div>
 
           {/* ── Experience ── */}
-          <div className="edu-cert-col">
+          {/* <div className="edu-cert-col">
             <h3 className="col-heading">Experience</h3>
             {EXPERIENCE.map((item, i) => (
               <div className="card" key={i}>
@@ -154,7 +154,7 @@ export default function Skills({ isDark }) {
                 )}
               </div>
             ))}
-          </div>
+          </div> */}
 
         </div>
       </div>
