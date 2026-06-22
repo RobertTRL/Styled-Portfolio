@@ -86,11 +86,6 @@ export default function Contacts({ isDark }) {
 
           <div className="contacts-divider" />
 
-          <p className="contacts-tagline">
-            I'm currently open to new opportunities — freelance, full-time, or
-            just a good conversation about the web.
-          </p>
-
           <ul className="contact-list">
             {CONTACT_LINKS.map((item) => (
               <li key={item.id}>
