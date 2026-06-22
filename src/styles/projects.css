@@ -125,7 +125,7 @@
 
 .projects-label {
   font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  font-size: clamp(0.85rem, 1.125vw, 0.96rem);
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
