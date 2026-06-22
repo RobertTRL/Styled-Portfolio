@@ -206,7 +206,7 @@
 }
 
 .marquee-item:hover {
-  border-color: var(--accent);
+  /* border-color: var(--accent); */
   transform: translateY(-3px);
   background: var(--card-bg); 
 }
@@ -292,9 +292,9 @@
 }
 
 .card:hover {
-  border-color: var(--accent);
+  /* border-color: var(--accent); */
   transform: translateY(-2px);
-  box-shadow: var(--card-shadow), 0 0 0 1px var(--accent);
+  box-shadow: var(--card-shadow), 0 0 0 2px var(--item-bg);
 }
 
 .card-top {
