@@ -223,7 +223,7 @@
 
 .contact-link:hover {
   background: var(--link-bg-hover);
-  border-color: var(--accent);
+  border-color: var(--link-bg-hover);
   transform: translateX(4px);
 }
 
