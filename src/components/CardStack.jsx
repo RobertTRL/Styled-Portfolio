@@ -162,7 +162,7 @@ const defaultItems = [
     accent: '#78dcca',
     initials: 'SE',
     stat: 'Code',
-    image: '/images/softeng.png',
+    image: '/images/softeng.webp',
   },
   {
     name: 'Graphic Designer',
@@ -171,7 +171,7 @@ const defaultItems = [
     accent: '#f3f1ea',
     initials: 'GD',
     stat: 'Design',
-    image: '/images/graphdesign.png',
+    image: '/images/graphdesign.webp',
   },
   {
     name: 'Leader',
@@ -189,7 +189,7 @@ const defaultItems = [
     accent: '#b9a7ff',
     initials: 'EE',
     stat: 'Electronics',
-    image: '/images/robotics.png',
+    image: '/images/robotics.webp',
   },
   {
     name: 'Learner',
@@ -198,7 +198,7 @@ const defaultItems = [
     accent: '#ff9d77',
     initials: 'LR',
     stat: 'Growth',
-    image: '/images/learner.png',
+    image: '/images/learner.webp',
   },
 ];
 
