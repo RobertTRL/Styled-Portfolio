@@ -60,12 +60,14 @@
   border-radius: clamp(1.15rem, 3.2vw, 1.45rem);
   border: 1px solid rgba(0, 0, 0, 0.08);
   background-color: rgba(0, 0, 0, 0.045);
+  align-items: center;
+  justify-content: center;
 }
 
 .orbit-portrait-img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
+  height: 90%;
+  width: 90%;
+  object-fit: contain;
 }
 
 .orbit-initials {
