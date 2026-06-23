@@ -156,49 +156,49 @@ function ArrowUpRightIcon() {
 
 const defaultItems = [
   {
-    name: 'Mira Vale',
+    name: 'Software Engineer',
     description:
-      'Shapes visual systems with enough restraint to feel expensive and enough edge to be remembered.',
-    accent: '#f8d66d',
-    initials: 'MV',
-    stat: 'Identity',
-    image: '/images/orbit-card-stack/mira-vale.png',
-  },
-  {
-    name: 'Noor Kade',
-    description:
-      'Turns loose ideas into sharp product moves, crisp priorities, and launchable experiences.',
+      'Designs reliable systems, solves complex problems, and transforms ideas into scalable digital experiences.',
     accent: '#78dcca',
-    initials: 'NK',
-    stat: 'Roadmap',
-    image: '/images/orbit-card-stack/noor-kade.png',
+    initials: 'SE',
+    stat: 'Code',
+    image: '/images/softeng.webp',
   },
   {
-    name: 'Ari Chen',
+    name: 'Graphic Designer',
     description:
-      'Sets the taste bar, protects the details, and keeps the whole team pointed at the same high signal.',
+      'Crafts visual identities, communicates ideas through design, and turns concepts into memorable experiences.',
     accent: '#f3f1ea',
-    initials: 'AC',
-    stat: 'Vision',
-    image: '/images/orbit-card-stack/ari-chen.png',
+    initials: 'GD',
+    stat: 'Design',
+    image: '/images/graphdesign.webp',
   },
   {
-    name: 'Sana Holt',
+    name: 'Leader',
     description:
-      'Builds the motion, polish, and interface texture that make the product feel calm under pressure.',
+      'Guides teams with clarity, balances vision with execution, and creates momentum that others can rally behind.',
+    accent: '#f8d66d',
+    initials: 'LD',
+    stat: 'Leadership',
+    image: '/images/leader.webp',
+  },
+  {
+    name: 'Electrical Engineer',
+    description:
+      'Builds intelligent hardware systems, bridges electronics with innovation, and brings technical concepts to life.',
     accent: '#b9a7ff',
-    initials: 'SH',
-    stat: 'Motion',
-    image: '/images/orbit-card-stack/sana-holt.png',
+    initials: 'EE',
+    stat: 'Electronics',
+    image: '/images/robotics.webp',
   },
   {
-    name: 'Ezra Moon',
+    name: 'Learner',
     description:
-      'Keeps the machine quiet, the handoffs clean, and the team moving without pointless friction.',
+      'Pursues knowledge relentlessly, explores new disciplines, and continuously sharpens skills through curiosity.',
     accent: '#ff9d77',
-    initials: 'EM',
-    stat: 'Systems',
-    image: '/images/orbit-card-stack/ezra-moon.png',
+    initials: 'LR',
+    stat: 'Growth',
+    image: '/images/learner.webp',
   },
 ];
 
@@ -391,7 +391,6 @@ export function CardStack({
 
               <div className="orbit-card-body">
                 <div>
-                  <p className="orbit-card-role">{item.role}</p>
                   <h3 className="orbit-card-name">{item.name}</h3>
                 </div>
                 <p className="orbit-card-desc">{item.description}</p>
