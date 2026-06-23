@@ -1,42 +1,40 @@
-/* ═══════════════════════════════════════════════
-   OrbitCardStack — vanilla CSS
-   (converted from Tailwind utilities)
-   ═══════════════════════════════════════════════ */
-
-/* ── Outer stage ── */
+/* Outer stage */
 .orbit-stack-stage {
   position: relative;
   display: flex;
-  min-height: 100%;
   width: 100%;
+  min-height: var(--orbit-stage-height, 560px);
   align-items: center;
   justify-content: center;
-  /* overflow: hidden; */
-  padding: 2rem;
+  box-sizing: border-box;
+  overflow: visible;
+  isolation: isolate;
+  padding: clamp(1rem, 3vw, 2rem);
+  margin-block-end: var(--orbit-stack-description-gap, 48px);
 }
 
-/* ── Inner sizing frame ── */
+/* Inner sizing frame */
 .orbit-stack-inner {
   position: relative;
-  height: 470px;
   width: 100%;
+  height: var(--orbit-stage-height, 560px);
   max-width: 980px;
 }
 
-/* ─────────────────────────────────────────────
-   Card
-   ───────────────────────────────────────────── */
+/* Card */
 .orbit-card {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(78vw, 21rem);
-  transform-origin: bottom;
+  width: min(var(--orbit-card-width, 21rem), calc(100vw - 2rem));
+  min-height: var(--orbit-card-min-height, 430px);
+  box-sizing: border-box;
+  transform-origin: center center;
   cursor: pointer;
-  border-radius: 1.9rem;
+  border-radius: clamp(1.45rem, 4vw, 1.9rem);
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: #e9e6df;
-  padding: 1rem;
+  padding: clamp(0.75rem, 2.4vw, 1rem);
   color: #141414;
   outline: none;
 }
@@ -47,37 +45,33 @@
     0 0 0 4px rgba(9, 9, 11, 0.2);
 }
 
-/* ── Portrait wrapper (inside card) ── */
+/* Portrait wrapper */
 .orbit-card-portrait-wrap {
   position: relative;
 }
 
-/* ─────────────────────────────────────────────
-   Portrait — shared base
-   ───────────────────────────────────────────── */
+/* Portrait - shared base */
 .orbit-portrait {
   position: relative;
   display: flex;
   aspect-ratio: 1.36;
   width: 100%;
-  /* overflow: hidden; */
-  border-radius: 1.45rem;
+  overflow: hidden;
+  border-radius: clamp(1.15rem, 3.2vw, 1.45rem);
   border: 1px solid rgba(0, 0, 0, 0.08);
   background-color: rgba(0, 0, 0, 0.045);
 }
 
-/* ── Portrait image (when provided) ── */
 .orbit-portrait-img {
   height: 100%;
   width: 100%;
   object-fit: cover;
 }
 
-/* ── Initials badge ── */
 .orbit-initials {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: clamp(0.75rem, 2vw, 1rem);
+  right: clamp(0.75rem, 2vw, 1rem);
   border-radius: 9999px;
   background-color: #09090b;
   padding: 0.25rem 0.75rem;
@@ -87,22 +81,13 @@
   color: white;
 }
 
-/* ─────────────────────────────────────────────
-   Portrait — illustrated placeholder
-   ───────────────────────────────────────────── */
+/* Portrait - illustrated placeholder */
 .orbit-portrait-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-      circle at 22% 20%,
-      var(--accent, #f3f1ea),
-      transparent 24%
-    ),
-    radial-gradient(
-      circle at 85% 72%,
-      rgba(255, 255, 255, 0.5),
-      transparent 28%
-    );
+  background:
+    radial-gradient(circle at 22% 20%, var(--accent, #f3f1ea), transparent 24%),
+    radial-gradient(circle at 85% 72%, rgba(255, 255, 255, 0.5), transparent 28%);
   opacity: 0.45;
 }
 
@@ -184,9 +169,7 @@
   border-bottom: 0;
 }
 
-/* ─────────────────────────────────────────────
-   Arrow button overlay
-   ───────────────────────────────────────────── */
+/* Arrow button overlay */
 .orbit-arrow-btn {
   position: absolute;
   right: 0.75rem;
@@ -209,11 +192,12 @@
   height: 1rem;
 }
 
-/* ─────────────────────────────────────────────
-   Card body content
-   ───────────────────────────────────────────── */
+/* Card body content */
 .orbit-card-body {
-  padding: 1.5rem 0.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.85rem, 2vw, 1rem);
+  padding: clamp(1.1rem, 3vw, 1.5rem) 0.5rem 0.5rem;
 }
 
 .orbit-card-role {
@@ -226,28 +210,25 @@
 }
 
 .orbit-card-name {
-  margin-top: 0.5rem;
-  font-size: 2rem;
+  margin: 0.5rem 0 0;
+  font-size: clamp(1.55rem, 5vw, 2rem);
   font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   color: #09090b;
-  margin-bottom: 0;
 }
 
 .orbit-card-desc {
-  margin-top: 1rem;
+  margin: 0;
   max-width: 17rem;
-  font-size: 0.98rem;
+  font-size: clamp(0.88rem, 2.3vw, 0.98rem);
   font-weight: 500;
   line-height: 1.42;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   color: #3f3f46;
-  margin-bottom: 0;
 }
 
 .orbit-card-footer {
-  margin-top: 1.25rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 1rem;
 }
@@ -260,39 +241,26 @@
   color: #71717a;
 }
 
-/* ─────────────────────────────────────────────
-   Responsive
-   ───────────────────────────────────────────── */
+/* Responsive */
 @media (max-width: 900px) {
   .orbit-stack-stage {
     padding: 1rem;
-  }
-
-  .orbit-stack-inner {
-    height: 400px;
+    margin-block-end: var(--orbit-stack-description-gap, 56px);
   }
 }
 
 @media (max-width: 600px) {
+  .orbit-stack-stage {
+    min-height: var(--orbit-stage-height, 540px);
+    margin-block-end: var(--orbit-stack-description-gap, 72px);
+  }
+
   .orbit-stack-inner {
-    height: 360px;
+    height: var(--orbit-stage-height, 540px);
   }
 
-  .orbit-card {
-    width: min(82vw, 18rem);
-    border-radius: 1.5rem;
-    padding: 0.75rem;
-  }
-
-  .orbit-portrait {
-    border-radius: 1.15rem;
-  }
-
-  .orbit-card-name {
-    font-size: 1.6rem;
-  }
-
-  .orbit-card-desc {
-    font-size: 0.88rem;
+  .orbit-arrow-btn {
+    width: 2.45rem;
+    height: 2.45rem;
   }
 }

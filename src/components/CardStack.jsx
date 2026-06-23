@@ -2,46 +2,139 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/cardstack.css';
 
-/* ── tiny classname helper (replaces cn from @/lib/utils) ── */
 function cn(...args) {
   return args.filter(Boolean).join(' ');
 }
 
-/* ── responsive spread / rotation / vertical-gap scaling ──
-   Returns values proportional to baseSpread that keep the
-   fanned deck inside the viewport at every breakpoint.
-   ──────────────────────────────────────────────────────── */
-const BREAKPOINTS = [
-  { max: 480,  factor: 0.22 },   // mobile        → ~37px spread
-  { max: 600,  factor: 0.30 },   // small mobile   → ~50px
-  { max: 768,  factor: 0.45 },   // large mobile   → ~76px
-  { max: 1024, factor: 0.65 },   // tablet         → ~109px
-];
+const DEFAULT_VIEWPORT_WIDTH = 1280;
+const CARD_WIDTH = 336;
+const CARD_MIN_HEIGHT = 430;
+const MIN_CARD_SCALE = 0.86;
+const SHRINK_START_WIDTH = 980;
+const SHRINK_END_WIDTH = 390;
 
-function useResponsiveSpread(baseSpread) {
-  const calculate = useCallback(() => {
-    const w = window.innerWidth;
-    for (const bp of BREAKPOINTS) {
-      if (w <= bp.max) return baseSpread * bp.factor;
-    }
-    return baseSpread;              // desktop — full spread
-  }, [baseSpread]);
+function clampNumber(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
 
-  const [spread, setSpread] = useState(() =>
-    typeof window !== 'undefined' ? calculate() : baseSpread,
+function useViewportWidth() {
+  const [viewportWidth, setViewportWidth] = useState(() =>
+    typeof window === 'undefined' ? DEFAULT_VIEWPORT_WIDTH : window.innerWidth,
   );
 
   useEffect(() => {
-    const onResize = () => setSpread(calculate());
-    onResize();                     // sync on mount
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [calculate]);
+    if (typeof window === 'undefined') return undefined;
 
-  return spread;
+    let frame = 0;
+    const updateViewportWidth = () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        setViewportWidth(window.innerWidth);
+      });
+    };
+
+    updateViewportWidth();
+    window.addEventListener('resize', updateViewportWidth);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('resize', updateViewportWidth);
+    };
+  }, []);
+
+  return viewportWidth;
 }
 
-/* ── inline arrow-up-right icon (replaces lucide-react) ── */
+function getResponsiveStackLayout({ baseSpread, itemCount, lift, viewportWidth }) {
+  const maxFromCenter = Math.max((itemCount - 1) / 2, 1);
+  const shrinkProgress = clampNumber(
+    (viewportWidth - SHRINK_END_WIDTH) / (SHRINK_START_WIDTH - SHRINK_END_WIDTH),
+    0,
+    1,
+  );
+  const cardScale = MIN_CARD_SCALE + (1 - MIN_CARD_SCALE) * shrinkProgress;
+  const cardWidth = Math.round(CARD_WIDTH * cardScale);
+  const cardMinHeight = Math.round(CARD_MIN_HEIGHT * cardScale);
+
+  const sidePadding =
+    viewportWidth <= 420 ? 28 : viewportWidth <= 640 ? 40 : viewportWidth <= 1024 ? 64 : 96;
+  const availableWidth = Math.max(0, viewportWidth - sidePadding);
+  const spreadThatFits = Math.max(
+    0,
+    (availableWidth - cardWidth) / (maxFromCenter * 2),
+  );
+
+  const spreadFactor =
+    viewportWidth <= 420
+      ? 0.18
+      : viewportWidth <= 520
+        ? 0.24
+        : viewportWidth <= 640
+          ? 0.34
+          : viewportWidth <= 768
+            ? 0.48
+            : viewportWidth <= 1024
+              ? 0.72
+              : 1;
+
+  const fanRotation =
+    viewportWidth <= 420
+      ? 2.2
+      : viewportWidth <= 520
+        ? 3
+        : viewportWidth <= 640
+          ? 4.25
+          : viewportWidth <= 768
+            ? 5.75
+            : viewportWidth <= 1024
+              ? 7
+              : 8.5;
+
+  const vertGap =
+    viewportWidth <= 420
+      ? 31
+      : viewportWidth <= 640
+        ? 34
+        : viewportWidth <= 768
+          ? 36
+          : 30;
+  const vertExtra = viewportWidth <= 640 ? 8 : 10;
+  const spread = Math.min(baseSpread * spreadFactor, spreadThatFits, baseSpread);
+  const maxFanY = maxFromCenter * vertGap + Math.max(0, maxFromCenter - 1) * vertExtra;
+  const stageBreathingRoom = viewportWidth <= 640 ? 34 : 24;
+  const stageHeight = Math.ceil(
+    cardMinHeight + 2 * Math.max(maxFanY, lift + 8) + stageBreathingRoom,
+  );
+  const descriptionGap = viewportWidth <= 640 ? 72 : viewportWidth <= 900 ? 56 : 42;
+
+  return {
+    spread,
+    fanRotation,
+    vertGap,
+    vertExtra,
+    cardWidth,
+    cardMinHeight,
+    stageHeight,
+    descriptionGap,
+  };
+}
+
+function useResponsiveStackLayout(baseSpread, itemCount, lift) {
+  const viewportWidth = useViewportWidth();
+
+  return useMemo(
+    () =>
+      getResponsiveStackLayout({
+        baseSpread,
+        itemCount,
+        lift,
+        viewportWidth,
+      }),
+    [baseSpread, itemCount, lift, viewportWidth],
+  );
+}
+
 function ArrowUpRightIcon() {
   return (
     <svg
@@ -61,7 +154,6 @@ function ArrowUpRightIcon() {
   );
 }
 
-/* ── default data ── */
 const defaultItems = [
   {
     name: 'Mira Vale',
@@ -115,7 +207,6 @@ const defaultItems = [
   },
 ];
 
-/* ── helpers ── */
 function clampIndex(index, length) {
   return Math.min(Math.max(index, 0), Math.max(length - 1, 0));
 }
@@ -130,7 +221,6 @@ function getInitials(item) {
     .toUpperCase();
 }
 
-/* ── Portrait sub-component ── */
 function Portrait({ item }) {
   const initials = getInitials(item);
 
@@ -143,7 +233,6 @@ function Portrait({ item }) {
     );
   }
 
-  /* illustrated placeholder face */
   return (
     <div className="orbit-portrait" style={{ '--accent': item.accent ?? '#f3f1ea' }}>
       <div className="orbit-portrait-bg" />
@@ -163,34 +252,30 @@ function Portrait({ item }) {
   );
 }
 
-/* ── main component ── */
 export function CardStack({
   items = defaultItems,
   className,
   cardClassName,
   defaultActiveIndex = 2,
-  spread: basespread = 168,
+  spread: baseSpread = 168,
   lift = 34,
   onActiveChange,
+  style,
 }) {
-  /* responsive spread — scales the base value by viewport width */
-  const spread = useResponsiveSpread(basespread);
-  const spreadRatio = basespread > 0 ? spread / basespread : 1;
-
   const shouldReduceMotion = useReducedMotion();
   const safeItems = items.length ? items : defaultItems;
+  const stackLayout = useResponsiveStackLayout(baseSpread, safeItems.length, lift);
   const defaultIndex = clampIndex(defaultActiveIndex, safeItems.length);
   const [expanded, setExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
   const [raisedIndex, setRaisedIndex] = useState(defaultIndex);
   const raiseTimeoutRef = useRef(null);
+  const collapseTimeoutRef = useRef(null);
 
   const center = (safeItems.length - 1) / 2;
   const transition = shouldReduceMotion
     ? { duration: 0.01 }
     : { type: 'spring', stiffness: 350, damping: 30, mass: 0.7 };
-
-  const collapseTimeoutRef = useRef(null);
 
   useEffect(() => {
     return () => {
@@ -199,38 +284,36 @@ export function CardStack({
     };
   }, []);
 
-  const activateCard = (item, index) => {
-    setActiveIndex(index);
-    onActiveChange?.(item, index);
+  const activateCard = useCallback(
+    (item, index) => {
+      setActiveIndex(index);
+      onActiveChange?.(item, index);
 
-    if (raiseTimeoutRef.current) window.clearTimeout(raiseTimeoutRef.current);
+      if (raiseTimeoutRef.current) window.clearTimeout(raiseTimeoutRef.current);
 
-    raiseTimeoutRef.current = window.setTimeout(
-      () => setRaisedIndex(index),
-      shouldReduceMotion ? 0 : 45,
-    );
-  };
+      raiseTimeoutRef.current = window.setTimeout(
+        () => setRaisedIndex(index),
+        shouldReduceMotion ? 0 : 45,
+      );
+    },
+    [onActiveChange, shouldReduceMotion],
+  );
 
-  const scheduleCollapse = () => {
+  const scheduleCollapse = useCallback(() => {
     if (collapseTimeoutRef.current) window.clearTimeout(collapseTimeoutRef.current);
     collapseTimeoutRef.current = window.setTimeout(() => {
       setExpanded(false);
       setActiveIndex(defaultIndex);
       setRaisedIndex(defaultIndex);
     }, 80);
-  };
+  }, [defaultIndex]);
 
-  const cancelCollapse = () => {
+  const cancelCollapse = useCallback(() => {
     if (collapseTimeoutRef.current) {
       window.clearTimeout(collapseTimeoutRef.current);
       collapseTimeoutRef.current = null;
     }
-  };
-
-  /* rotation and vertical gaps scale in step with spread */
-  const fanRotation = 8.5 * spreadRatio;
-  const vertGap     = 30  * spreadRatio;
-  const vertExtra   = 10  * spreadRatio;
+  }, []);
 
   const cardLayouts = useMemo(
     () =>
@@ -245,19 +328,27 @@ export function CardStack({
             rotate: collapsedFromActive * 2.8,
           },
           expanded: {
-            x: fromCenter * spread,
+            x: fromCenter * stackLayout.spread,
             y:
-              Math.abs(fromCenter) * vertGap +
-              Math.max(0, Math.abs(fromCenter) - 1) * vertExtra,
-            rotate: fromCenter * fanRotation,
+              Math.abs(fromCenter) * stackLayout.vertGap +
+              Math.max(0, Math.abs(fromCenter) - 1) * stackLayout.vertExtra,
+            rotate: fromCenter * stackLayout.fanRotation,
           },
         };
       }),
-    [center, defaultIndex, safeItems, spread, fanRotation, vertGap, vertExtra],
+    [center, defaultIndex, safeItems, stackLayout],
   );
 
+  const stackStyle = {
+    '--orbit-card-width': `${stackLayout.cardWidth}px`,
+    '--orbit-card-min-height': `${stackLayout.cardMinHeight}px`,
+    '--orbit-stage-height': `${stackLayout.stageHeight}px`,
+    '--orbit-stack-description-gap': `${stackLayout.descriptionGap}px`,
+    ...style,
+  };
+
   return (
-    <div className={cn('orbit-stack-stage', className)}>
+    <div className={cn('orbit-stack-stage', className)} style={stackStyle}>
       <div className="orbit-stack-inner">
         {safeItems.map((item, index) => {
           const active = activeIndex === index;
@@ -290,9 +381,11 @@ export function CardStack({
               }}
               onMouseLeave={scheduleCollapse}
               onFocus={() => {
+                cancelCollapse();
                 setExpanded(true);
                 activateCard(item, index);
               }}
+              onBlur={scheduleCollapse}
             >
               <div className="orbit-card-portrait-wrap">
                 <Portrait item={item} />
