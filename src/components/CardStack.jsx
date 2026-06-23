@@ -1,10 +1,44 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/cardstack.css';
 
 /* ── tiny classname helper (replaces cn from @/lib/utils) ── */
 function cn(...args) {
   return args.filter(Boolean).join(' ');
+}
+
+/* ── responsive spread / rotation / vertical-gap scaling ──
+   Returns values proportional to baseSpread that keep the
+   fanned deck inside the viewport at every breakpoint.
+   ──────────────────────────────────────────────────────── */
+const BREAKPOINTS = [
+  { max: 480,  factor: 0.22 },   // mobile        → ~37px spread
+  { max: 600,  factor: 0.30 },   // small mobile   → ~50px
+  { max: 768,  factor: 0.45 },   // large mobile   → ~76px
+  { max: 1024, factor: 0.65 },   // tablet         → ~109px
+];
+
+function useResponsiveSpread(baseSpread) {
+  const calculate = useCallback(() => {
+    const w = window.innerWidth;
+    for (const bp of BREAKPOINTS) {
+      if (w <= bp.max) return baseSpread * bp.factor;
+    }
+    return baseSpread;              // desktop — full spread
+  }, [baseSpread]);
+
+  const [spread, setSpread] = useState(() =>
+    typeof window !== 'undefined' ? calculate() : baseSpread,
+  );
+
+  useEffect(() => {
+    const onResize = () => setSpread(calculate());
+    onResize();                     // sync on mount
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [calculate]);
+
+  return spread;
 }
 
 /* ── inline arrow-up-right icon (replaces lucide-react) ── */
@@ -135,10 +169,14 @@ export function CardStack({
   className,
   cardClassName,
   defaultActiveIndex = 2,
-  spread = 168,
+  spread: basespread = 168,
   lift = 34,
   onActiveChange,
 }) {
+  /* responsive spread — scales the base value by viewport width */
+  const spread = useResponsiveSpread(basespread);
+  const spreadRatio = basespread > 0 ? spread / basespread : 1;
+
   const shouldReduceMotion = useReducedMotion();
   const safeItems = items.length ? items : defaultItems;
   const defaultIndex = clampIndex(defaultActiveIndex, safeItems.length);
@@ -189,12 +227,16 @@ export function CardStack({
     }
   };
 
+  /* rotation and vertical gaps scale in step with spread */
+  const fanRotation = 8.5 * spreadRatio;
+  const vertGap     = 30  * spreadRatio;
+  const vertExtra   = 10  * spreadRatio;
+
   const cardLayouts = useMemo(
     () =>
       safeItems.map((_, index) => {
         const fromCenter = index - center;
         const collapsedFromActive = index - defaultIndex;
-        const expandedRotate = fromCenter * 8.5;
 
         return {
           collapsed: {
@@ -205,13 +247,13 @@ export function CardStack({
           expanded: {
             x: fromCenter * spread,
             y:
-              Math.abs(fromCenter) * 30 +
-              Math.max(0, Math.abs(fromCenter) - 1) * 10,
-            rotate: expandedRotate,
+              Math.abs(fromCenter) * vertGap +
+              Math.max(0, Math.abs(fromCenter) - 1) * vertExtra,
+            rotate: fromCenter * fanRotation,
           },
         };
       }),
-    [center, defaultIndex, safeItems, spread],
+    [center, defaultIndex, safeItems, spread, fanRotation, vertGap, vertExtra],
   );
 
   return (

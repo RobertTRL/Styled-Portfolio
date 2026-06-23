@@ -11,7 +11,7 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 2rem;
 }
 
@@ -60,7 +60,7 @@
   display: flex;
   aspect-ratio: 1.36;
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   border-radius: 1.45rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
   background-color: rgba(0, 0, 0, 0.045);
