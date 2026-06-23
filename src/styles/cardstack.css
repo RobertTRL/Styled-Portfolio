@@ -1,0 +1,298 @@
+/* ═══════════════════════════════════════════════
+   OrbitCardStack — vanilla CSS
+   (converted from Tailwind utilities)
+   ═══════════════════════════════════════════════ */
+
+/* ── Outer stage ── */
+.orbit-stack-stage {
+  position: relative;
+  display: flex;
+  min-height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+/* ── Inner sizing frame ── */
+.orbit-stack-inner {
+  position: relative;
+  height: 470px;
+  width: 100%;
+  max-width: 980px;
+}
+
+/* ─────────────────────────────────────────────
+   Card
+   ───────────────────────────────────────────── */
+.orbit-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(78vw, 21rem);
+  transform-origin: bottom;
+  cursor: pointer;
+  border-radius: 1.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #e9e6df;
+  padding: 1rem;
+  color: #141414;
+  outline: none;
+}
+
+.orbit-card:focus-visible {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 4px rgba(9, 9, 11, 0.2);
+}
+
+/* ── Portrait wrapper (inside card) ── */
+.orbit-card-portrait-wrap {
+  position: relative;
+}
+
+/* ─────────────────────────────────────────────
+   Portrait — shared base
+   ───────────────────────────────────────────── */
+.orbit-portrait {
+  position: relative;
+  display: flex;
+  aspect-ratio: 1.36;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1.45rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.045);
+}
+
+/* ── Portrait image (when provided) ── */
+.orbit-portrait-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ── Initials badge ── */
+.orbit-initials {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 9999px;
+  background-color: #09090b;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: white;
+}
+
+/* ─────────────────────────────────────────────
+   Portrait — illustrated placeholder
+   ───────────────────────────────────────────── */
+.orbit-portrait-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 22% 20%,
+      var(--accent, #f3f1ea),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 85% 72%,
+      rgba(255, 255, 255, 0.5),
+      transparent 28%
+    );
+  opacity: 0.45;
+}
+
+.orbit-portrait-body {
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  bottom: 0;
+  height: 72%;
+  border-top-left-radius: 999px;
+  border-top-right-radius: 999px;
+  border: 2px solid #09090b;
+  background-color: #f7f5ef;
+}
+
+.orbit-portrait-head {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  width: 6rem;
+  height: 6rem;
+  transform: translateX(-50%);
+  border-radius: 45% 55% 48% 52%;
+  border: 2px solid #09090b;
+  background-color: #f5f2eb;
+}
+
+.orbit-portrait-mouth {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  height: 0.5rem;
+  width: 2.5rem;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background-color: #09090b;
+  opacity: 0.8;
+}
+
+.orbit-portrait-eye {
+  position: absolute;
+  top: 34%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: #09090b;
+}
+
+.orbit-portrait-eye--left {
+  left: 27%;
+}
+
+.orbit-portrait-eye--right {
+  right: 27%;
+}
+
+.orbit-portrait-nose {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  height: 1.5rem;
+  width: 1rem;
+  transform: translateX(-50%);
+  border-bottom-left-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  border-bottom: 2px solid #09090b;
+}
+
+.orbit-portrait-hair {
+  position: absolute;
+  top: -1.25rem;
+  left: 50%;
+  height: 2.25rem;
+  width: 6rem;
+  transform: translateX(-50%);
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border: 2px solid #09090b;
+  border-bottom: 0;
+}
+
+/* ─────────────────────────────────────────────
+   Arrow button overlay
+   ───────────────────────────────────────────── */
+.orbit-arrow-btn {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  display: flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #09090b;
+  color: white;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.2),
+    0 4px 6px -4px rgba(0, 0, 0, 0.2);
+}
+
+.orbit-arrow-btn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ─────────────────────────────────────────────
+   Card body content
+   ───────────────────────────────────────────── */
+.orbit-card-body {
+  padding: 1.5rem 0.5rem 0.5rem;
+}
+
+.orbit-card-role {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #71717a;
+  margin: 0;
+}
+
+.orbit-card-name {
+  margin-top: 0.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #09090b;
+  margin-bottom: 0;
+}
+
+.orbit-card-desc {
+  margin-top: 1rem;
+  max-width: 17rem;
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+  color: #3f3f46;
+  margin-bottom: 0;
+}
+
+.orbit-card-footer {
+  margin-top: 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1rem;
+}
+
+.orbit-card-stat {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #71717a;
+}
+
+/* ─────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .orbit-stack-stage {
+    padding: 1rem;
+  }
+
+  .orbit-stack-inner {
+    height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .orbit-stack-inner {
+    height: 360px;
+  }
+
+  .orbit-card {
+    width: min(82vw, 18rem);
+    border-radius: 1.5rem;
+    padding: 0.75rem;
+  }
+
+  .orbit-portrait {
+    border-radius: 1.15rem;
+  }
+
+  .orbit-card-name {
+    font-size: 1.6rem;
+  }
+
+  .orbit-card-desc {
+    font-size: 0.88rem;
+  }
+}
