@@ -130,7 +130,7 @@ function Portrait({ item }) {
 }
 
 /* ── main component ── */
-export function OrbitCardStack({
+export function CardStack({
   items = defaultItems,
   className,
   cardClassName,
@@ -277,4 +277,4 @@ export function OrbitCardStack({
   );
 }
 
-export default OrbitCardStack;
+export default CardStack;
