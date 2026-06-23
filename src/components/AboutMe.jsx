@@ -2,7 +2,7 @@ import '../styles/about.css';
 import smilingEmoji from '../assets/smiling-emoji.webp';
 import wavingHandSign from '../assets/waving-hand-sign.webp';
 import { useInView } from '../hooks/useInView';
-import { CardStack } from '../CardStack';
+import { CardStack } from './CardStack.jsx';
 
 export default function AboutMe({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
