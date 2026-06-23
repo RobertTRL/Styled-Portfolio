@@ -2,7 +2,7 @@ import '../styles/about.css';
 import smilingEmoji from '../assets/smiling-emoji.webp';
 import wavingHandSign from '../assets/waving-hand-sign.webp';
 import { useInView } from '../hooks/useInView';
-import { OrbitCardStack } from './OrbitCardStack';
+import { CardStack } from '../CardStack';
 
 export default function AboutMe({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
@@ -50,7 +50,7 @@ export default function AboutMe({ isDark }) {
 
         {/* ── Right column: card stack ── */}
         <div className="about-right">
-          <OrbitCardStack />
+          <CardStack />
         </div>
       </div>
     </section>
