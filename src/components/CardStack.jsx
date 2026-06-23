@@ -157,7 +157,6 @@ function ArrowUpRightIcon() {
 const defaultItems = [
   {
     name: 'Mira Vale',
-    role: 'Creative Lead',
     description:
       'Shapes visual systems with enough restraint to feel expensive and enough edge to be remembered.',
     accent: '#f8d66d',
@@ -167,7 +166,6 @@ const defaultItems = [
   },
   {
     name: 'Noor Kade',
-    role: 'Product Strategy',
     description:
       'Turns loose ideas into sharp product moves, crisp priorities, and launchable experiences.',
     accent: '#78dcca',
@@ -177,7 +175,6 @@ const defaultItems = [
   },
   {
     name: 'Ari Chen',
-    role: 'Founder',
     description:
       'Sets the taste bar, protects the details, and keeps the whole team pointed at the same high signal.',
     accent: '#f3f1ea',
@@ -187,7 +184,6 @@ const defaultItems = [
   },
   {
     name: 'Sana Holt',
-    role: 'Frontend Engineer',
     description:
       'Builds the motion, polish, and interface texture that make the product feel calm under pressure.',
     accent: '#b9a7ff',
@@ -197,7 +193,6 @@ const defaultItems = [
   },
   {
     name: 'Ezra Moon',
-    role: 'Operations',
     description:
       'Keeps the machine quiet, the handoffs clean, and the team moving without pointless friction.',
     accent: '#ff9d77',
