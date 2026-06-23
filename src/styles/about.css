@@ -1,3 +1,9 @@
+/* ═══════════════════════════════════════════════
+   About Section — updated layout
+   left column  : watermark + description
+   right column : OrbitCardStack
+   ═══════════════════════════════════════════════ */
+
 /* ── Theme Variables ── */
 .about-section.dark-mode {
   --text-main:  #ffffff;
@@ -21,7 +27,7 @@
   --watermark:  rgba(15, 23, 42, 0.12);
 }
 
-/* ── Layout ── */
+/* ── Section layout ── */
 .about-section {
   min-height: 100vh;
   display: flex;
@@ -48,15 +54,34 @@
   transition: background 0.3s ease;
 }
 
-/* ── Inner row — watermark + content side by side ── */
+/* ── Inner row — two-column master grid ── */
 .about-inner {
   display: flex;
   flex-direction: row;
-  align-items: flex-start; /* both tops align — watermark crown meets "Who I am" */
-  gap: clamp(1rem, 3vw, 3rem);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 4rem);
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
+}
+
+/* ── Left column (watermark + text) ── */
+.about-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;          /* allow shrinking inside flex */
+}
+
+/* ── Right column (card stack) ── */
+.about-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 520px;     /* give the card stack vertical room */
 }
 
 /* ── Watermark ── */
@@ -71,12 +96,9 @@
   opacity: 0.55;
   user-select: none;
   pointer-events: none;
-  margin: 0;
+  margin: 0 0 clamp(1rem, 2vw, 2rem);
   text-align: left;
   flex-shrink: 0;
-  padding-top: clamp(1.5rem, 4vw, 3.5rem);
-  transform: translateY(-0.12em);
- 
 }
 
 .about-section.light-mode .about-watermark {
@@ -84,7 +106,7 @@
   opacity: 0.75;
 }
 
-/* ── Content block ── */
+/* ── Content block (inside left column, below watermark) ── */
 .about-content {
   flex: 1;
   max-width: 680px;
@@ -92,7 +114,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.25rem, 3vw, 2.5rem);
+  padding: 0;           /* padding removed — watermark is now above, not beside */
 }
 
 /* ── Section label ── */
@@ -190,10 +212,27 @@
   text-underline-offset: 4px;
 }
 
-/* ── Responsive ── */
+/* ═══════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .about-inner {
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .about-watermark {
+    font-size: clamp(4rem, 12vw, 8rem);
+  }
+}
+
 @media (max-width: 900px) {
   .about-inner {
     flex-direction: column;
+    align-items: center;
+  }
+
+  .about-left {
+    width: 100%;
     align-items: center;
   }
 
@@ -217,6 +256,11 @@
   .about-content {
     width: 100%;
   }
+
+  .about-right {
+    width: 100%;
+    min-height: 420px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -233,14 +277,19 @@
   .about-heading {
     margin-bottom: 1.5rem;
   }
+
+  .about-right {
+    min-height: 360px;
+  }
 }
 
+/* ── Dark-mode watermark animation ── */
 .about-section.dark-mode .about-watermark {
   transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
 }
 
 .about-section.dark-mode.in-view .about-watermark {
-  color: #4b0082; 
+  color: #4b0082;
   -webkit-text-stroke: 1px #4b0082;
   opacity: 0.8;
 }
