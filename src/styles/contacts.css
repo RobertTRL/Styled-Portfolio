@@ -78,7 +78,7 @@
 
 /* ── 1. Watermark ── */
 .contacts-watermark {
-  font-size: clamp(4rem, 12vw, 10rem);
+  font-size: clamp(5rem, 15vw, 14rem);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -88,7 +88,8 @@
   opacity: 0.55;
   user-select: none;
   pointer-events: none;
-  margin: 0 0 2rem;
+  margin: 0 0 1.6rem 0;
+  width: 100%;
   text-align: center;
   position: relative;
   z-index: 0;
