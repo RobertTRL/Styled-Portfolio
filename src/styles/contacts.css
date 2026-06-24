@@ -41,7 +41,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 clamp(1.5rem, 8vw, 8rem);
+  /* Generous horizontal padding; vertical padding so globe can breathe on short viewports */
+  padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 8vw, 8rem);
   background: var(--bg-color);
   position: relative;
   z-index: 2;
@@ -49,12 +50,13 @@
   transition: color 0.3s ease, background 0.3s ease;
 }
 
+/* Ambient glow — centred so it sits behind the globe */
 .contacts-section::before {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 55% 60% at 25% 55%,
+    ellipse 60% 55% at 50% 52%,
     var(--bg-glow) 0%,
     transparent 70%
   );
@@ -62,20 +64,22 @@
   transition: background 0.3s ease;
 }
 
-/* ── Inner row ── */
+/* ── Inner column: everything stacks vertically, centred ── */
 .contacts-inner {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: clamp(1rem, 3vw, 3rem);
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 1400px;
+  max-width: 860px;     /* wide enough for 4-card row; narrow enough to stay cohesive */
   margin: 0 auto;
+  gap: 0;               /* spacing is controlled per-child below */
+  position: relative;
+  z-index: 2;
 }
 
-/* ── Watermark ── */
+/* ── 1. Watermark ── */
 .contacts-watermark {
-  font-size: clamp(3.5rem, 8vw, 7rem); /* was clamp(5rem, 14vw, 12rem) */
+  font-size: clamp(4rem, 12vw, 10rem);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -85,11 +89,12 @@
   opacity: 0.55;
   user-select: none;
   pointer-events: none;
-  margin: 0;
-  text-align: left;
-  flex-shrink: 0;
-  padding-top: clamp(1.5rem, 4vw, 3.5rem);
-  transform: translateY(-0.12em);
+  margin: 0 0 -0.5rem;  /* let the heading overlap slightly for depth */
+  text-align: center;
+  /* Prevent the outline font from affecting layout flow */
+  position: relative;
+  z-index: 0;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .contacts-section.light-mode .contacts-watermark {
@@ -97,37 +102,47 @@
   opacity: 0.75;
 }
 
-/* ── Content ── */
-.contacts-content {
-  flex: 1;
-  max-width: 680px;
-  z-index: 2;
+.contacts-section.dark-mode .contacts-watermark {
+  transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
+}
+
+.contacts-section.dark-mode.in-view .contacts-watermark {
+  color: #4b0082;
+  -webkit-text-stroke: 1px #4b0082;
+  opacity: 0.8;
+}
+
+/* ── 2. Header block: label + heading + divider ── */
+.contacts-header {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   position: relative;
-  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.25rem, 3vw, 2.5rem);
+  z-index: 1;
+  margin-bottom: 0.25rem;
 }
 
 /* ── Label ── */
 .contacts-label {
   font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  font-size: clamp(0.85rem, 1.125vw, 0.96rem);
+  font-size: clamp(0.75rem, 1.1vw, 0.88rem);
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-label);
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
   transition: color 0.3s ease;
 }
 
 /* ── Heading ── */
 .contacts-heading {
-  font-size: clamp(2.2rem, 5.5vw, 5rem);
+  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.03em;
   color: var(--text-main);
-  margin: 0 0 2rem;
+  margin: 0 0 1.75rem;
   transition: color 0.3s ease;
 }
 
@@ -143,72 +158,35 @@
   height: 2px;
   background: var(--accent);
   border-radius: 2px;
-  margin-bottom: 2rem;
+  margin-bottom: 0;         /* globe provides the next visual gap */
   opacity: 0.6;
   transition: background 0.3s ease;
 }
 
-/* ── Tagline ── */
-.contacts-tagline {
-  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-  color: var(--text-sub);
-  line-height: 1.8;
-  font-family: "Libre Baskerville", serif;
-  font-size: 0.95rem;
-  margin: 0 0 1.75rem;
-  transition: color 0.3s ease;
-}
+/* ── 3. Globe — ContactGlobe component renders here (self-sizing) ── */
+/* No extra wrapper needed; ContactGlobe.css handles its own box */
 
-/* ── Availability badge ── */
-.availability-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--badge-text);
-  background: var(--badge-bg);
-  border: 1px solid var(--badge-border);
-  border-radius: 999px;
-  padding: 5px 14px 5px 10px;
-  margin-bottom: 2.5rem;
-  width: fit-content;
-  font-family: 'Helvetica Neue', sans-serif;
-  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
-}
-
-.badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--badge-dot);
-  flex-shrink: 0;
-  animation: pulse-dot 2.2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1;   transform: scale(1);    }
-  50%       { opacity: 0.5; transform: scale(0.75); }
-}
-
-/* ── Contact list ── */
+/* ── 4. Contact cards row ── */
 .contact-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 2.5rem;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  width: 100%;
+  display: grid;
+  /* 4 equal columns on desktop, collapses gracefully */
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
 }
 
+/* Each card */
 .contact-link {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  padding: clamp(1rem, 2vw, 1.25rem) clamp(1.25rem, 2.5vw, 1.5rem);
+  gap: 0.5rem;
+  padding: clamp(1rem, 2vw, 1.25rem) clamp(1rem, 2vw, 1.25rem);
+  min-height: 96px;
   background: var(--link-bg);
   border: 1px solid var(--link-border);
   border-radius: 14px;
@@ -224,7 +202,7 @@
 .contact-link:hover {
   background: var(--link-bg-hover);
   border-color: var(--link-bg-hover);
-  transform: translateX(4px);
+  transform: translateY(-3px);
 }
 
 .contact-link.copied {
@@ -239,8 +217,7 @@
 
 .link-label {
   font-family: "Libre Baskerville", serif;
-  /* font-optical-sizing: auto; */
-  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  font-size: clamp(0.88rem, 1.4vw, 1rem);
   font-weight: 700;
   color: var(--text-main);
   transition: color 0.3s ease;
@@ -248,10 +225,11 @@
 
 .link-sub {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(0.78rem, 1.1vw, 0.88rem);
+  font-size: clamp(0.72rem, 1vw, 0.82rem);
   color: var(--text-label);
-  /* font-style: italic; */
   transition: color 0.2s ease;
+  /* allow email to wrap rather than overflow the card */
+  word-break: break-all;
 }
 
 .contact-link.copied .link-sub {
@@ -261,10 +239,11 @@
 }
 
 .link-symbol {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   color: var(--accent);
   font-weight: 300;
   flex-shrink: 0;
+  align-self: flex-end;
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
@@ -276,69 +255,26 @@
   color: var(--badge-dot);
 }
 
-/* ── Footer note ── */
-.contacts-footer {
-  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
-  color: var(--text-label);
-  font-family: 'Palatino Linotype', serif;
-  line-height: 1.7;
-  margin: 0;
-  transition: color 0.3s ease;
-}
-
-.footer-link {
-  color: var(--footer-link);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: color 0.2s ease;
-}
-
-.footer-link:hover {
-  color: var(--accent);
-}
-
 /* ── Responsive ── */
-@media (max-width: 900px) {
-  .contacts-inner {
-    flex-direction: column;
-    align-items: center;
+
+/* Tablet: 2 × 2 grid */
+@media (max-width: 720px) {
+  .contact-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: single column */
+@media (max-width: 480px) {
+  .contacts-section {
+    padding: clamp(2rem, 6vh, 4rem) 1.25rem;
+  }
+
+  .contact-list {
+    grid-template-columns: 1fr;
   }
 
   .contacts-watermark {
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    text-align: center;
-    width: 100%;
-    transform: none;
-    padding-top: clamp(2rem, 6vh, 4rem);
+    font-size: clamp(3rem, 16vw, 5rem);
   }
-
-  .contacts-content {
-    width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .contacts-section {
-    padding: 0 1.5rem;
-    align-items: flex-start;
-  }
-
-  .contacts-content {
-    padding: 1.5rem 0;
-  }
-
-  .contacts-heading {
-    margin-bottom: 1.5rem;
-  }
-}
-
-.contacts-section.dark-mode .contacts-watermark {
-  transition: color 0.8s ease, -webkit-text-stroke 0.8s ease, opacity 0.8s ease;
-}
-
-.contacts-section.dark-mode.in-view .contacts-watermark {
-  color: #4b0082;
-  -webkit-text-stroke: 1px #4b0082;
-  opacity: 0.8;
 }

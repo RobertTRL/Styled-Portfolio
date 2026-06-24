@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/contacts.css";
 import { useInView } from "../hooks/useInView";
-import ContactGlobe from "./Globe";
+import ContactGlobe from "./Globe.jsx";
  
 /* ─── Contact data ─── */
 const PHONE_NUMBER   = '+254 791 154 865';
