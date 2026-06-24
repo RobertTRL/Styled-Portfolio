@@ -72,26 +72,6 @@
   contain: layout style;
 }
 
-.glare-wrapper.dark-mode {
-  --card-bg:     rgba(255, 255, 255, 0.04);
-  --card-border: rgba(255, 255, 255, 0.10);
-  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.30);
-  --text-main:   #ffffff;
-  --text-sub:    rgba(255, 255, 255, 0.55);
-  --text-label:  rgba(255, 255, 255, 0.35);
-  --accent:      #a5b4fc;
-}
-
-.glare-wrapper.light-mode {
-  --card-bg:     rgba(255, 255, 255, 0.55);
-  --card-border: rgba(15, 23, 42, 0.08);
-  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  --text-main:   #0f172a;
-  --text-sub:    #475569;
-  --text-label:  #94a3b8;
-  --accent:      #4f46e5;
-}
-
 /* ── 3-D tilt layer — transforms the whole card in 3-D space ── */
 .glare-tilt {
   position: relative;

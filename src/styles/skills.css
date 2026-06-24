@@ -8,6 +8,9 @@
   --accent:       #a5b4fc;
   --divider:      rgba(255, 255, 255, 0.10);
   --watermark:    rgba(255, 255, 255, 0.04);
+  --card-bg:      rgba(255, 255, 255, 0.04);
+  --card-border:  rgba(255, 255, 255, 0.10);
+  --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.30);
   --item-bg:      rgba(255, 255, 255, 0.06);
   --item-border:  rgba(255, 255, 255, 0.12);
   --fade-color:   #000000;
@@ -22,10 +25,14 @@
   --accent:       #4f46e5;
   --divider:      rgba(15, 23, 42, 0.10);
   --watermark:    rgba(15, 23, 42, 0.12);
+  --card-bg:      rgba(255, 255, 255, 0.55);
+  --card-border:  rgba(15, 23, 42, 0.08);
+  --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.08);
   --item-bg:      rgba(15, 23, 42, 0.04);
   --item-border:  rgba(15, 23, 42, 0.10);
   --fade-color:   #f8fafc;
 }
+
 /* ── Section layout ── */
 .skills-section {
   min-height: 100vh;

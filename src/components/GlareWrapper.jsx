@@ -11,15 +11,11 @@ import '../styles/glarewrapper.css';
  *   • Diagonal stripe layer (depth shimmer)
  *   • Rounded shape  — matches GlareCard's --radius (48px), softened to 24px
  *     here so it fits portfolio cards without looking like a bubble.
- *   • Theme-aware: isDark drives --card-bg / --text-main / etc. via the
- *     .dark-mode / .light-mode class on the outer shell, so the card's
- *     surface and text colors no longer depend on an ancestor section
- *     supplying those variables.
  *
  * No Tailwind. No fixed width/height. Adapts to whatever dimensions the
  * parent grid gives the card.
  */
-export default function GlareWrapper({ children, className = '', isDark = true }) {
+export default function GlareWrapper({ children, className = '' }) {
   const isPointerInside = useRef(false);
   const refElement      = useRef(null);
 
@@ -45,7 +41,7 @@ export default function GlareWrapper({ children, className = '', isDark = true }
   return (
     <div
       ref={refElement}
-      className={`glare-wrapper ${isDark ? 'dark-mode' : 'light-mode'} ${className}`}
+      className={`glare-wrapper ${className}`}
       onPointerMove={(e) => {
         const rotateFactor = 0.4;
         const rect = e.currentTarget.getBoundingClientRect();
