@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import './GlareWrapper.css';
+import '../styles/glarewrapper.css';
 
 /**
  * GlareWrapper
