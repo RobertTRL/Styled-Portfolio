@@ -240,7 +240,7 @@
 .link-label {
   font-family: "Libre Baskerville", serif;
   /* font-optical-sizing: auto; */
-  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
   font-weight: 700;
   color: var(--text-main);
   transition: color 0.3s ease;
