@@ -79,7 +79,7 @@ export default function Contacts({ isDark }) {
       <div className="contacts-inner">
  
         {/* 1. Watermark */}
-        <h1 className="contacts-watermark" aria-hidden="true">Contact</h1>
+        <h1 className="contacts-watermark" aria-hidden="true">Contacts</h1>
  
         {/* 2. Label + Heading + Divider */}
         <div className="contacts-header">
