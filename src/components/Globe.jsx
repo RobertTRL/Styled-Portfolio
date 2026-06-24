@@ -5,7 +5,7 @@ import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
 import { extend, useThree } from "@react-three/fiber";
 import countries from "@/data/globe.json";
-import "./ContactGlobe.css";
+import "../styles/globe.css";
  
 extend({ ThreeGlobe });
  
