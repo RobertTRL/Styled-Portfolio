@@ -1,5 +1,6 @@
 import '../styles/skills.css';
 import SkillsMarquee from './SkillsMarquee';
+import GlareWrapper  from './GlareWrapper';
 import { useInView } from '../hooks/useInView';
 
 import InDesign       from '../assets/Adobe-InDesign-Logo.webp';
@@ -29,13 +30,6 @@ const SKILL_IMAGES = [
 ];
 
 const EDUCATION = [
-  // {
-  //   institution: 'Jomo Kenyatta University of Agriculture and Technology',
-  //   degree:      'Bachelor of Science in Electrical and Electronics Engineering',
-  //   period:      '2026 – 2030',
-  //   description: 'Add a short summary of your studies, focus areas, or notable achievements here.',
-  //   type:        'education',
-  // },
   {
     name:        'Software Engineering',
     institution: 'Moringa School',
@@ -47,7 +41,7 @@ const EDUCATION = [
       'Completed a full-stack capstone project with a React frontend, Flask backend, and a relational database, solving a real business problem.',
       'Strengthened professional skills through career coaching, mock interviews, and learning soft skills with job-hunting support.',
     ],
-    type:        'certification',
+    type: 'certification',
   },
   {
     name:        'Graphic Design Masterclass',
@@ -59,7 +53,7 @@ const EDUCATION = [
       'Constructed a personal design portfolio of original work produced throughout the course, ready for client and employer presentation.',
       'Learned to integrate AI tools such as Nano Banana Pro into the design workflow for faster, more creative output.',
     ],
-    type:        'certification',
+    type: 'certification',
   },
 ];
 
@@ -73,13 +67,6 @@ const EXPERIENCE = [
       'Add another bullet point highlighting your impact or skills used.',
     ],
   },
-  // Add more jobs below as needed:
-  // {
-  //   role:        'Previous Role',
-  //   company:     'Previous Company',
-  //   period:      'Month Year – Month Year',
-  //   description: ['...'],
-  // },
 ];
 
 export default function Skills({ isDark }) {
@@ -111,48 +98,59 @@ export default function Skills({ isDark }) {
           {/* ── Education & Certifications ── */}
           <div className="edu-cert-col">
             <h3 className="col-heading">Education &amp; Certifications</h3>
+
             {EDUCATION.map((item, i) => (
-              <div className="card" key={i}>
-                <div className="card-top">
-                  <span className="card-title">
-                    {item.type === 'education' ? item.degree : item.name}
-                  </span>
-                  <span className="card-period">{item.period}</span>
+              /*
+                GlareWrapper replaces the bare <div className="card">.
+                The .card class now lives INSIDE the wrapper — this keeps
+                your existing card styles intact and lets GlareWrapper
+                own the shape, tilt, and foil overlays.
+              */
+              <GlareWrapper key={i} className="glare-card-spacing">
+                <div className="card">
+                  <div className="card-top">
+                    <span className="card-title">
+                      {item.type === 'education' ? item.degree : item.name}
+                    </span>
+                    <span className="card-period">{item.period}</span>
+                  </div>
+                  <p className="card-sub">{item.institution}</p>
+                  {item.description && (
+                    Array.isArray(item.description) ? (
+                      <ul className="card-desc-list">
+                        {item.description.map((point, j) => (
+                          <li key={j} className="card-desc">{point}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="card-desc">{item.description}</p>
+                    )
+                  )}
                 </div>
-                <p className="card-sub">{item.institution}</p>
-                {item.description && (
-                  Array.isArray(item.description) ? (
+              </GlareWrapper>
+            ))}
+          </div>
+
+          {/* ── Experience (uncomment when ready) ── */}
+          {/* <div className="edu-cert-col">
+            <h3 className="col-heading">Experience</h3>
+            {EXPERIENCE.map((item, i) => (
+              <GlareWrapper key={i} className="glare-card-spacing">
+                <div className="card">
+                  <div className="card-top">
+                    <span className="card-title">{item.role}</span>
+                    <span className="card-period">{item.period}</span>
+                  </div>
+                  <p className="card-sub">{item.company}</p>
+                  {item.description && (
                     <ul className="card-desc-list">
                       {item.description.map((point, j) => (
                         <li key={j} className="card-desc">{point}</li>
                       ))}
                     </ul>
-                  ) : (
-                    <p className="card-desc">{item.description}</p>
-                  )
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* ── Experience ── */}
-          {/* <div className="edu-cert-col">
-            <h3 className="col-heading">Experience</h3>
-            {EXPERIENCE.map((item, i) => (
-              <div className="card" key={i}>
-                <div className="card-top">
-                  <span className="card-title">{item.role}</span>
-                  <span className="card-period">{item.period}</span>
+                  )}
                 </div>
-                <p className="card-sub">{item.company}</p>
-                {item.description && (
-                  <ul className="card-desc-list">
-                    {item.description.map((point, j) => (
-                      <li key={j} className="card-desc">{point}</li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              </GlareWrapper>
             ))}
           </div> */}
 
