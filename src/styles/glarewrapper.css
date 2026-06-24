@@ -1,23 +1,5 @@
-/* ─────────────────────────────────────────────────────────────────────────────
-   GlareWrapper.css
-   Vanilla CSS companion for GlareWrapper.jsx.
-
-   Visual layers (all stacked via position: absolute / inset: 0):
-     1. glare-content   → your card children, fully visible
-     2. glare-spotlight → white radial gradient tracking cursor (mix-blend: soft-light)
-     3. glare-foil      → rainbow + diagonal shimmer     (mix-blend: color-dodge)
-
-   CSS custom properties (driven by JS via style.setProperty):
-     --m-x / --m-y   → cursor position as %   (glare spotlight center)
-     --r-x / --r-y   → rotation in deg         (3-D tilt)
-     --bg-x / --bg-y → background offset as %  (foil parallax)
-     --opacity       → 0 at rest, 1 on hover   (overlay visibility)
-     --duration      → transition speed; set to 0s during active tracking
-───────────────────────────────────────────────────────────────────────────── */
-
 /* ── Outer perspective shell ── */
 .glare-wrapper {
-  /* CSS custom property defaults */
   --m-x:        50%;
   --m-y:        50%;
   --r-x:        0deg;
@@ -28,21 +10,19 @@
   --opacity:    0;
   --radius:     24px;
   --easing:     ease;
-
-  /* Foil gradient tokens */
   --step:       5%;
   --foil-svg:   url("data:image/svg+xml,%3Csvg width='26' height='26' viewBox='0 0 26 26' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.99994 3.419C2.99994 3.419 21.6142 7.43646 22.7921 12.153C23.97 16.8695 3.41838 23.0306 3.41838 23.0306' stroke='white' stroke-width='5' stroke-miterlimit='3.86874' stroke-linecap='round' style='mix-blend-mode:darken'/%3E%3C/svg%3E");
   --pattern:    var(--foil-svg) center / 100% no-repeat;
   --rainbow:    repeating-linear-gradient(
-                0deg,
-                rgba(255, 240, 245, 1) calc(var(--step) * 1),   /* rose white   */
-                rgba(255, 250, 228, 1) calc(var(--step) * 2),   /* warm cream   */
-                rgba(232, 255, 248, 1) calc(var(--step) * 3),   /* mint white   */
-                rgba(218, 238, 255, 1) calc(var(--step) * 4),   /* ice blue     */
-                rgba(238, 233, 255, 1) calc(var(--step) * 5),   /* lavender     */
-                rgba(255, 243, 252, 1) calc(var(--step) * 6),   /* blush        */
-                rgba(255, 240, 245, 1) calc(var(--step) * 7)    /* rose white ↺ */
-              ) 0% var(--bg-y) / 200% 700% no-repeat;
+                  0deg,
+                  rgba(255, 240, 245, 1) calc(var(--step) * 1),
+                  rgba(255, 250, 228, 1) calc(var(--step) * 2),
+                  rgba(232, 255, 248, 1) calc(var(--step) * 3),
+                  rgba(218, 238, 255, 1) calc(var(--step) * 4),
+                  rgba(238, 233, 255, 1) calc(var(--step) * 5),
+                  rgba(255, 243, 252, 1) calc(var(--step) * 6),
+                  rgba(255, 240, 245, 1) calc(var(--step) * 7)
+                ) 0% var(--bg-y) / 200% 700% no-repeat;
   --diagonal:   repeating-linear-gradient(
                   128deg,
                   #0e152e 0%,
@@ -59,34 +39,35 @@
                   rgba(255, 255, 255, 0.25) 120%
                 ) var(--bg-x) var(--bg-y) / 300% no-repeat;
 
-  /* Layout */
   display: block;
   position: relative;
   perspective: 600px;
 
-  /* Spring-back transition when pointer leaves */
-  transition:
-    transform var(--duration) var(--easing);
+  /* isolation: isolate replaces contain: layout style —
+     scopes blend modes correctly without breaking custom
+     property inheritance or causing containment side effects */
+  isolation: isolate;
 
+  transition: transform var(--duration) var(--easing);
   will-change: transform;
-  contain: layout style;
 }
 
-/* ── 3-D tilt layer — transforms the whole card in 3-D space ── */
+/* ── 3-D tilt layer ── */
 .glare-tilt {
   position: relative;
   width: 100%;
-  height: 100%;
+  /* No height: 100% — let content define height naturally.
+     height: 100% with no explicit parent height collapses to 0,
+     taking the absolute-positioned spotlight and foil with it. */
   border-radius: var(--radius);
   overflow: hidden;
 
   transform: rotateY(var(--r-x)) rotateX(var(--r-y));
   transform-origin: center center;
-  transform-style: preserve-3d;
+  /* transform-style: preserve-3d removed —
+     overflow: hidden cancels it per spec anyway */
 
-  transition:
-    transform  var(--duration) var(--easing);
-
+  transition: transform var(--duration) var(--easing);
   will-change: transform;
 }
 
@@ -94,16 +75,8 @@
 .glare-content {
   position: relative;
   z-index: 1;
-  width: 100%;
-  height: 100%;
+  /* No height: 100% — natural height from children */
   border-radius: var(--radius);
-
-  /* 
-    Clip content to the rounded shape — this is what gives the card
-    the same beautiful rounded silhouette as the original GlareCard.
-    clip-path: inset(0 round var(--radius)) is equivalent to
-    GlareCard's [clip-path:inset(0_0_0_0_round_var(--radius))].
-  */
   clip-path: inset(0 round var(--radius));
 }
 
