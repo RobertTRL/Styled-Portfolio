@@ -156,8 +156,7 @@
   display: flex;
   width: 100%;
   overflow: hidden;
-  /* Crucial: Row gap must match track gap to hide the seam between Track 1 and 2 */
-  gap: clamp(0.75rem, 1.5vw, 1.25rem); 
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
 }
 
 .marquee-track {
@@ -171,24 +170,21 @@
 .track-left  { animation: scroll-left  60s linear infinite; }
 .track-right { animation: scroll-right 60s linear infinite; }
 
-/* Moves left exactly one track's width + the row gap */
 @keyframes scroll-left {
   0%   { transform: translateX(0); }
   100% { transform: translateX(calc(-100% - clamp(0.75rem, 1.5vw, 1.25rem))); }
 }
 
-/* Starts shifted left, moves right to 0 */
 @keyframes scroll-right {
   0%   { transform: translateX(calc(-100% - clamp(0.75rem, 1.5vw, 1.25rem))); }
   100% { transform: translateX(0); }
 }
 
-/* Pause on hover */
 .marquee-wrapper:hover .marquee-track {
   animation-play-state: paused;
 }
 
-/* ── Marquee Items (Updated for Labels) ── */
+/* ── Marquee Items ── */
 .marquee-item {
   display: flex;
   flex-direction: column;
@@ -206,9 +202,8 @@
 }
 
 .marquee-item:hover {
-  /* border-color: var(--accent); */
   transform: translateY(-3px);
-  background: var(--card-bg); 
+  background: var(--card-bg);
 }
 
 .marquee-item img {
@@ -228,14 +223,13 @@
 
 .marquee-label {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  /* font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif; */
   font-size: clamp(0.65rem, 1vw, 0.75rem);
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: var(--text-sub); 
+  color: var(--text-sub);
   text-align: center;
   white-space: nowrap;
-  display: block; 
+  display: block;
   transition: color 0.3s ease;
 }
 
@@ -278,23 +272,48 @@
   font-size: 0.9em;
 }
 
-/* ── Cards ── */
+/* ─────────────────────────────────────────────────────────────────────────────
+   .card
+   ─────────────────────────────────────────────────────────────────────────────
+   IMPORTANT CHANGE: border-radius and overflow are now removed from .card.
+   GlareWrapper owns the shape via --radius and clip-path on .glare-content.
+   The card itself is now a flat styled surface; the rounding happens one
+   level up in the wrapper so the foil overlay clips to the same curve.
+   ─────────────────────────────────────────────────────────────────────────────
+*/
 .card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 16px;
+
+  /*
+    border-radius is intentionally removed here.
+    GlareWrapper's .glare-content applies clip-path: inset(0 round 24px)
+    which rounds the visible surface. If you add border-radius back here
+    you'll see a mismatch between the card corners and the foil overlay.
+  */
+
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
-  margin-bottom: 1rem;
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease;
+
+  /*
+    Removed: transform: translateY(-2px) on hover.
+    The 3-D tilt from GlareWrapper replaces that micro-lift, and stacking
+    two transforms would fight each other.
+  */
 }
 
-.card:hover {
-  /* border-color: var(--accent); */
-  transform: translateY(-2px);
-  box-shadow: var(--card-shadow), 0 0 0 2px var(--item-bg);
+/* ─────────────────────────────────────────────────────────────────────────────
+   .glare-card-spacing
+   ─────────────────────────────────────────────────────────────────────────────
+   Applied to GlareWrapper via className="glare-card-spacing".
+   Adds the bottom margin previously on .card, since the wrapper is now the
+   outermost element in the list.
+── */
+.glare-card-spacing {
+  margin-bottom: 1rem;
 }
 
 .card-top {
@@ -381,7 +400,6 @@
   }
 }
 
-/* Fixed the typo here from @Pro @media to just @media */
 @media (max-width: 600px) {
   .skills-intro {
     padding-left: 1.5rem;
@@ -402,9 +420,10 @@
     justify-self: center;
   }
 
-  .card-sub, .card-title , .card-desc{
+  .card-sub,
+  .card-title,
+  .card-desc {
     text-align: center;
     align-self: center;
   }
 }
-
