@@ -9,6 +9,7 @@
   --divider:            rgba(255, 255, 255, 0.10);
   --watermark:          rgba(255, 255, 255, 0.04);
   --item-bg:            rgba(255, 255, 255, 0.06);
+  --item-hover-bg:      #0A0A0A;
   --item-border:        rgba(255, 255, 255, 0.12);
   --fade-color:         #000000;
 
@@ -36,6 +37,7 @@
   --divider:            rgba(15, 23, 42, 0.10);
   --watermark:          rgba(15, 23, 42, 0.12);
   --item-bg:            rgba(15, 23, 42, 0.04);
+  --item-hover-bg:      #ffffff;
   --item-border:        rgba(15, 23, 42, 0.10);
   --fade-color:         #f8fafc;
 
@@ -223,7 +225,7 @@
 
 .marquee-item:hover {
   transform: translateY(-3px);
-  background: var(--card-bg);
+  background: var(--item-hover-bg);
 }
 
 .marquee-item img {
