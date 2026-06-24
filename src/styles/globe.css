@@ -1,0 +1,112 @@
+/* ── ContactGlobe.css ── */
+
+/* ── Wrapper: contains the canvas + fades + caption ── */
+.contact-globe-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 520px;     /* cap so it doesn't sprawl on wide screens */
+  margin: 0 auto;
+  /* vertical breathing room between heading and cards */
+  padding: 1rem 0 0.5rem;
+}
+
+/* ── Canvas container: fixed aspect ratio ── */
+.contact-globe-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 0.9;   /* slightly squashed — matches three-globe's 1.2 aspect */
+  overflow: hidden;
+}
+
+.contact-globe-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Suspense placeholder while Three.js boots ── */
+.contact-globe-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* ── Gradient fades: blends globe into the section bg ── */
+.contact-globe-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 72px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.contact-globe-fade--top {
+  top: 0;
+  /* fades from the section's bg into transparent — override per theme below */
+  background: linear-gradient(to bottom, var(--globe-fade-color, transparent), transparent);
+}
+
+.contact-globe-fade--bottom {
+  bottom: 56px;         /* sits just above the caption */
+  background: linear-gradient(to top, var(--globe-fade-color, transparent), transparent);
+}
+
+/* ── Theme-aware fade color ── */
+/*
+  The parent .contacts-section already carries --bg-color, but the globe
+  lives inside .contacts-content which has its own padding/bg.
+  We piggy-back on the theme class hoisted to .contacts-section via CSS
+  inheritance so both light and dark feel right.
+*/
+.contacts-section.dark-mode  .contact-globe-fade { --globe-fade-color: #0a0f1e; }
+.contacts-section.light-mode .contact-globe-fade { --globe-fade-color: #f0f6ff; }
+
+/* ── Caption below the globe ── */
+.contact-globe-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--text-label);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
+  padding: 0.5rem 0 0;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.contact-globe-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--badge-dot);
+  flex-shrink: 0;
+  animation: globe-dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes globe-dot-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.4; transform: scale(0.72); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .contact-globe-wrapper {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-globe-wrapper {
+    max-width: 320px;
+  }
+
+  .contact-globe-fade {
+    height: 48px;
+  }
+}
