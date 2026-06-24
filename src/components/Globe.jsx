@@ -10,7 +10,7 @@ import "../styles/globe.css";
 extend({ ThreeGlobe });
 
 const CAMERA_Z               = 300;
-const ASPECT                 = 1.2;
+const ASPECT                 = 1;
 const RING_PROPAGATION_SPEED = 3;
 
 /* ── Arc data radiating from Nakuru, Kenya (-0.303, 36.080) ── */
