@@ -89,7 +89,7 @@
   opacity: 0.55;
   user-select: none;
   pointer-events: none;
-  margin: 0 0 -0.5rem;  /* let the heading overlap slightly for depth */
+  margin: 0 0 2rem;  /* let the heading overlap slightly for depth */
   text-align: center;
   /* Prevent the outline font from affecting layout flow */
   position: relative;
@@ -137,13 +137,14 @@
 
 /* ── Heading ── */
 .contacts-heading {
-  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  font-size: clamp(1.6rem, 4vw, 4.5rem);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.03em;
   color: var(--text-main);
-  margin: 0 0 1.75rem;
+  margin: 0 0 1rem;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 
 .serif-word {
@@ -158,7 +159,7 @@
   height: 2px;
   background: var(--accent);
   border-radius: 2px;
-  margin-bottom: 0;         /* globe provides the next visual gap */
+  margin-bottom: -3.5rem;         /* globe provides the next visual gap */
   opacity: 0.6;
   transition: background 0.3s ease;
 }

@@ -85,8 +85,7 @@ export default function Contacts({ isDark }) {
         <div className="contacts-header">
           <p className="contacts-label">Do you want to get in touch?</p>
           <h2 className="contacts-heading">
-            Let's build something<br />
-            <span className="serif-word">together.</span>
+            Let's build something <span className="serif-word">together.</span>
           </h2>
           <div className="contacts-divider" />
         </div>

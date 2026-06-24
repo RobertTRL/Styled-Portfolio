@@ -2,8 +2,7 @@
 
 .contact-globe-wrapper {
   position: relative;
-  width: 100%;
-  max-width: 520px;
+  width: clamp(300px, 60vw, 720px);
   margin: 0 auto;
   padding: 1rem 0 0.5rem;
 }
@@ -12,7 +11,7 @@
 .contact-globe-canvas {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 0.9;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
 }
 
