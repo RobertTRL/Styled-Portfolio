@@ -226,6 +226,7 @@
 .marquee-item:hover {
   transform: translateY(-3px);
   background: var(--item-hover-bg);
+  /*  */
 }
 
 .marquee-item img {
