@@ -1,36 +1,56 @@
 /* ── Theme Variables ── */
 .skills-section.dark-mode {
-  --text-main:    #ffffff;
-  --text-sub:     rgba(255, 255, 255, 0.55);
-  --text-label:   rgba(255, 255, 255, 0.35);
-  --bg-color:     transparent;
-  --bg-glow:      rgba(100, 120, 255, 0.07);
-  --accent:       #a5b4fc;
-  --divider:      rgba(255, 255, 255, 0.10);
-  --watermark:    rgba(255, 255, 255, 0.04);
-  --card-bg:      rgba(255, 255, 255, 0.04);
-  --card-border:  rgba(255, 255, 255, 0.10);
-  --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.30);
-  --item-bg:      rgba(255, 255, 255, 0.06);
-  --item-border:  rgba(255, 255, 255, 0.12);
-  --fade-color:   #000000;
+  --text-main:          #ffffff;
+  --text-sub:           rgba(255, 255, 255, 0.55);
+  --text-label:         rgba(255, 255, 255, 0.35);
+  --bg-color:           transparent;
+  --bg-glow:            rgba(100, 120, 255, 0.07);
+  --accent:             #a5b4fc;
+  --divider:            rgba(255, 255, 255, 0.10);
+  --watermark:          rgba(255, 255, 255, 0.04);
+  --item-bg:            rgba(255, 255, 255, 0.06);
+  --item-border:        rgba(255, 255, 255, 0.12);
+  --fade-color:         #000000;
+
+  /* ── Card component tokens ── */
+  --card-bg:            #0A0A0A;
+  --card-border:        rgba(255, 255, 255, 0.10);
+  --card-shadow:        0 4px 24px rgba(0, 0, 0, 0.30);
+  --card-title:         #ffffff;
+  --card-period-color:  #a5b4fc;
+  --card-period-border: rgba(165, 180, 252, 0.65);
+  --card-sub:           rgba(255, 255, 255, 0.35);
+  --card-desc:          rgba(255, 255, 255, 0.55);
+  --card-credential:    rgba(255, 255, 255, 0.30);
+  --card-code-color:    #a5b4fc;
+  --card-code-bg:       rgba(165, 180, 252, 0.08);
 }
 
 .skills-section.light-mode {
-  --text-main:    #0f172a;
-  --text-sub:     #475569;
-  --text-label:   #94a3b8;
-  --bg-color:     transparent;
-  --bg-glow:      rgba(30, 58, 138, 0.04);
-  --accent:       #4f46e5;
-  --divider:      rgba(15, 23, 42, 0.10);
-  --watermark:    rgba(15, 23, 42, 0.12);
-  --card-bg:      rgba(255, 255, 255, 0.55);
-  --card-border:  rgba(15, 23, 42, 0.08);
-  --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.08);
-  --item-bg:      rgba(15, 23, 42, 0.04);
-  --item-border:  rgba(15, 23, 42, 0.10);
-  --fade-color:   #f8fafc;
+  --text-main:          #0f172a;
+  --text-sub:           #475569;
+  --text-label:         #94a3b8;
+  --bg-color:           transparent;
+  --bg-glow:            rgba(30, 58, 138, 0.04);
+  --accent:             #4f46e5;
+  --divider:            rgba(15, 23, 42, 0.10);
+  --watermark:          rgba(15, 23, 42, 0.12);
+  --item-bg:            rgba(15, 23, 42, 0.04);
+  --item-border:        rgba(15, 23, 42, 0.10);
+  --fade-color:         #f8fafc;
+
+  /* ── Card component tokens — dark base so glare overlay has contrast ── */
+  --card-bg:            #14142a;
+  --card-border:        rgba(255, 255, 255, 0.09);
+  --card-shadow:        0 4px 32px rgba(0, 0, 0, 0.40);
+  --card-title:         #f0efff;
+  --card-period-color:  #a5b4fc;
+  --card-period-border: rgba(165, 180, 252, 0.60);
+  --card-sub:           rgba(230, 228, 255, 0.38);
+  --card-desc:          rgba(230, 228, 255, 0.58);
+  --card-credential:    rgba(230, 228, 255, 0.30);
+  --card-code-color:    #a5b4fc;
+  --card-code-bg:       rgba(165, 180, 252, 0.10);
 }
 
 /* ── Section layout ── */
@@ -284,25 +304,11 @@
 .card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-
-  /*
-    border-radius is intentionally removed here.
-    GlareWrapper's .glare-content applies clip-path: inset(0 round 24px)
-    which rounds the visible surface. If you add border-radius back here
-    you'll see a mismatch between the card corners and the foil overlay.
-  */
-
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: box-shadow 0.2s ease;
-
-  /*
-    Removed: transform: translateY(-2px) on hover.
-    The 3-D tilt from GlareWrapper replaces that micro-lift, and stacking
-    two transforms would fight each other.
-  */
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -328,7 +334,7 @@
   font-family: Helvetica, sans-serif;
   font-size: clamp(0.9rem, 1.4vw, 1.05rem);
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--card-title);
   line-height: 1.3;
   transition: color 0.3s ease;
 }
@@ -338,44 +344,43 @@
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.06em;
-  color: var(--accent);
+  color: var(--card-period-color);
   white-space: nowrap;
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid var(--accent);
-  opacity: 0.8;
+  border: 1px solid var(--card-period-border);
+  opacity: 0.85;
   flex-shrink: 0;
 }
 
 .card-sub {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: clamp(0.8rem, 1.2vw, 0.9rem);
-  color: var(--text-label);
+  color: var(--card-sub);
   margin: 0 0 0.75rem;
   transition: color 0.3s ease;
 }
 
 .card-desc {
-  font-size: clamp(0.82rem, 1.2vw, 0.92rem);
-  color: var(--text-sub);
-  line-height: 1.7;
   font-family: "Libre Baskerville", serif;
   font-size: 0.8rem;
+  color: var(--card-desc);
+  line-height: 1.7;
   margin: 0;
   transition: color 0.3s ease;
 }
 
 .card-credential {
   font-size: 0.78rem;
-  color: var(--text-label);
+  color: var(--card-credential);
   margin: 0.5rem 0 0;
   transition: color 0.3s ease;
 }
 
 .card-credential code {
   font-family: 'SF Mono', 'Fira Code', monospace;
-  color: var(--accent);
-  background: rgba(165, 180, 252, 0.08);
+  color: var(--card-code-color);
+  background: var(--card-code-bg);
   padding: 1px 5px;
   border-radius: 4px;
 }
