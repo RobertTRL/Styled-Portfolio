@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState, Suspense } from "react";
+import { useEffect, useRef, useState, useMemo, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
 import { extend, useThree } from "@react-three/fiber";
-import countries from "@/data/globe.json";
 import "../styles/globe.css";
- 
+
 extend({ ThreeGlobe });
 
 const CAMERA_Z               = 300;
 const ASPECT                 = 1;
 const RING_PROPAGATION_SPEED = 3;
+const MAX_DPR                = 1.5; // caps render resolution on high-DPI screens
 
 /* ── Arc data radiating from Nakuru, Kenya (-0.303, 36.080) ── */
 const ARCS = [
@@ -35,19 +35,37 @@ function genRandomNumbers(min, max, count) {
 }
 
 function WebGLRendererConfig() {
-  const { gl, size } = useThree();
+  const { gl } = useThree();
   useEffect(() => {
-    gl.setPixelRatio(window.devicePixelRatio);
-    gl.setSize(size.width, size.height);
+    // dpr and sizing are handled by <Canvas dpr={...}> and R3F's own
+    // resize observer now — this only needs to set the transparent clear color.
     gl.setClearColor(0x000000, 0);
-  }, [gl, size]);
+  }, [gl]);
   return null;
 }
 
+// isDark is accepted but currently unused below — the material/data/rings
+// effects don't branch on it. Left as a prop in case you want to wire up
+// an actual dark/light globe variant later; for now it just costs nothing
+// since it's no longer in any dependency array.
 function GlobeMesh({ isDark }) {
   const groupRef = useRef(null);
   const globeRef = useRef(null);
   const [ready, setReady] = useState(false);
+  const [countries, setCountries] = useState(null);
+
+  /* Fetch globe.json at runtime instead of bundling 477 KB into the JS chunk.
+     Move the file from src/data/globe.json to public/data/globe.json. */
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/data/globe.json", { signal: controller.signal })
+      .then((res) => res.json())
+      .then(setCountries)
+      .catch((err) => {
+        if (err.name !== "AbortError") console.error("Failed to load globe data:", err);
+      });
+    return () => controller.abort();
+  }, []);
 
   /* Init once */
   useEffect(() => {
@@ -57,7 +75,7 @@ function GlobeMesh({ isDark }) {
     setReady(true);
   }, []);
 
-  /* Material — matches the dark navy look from the reference */
+  /* Material — fixed colors regardless of theme, so this only needs to run once ready */
   useEffect(() => {
     if (!ready || !globeRef.current) return;
     const mat = globeRef.current.globeMaterial();
@@ -65,17 +83,16 @@ function GlobeMesh({ isDark }) {
     mat.emissive          = new Color("#1a3a7a");
     mat.emissiveIntensity = 0.6;
     mat.shininess         = 0.9;
-  }, [ready, isDark]);
+  }, [ready]);
 
-  /* Data */
+  /* Data — gated on the fetched countries payload instead of a static import */
   useEffect(() => {
-    if (!ready || !globeRef.current) return;
+    if (!ready || !globeRef.current || !countries) return;
 
     const polyColor = "rgba(150,210,255,0.7)";
     const arcTime   = 2000;
     const arcLength = 0.9;
 
-    /* Deduplicated endpoint dots */
     const points = ARCS.flatMap((arc) => [
       { order: arc.order, color: arc.color, lat: arc.startLat, lng: arc.startLng },
       { order: arc.order, color: arc.color, lat: arc.endLat,   lng: arc.endLng   },
@@ -98,7 +115,7 @@ function GlobeMesh({ isDark }) {
       .arcStartLng((d) => +d.startLng)
       .arcEndLat((d)   => +d.endLat)
       .arcEndLng((d)   => +d.endLng)
-      .arcColor((d)    => d.color)          // single string — no array
+      .arcColor((d)    => d.color)
       .arcAltitude((d) => +d.arcAlt)
       .arcStroke(0.3)
       .arcDashLength(arcLength)
@@ -119,9 +136,9 @@ function GlobeMesh({ isDark }) {
       .ringMaxRadius(3)
       .ringPropagationSpeed(RING_PROPAGATION_SPEED)
       .ringRepeatPeriod((arcTime * arcLength) / 1);
-  }, [ready, isDark]);
+  }, [ready, countries]);
 
-  /* Rings pulse interval */
+  /* Rings pulse interval — also independent of isDark */
   useEffect(() => {
     if (!ready || !globeRef.current) return;
     const id = setInterval(() => {
@@ -134,25 +151,32 @@ function GlobeMesh({ isDark }) {
       );
     }, 2000);
     return () => clearInterval(id);
-  }, [ready, isDark]);
+  }, [ready]);
 
   return <group ref={groupRef} />;
 }
 
 function GlobeScene({ isDark }) {
-  const scene = new Scene();
-  scene.fog   = new Fog(0xffffff, 400, 2000);
+  // Stable identity for the whole component lifetime. Without this, a fresh
+  // Scene/Camera was created on every render and handed to <Canvas>, which
+  // most likely reset OrbitControls' current rotation back to default.
+  const { scene, camera } = useMemo(() => {
+    const s = new Scene();
+    s.fog = new Fog(0xffffff, 400, 2000);
+    const c = new PerspectiveCamera(50, ASPECT, 180, 1800);
+    return { scene: s, camera: c };
+  }, []);
+
+  const lightPos1 = useMemo(() => new Vector3(-400, 100, 400), []);
+  const lightPos2 = useMemo(() => new Vector3(-200, 500, 200), []);
 
   return (
-    <Canvas
-      scene={scene}
-      camera={new PerspectiveCamera(50, ASPECT, 180, 1800)}
-    >
+    <Canvas scene={scene} camera={camera} dpr={[1, MAX_DPR]}>
       <WebGLRendererConfig />
       <ambientLight     color="#ffffff" intensity={1.2} />
-      <directionalLight color="#ffffff" position={new Vector3(-400, 100, 400)} intensity={1.5} />
-      <directionalLight color="#4f70ff" position={new Vector3(-200, 500, 200)} intensity={0.8} />
-      <pointLight       color="#06b6d4" position={new Vector3(-200, 500, 200)} intensity={1.0} />
+      <directionalLight color="#ffffff" position={lightPos1} intensity={1.5} />
+      <directionalLight color="#4f70ff" position={lightPos2} intensity={0.8} />
+      <pointLight       color="#06b6d4" position={lightPos2} intensity={1.0} />
       <GlobeMesh isDark={isDark} />
       <OrbitControls
         enablePan={false}
