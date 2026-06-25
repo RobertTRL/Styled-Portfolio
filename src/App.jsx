@@ -93,13 +93,15 @@ const AppContent = ({ isDark, onToggle, onDOMCommitted }) => {
             take a while on slower connections. Isolating it here means it
             never blanks Hero/AboutMe/Skills/Navbar while it loads, and it
             doesn't even start downloading until the user nears it. */}
+
+        <Projects isDark={isDark} />
+
         <LazyMount>
           <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
             <Contacts isDark={isDark} />
           </Suspense>
         </LazyMount>
-
-        <Projects isDark={isDark} />
+        
       </main>
       <Navbar isDark={isDark} />
       <Analytics />
