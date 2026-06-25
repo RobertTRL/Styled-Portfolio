@@ -6,8 +6,8 @@ const NAV_ITEMS = [
   { label: 'Home',     href: '#home'     },
   { label: 'About Me', href: '#about'    },
   { label: 'Skills',   href: '#skills'   },
-  { label: 'Contacts', href: '#contacts' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Contacts', href: '#contacts' },
 ];
  
 export default function NavBar({ isDark }) {
