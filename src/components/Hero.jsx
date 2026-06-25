@@ -8,7 +8,7 @@ export default function Hero({ isDark }) {
       behavior: 'smooth',
       block: 'start',
     };
-    const target = document.getElementById('about');
+    const target = document.getElementById('projects');
 
     if (target) {
       target.scrollIntoView(options);
@@ -34,7 +34,7 @@ export default function Hero({ isDark }) {
       </p>
 
       <button className="hero-btn" onClick={scrollToAbout}>
-        Learn More
+        View my work
         <span className="hero-btn-arrow" aria-hidden="true">&darr;</span>
       </button>
     </div>
