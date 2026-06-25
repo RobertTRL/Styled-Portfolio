@@ -7,13 +7,13 @@
   --bg-glow:        rgba(100, 120, 255, 0.07);
   --accent:         #a5b4fc;
   --watermark:      rgba(255, 255, 255, 0.04);
-  --link-bg:        rgba(255, 255, 255, 0.04);
-  --link-bg-hover:  rgba(255, 255, 255, 0.08);
   --link-border:    rgba(255, 255, 255, 0.10);
   --badge-bg:       rgba(74, 222, 128, 0.12);
+  --link-bg-hover:  #404040;
   --badge-border:   rgba(74, 222, 128, 0.30);
   --badge-dot:      #4ade80;
   --badge-text:     #4ade80;
+  --bg-link:        #0A0A0A;
   --footer-link:    rgba(255, 255, 255, 0.55);
 }
 
@@ -25,13 +25,13 @@
   --bg-glow:        rgba(30, 58, 138, 0.04);
   --accent:         #4f46e5;
   --watermark:      rgba(15, 23, 42, 0.12);
-  --link-bg:        rgba(255, 255, 255, 0.55);
-  --link-bg-hover:  rgba(255, 255, 255, 0.85);
   --link-border:    rgba(15, 23, 42, 0.08);
+  --link-bg-hover:  #D6DCE5;
   --badge-bg:       rgba(22, 163, 74, 0.08);
   --badge-border:   rgba(22, 163, 74, 0.25);
   --badge-dot:      #16a34a;
   --badge-text:     #16a34a;
+  --bg-link:        #F3F5F7;
   --footer-link:    #475569;
 }
 
@@ -181,7 +181,7 @@
   justify-content: space-between;
   gap: 0.5rem;
   padding: clamp(0.65rem, 1.5vw, 0.9rem) clamp(1rem, 2vw, 1.25rem);
-  background: var(--link-bg);
+  background: var(--bg-link);
   border: 1px solid var(--link-border);
   border-radius: 14px;
   text-decoration: none;
@@ -194,7 +194,6 @@
 }
 
 .contact-link:hover {
-  background: var(--link-bg-hover);
   border-color: var(--link-bg-hover);
   transform: translateY(-3px);
 }
@@ -233,7 +232,7 @@
 
 .link-symbol {
   font-size: 1.15rem;
-  color: var(--accent);
+  color: #737373;
   font-weight: 300;
   flex-shrink: 0;
   transition: transform 0.2s ease, color 0.2s ease;

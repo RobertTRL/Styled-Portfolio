@@ -107,7 +107,7 @@ export default function Contacts({ isDark }) {
                 <span className="link-left">
                   <span className="link-label">{item.label}</span>
                   <span className="link-sub">
-                    {copiedId === item.id ? '✓ Copied to clipboard' : item.sub}
+                    {copiedId === item.id ? 'Copied to clipboard' : item.sub}
                   </span>
                 </span>
                 <span className="link-symbol" aria-hidden="true">
