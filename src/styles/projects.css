@@ -63,7 +63,6 @@
   z-index: 2;
   overflow: hidden;
   transition: color 0.3s ease, background 0.3s ease;
-  margin-bottom: 8vw;
 }
 
 .projects-section::before {
