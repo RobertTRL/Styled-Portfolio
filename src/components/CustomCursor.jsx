@@ -43,9 +43,6 @@ function detectCursorState(el) {
 }
 
 export default function CustomCursor({ isDark = false }) {
-  // FIX: mql is stored in a ref so it is created once, not on every render.
-  // Previously `const mql = window.matchMedia(...)` ran on every render,
-  // leaking a new MediaQueryList each time and causing stale listener refs.
   const mqlRef = useRef(null);
   if (mqlRef.current === null) {
     mqlRef.current = window.matchMedia("(any-pointer: fine)");
@@ -53,7 +50,6 @@ export default function CustomCursor({ isDark = false }) {
 
   const [hasPointer, setHasPointer] = useState(() => mqlRef.current.matches);
 
-  // FIX: listener now correctly references the stable mqlRef.current object.
   useEffect(() => {
     const mql     = mqlRef.current;
     const handler = (e) => setHasPointer(e.matches);
@@ -67,23 +63,52 @@ export default function CustomCursor({ isDark = false }) {
   const [cursorState, setCursorState] = useState("default");
   const [visible, setVisible]         = useState(false);
 
+  // ISSUE-06 FIX: Track visibility in a ref so onMove can skip setState
+  // when the cursor is already visible (which is true for 99.9% of mousemove events).
+  // Before: setVisible(current => current || true) ran the React scheduler
+  //         on every mousemove at 60-120 Hz for the entire page lifetime.
+  // After:  setState is called exactly once (false → true) and once on leave (true → false).
+  const visibleRef = useRef(false);
+
   const stateRef = useRef(cursorState);
   useEffect(() => { stateRef.current = cursorState; }, [cursorState]);
+
+  // FIX: Replace window._cursorX / window._cursorY globals with a ref.
+  // Global pollution on window is unnecessary — a ref scoped to this component
+  // is cleaner and avoids accidental collisions with third-party scripts.
+  const cursorPosRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!hasPointer) return;
 
     const onMove = (e) => {
-      window._cursorX = e.clientX;
-      window._cursorY = e.clientY;
+      // Always update position ref immediately (no state, no re-render).
+      cursorPosRef.current.x = e.clientX;
+      cursorPosRef.current.y = e.clientY;
+
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
       }
-      setVisible((current) => current || true);
+
+      // ISSUE-06 FIX: Only call setState on the first move (false → true).
+      // All subsequent moves are swallowed here — zero scheduler pressure.
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setVisible(true);
+      }
     };
 
-    const onMouseEnter = () => setVisible(true);
-    const onMouseLeave = () => setVisible(false);
+    const onMouseEnter = () => {
+      // Keep ref and state in sync when cursor re-enters the document.
+      visibleRef.current = true;
+      setVisible(true);
+    };
+
+    const onMouseLeave = () => {
+      // Reset ref on leave so the next onMove re-triggers the true → visible transition.
+      visibleRef.current = false;
+      setVisible(false);
+    };
 
     const onMouseOver = (e) => {
       const targetState = detectCursorState(e.target);
@@ -103,10 +128,8 @@ export default function CustomCursor({ isDark = false }) {
 
     const onMouseUp = () => {
       isDragging.current = false;
-      const hovered = document.elementFromPoint(
-        window._cursorX ?? 0,
-        window._cursorY ?? 0
-      );
+      const { x, y } = cursorPosRef.current;
+      const hovered = document.elementFromPoint(x, y);
       setCursorState(hovered ? detectCursorState(hovered) : "default");
     };
 
