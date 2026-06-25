@@ -13,17 +13,20 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor':  ['react', 'react-dom'],
-          'motion-vendor': ['framer-motion'],
-          'three-vendor':  ['three', '@react-three/fiber', '@react-three/drei'],
-          'globe-vendor':  ['three-globe'],
+        manualChunks(id) {
+          if (id.includes('/node_modules/three-globe/')) return 'globe-vendor'
+          if (
+            id.includes('/node_modules/three/') ||
+            id.includes('/node_modules/@react-three/')
+          ) return 'three-vendor'
+          if (id.includes('/node_modules/framer-motion/')) return 'motion-vendor'
+          if (
+            id.includes('/node_modules/react/') ||
+            id.includes('/node_modules/react-dom/')
+          ) return 'react-vendor'
         },
       },
     },
-    // Default is 500 kB. Lowering it means a future regression — e.g.
-    // someone adding another heavy dep that lands in globe-vendor —
-    // shows up as a build warning instead of shipping silently.
     chunkSizeWarningLimit: 400,
   },
 })
