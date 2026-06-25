@@ -216,7 +216,6 @@ export function GithubCalendar({
                                             isMinimal && "gc-minimal"
                                         )}
                                         style={glowStyle}
-                                        title={`${day.contributionCount} contributions on ${day.date}`}
                                     />
                                 );
                             })}
