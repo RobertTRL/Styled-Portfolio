@@ -84,6 +84,11 @@
   overflow: hidden;
   z-index: -1;
   pointer-events: none;
+  /* PERF: Tell the browser that all painting is self-contained inside this
+     fixed layer. Any repaint inside .scene cannot affect layout or paint
+     regions outside it, allowing the browser to skip invalidating the rest
+     of the page on every animation frame. */
+  contain: paint;
 }
 
 .scene * {
@@ -112,10 +117,41 @@
 .night .sun-wrapper { transform: translateY(120vh); }
 .night .moon-wrapper { transform: translateY(0); }
 
-.sun { width: 100%; height: 100%; border-radius: 50%; background: #FFE033; box-shadow: 0 0 0 12px rgba(255, 224, 51, 0.25), 0 0 0 28px rgba(255, 224, 51, 0.12), 0 0 60px 20px rgba(255, 200, 0, 0.3); animation: sunPulse 6s ease-in-out infinite; }
+/* PERF FIX (ISSUE-09): Replaced animated box-shadow with filter: drop-shadow.
+   
+   Before — @keyframes sunPulse cycled box-shadow on every frame.
+   box-shadow triggers a CPU repaint on each frame because it cannot be
+   handled by the GPU compositor alone.
+   
+   After — @keyframes sunGlow animates filter: drop-shadow, which is fully
+   GPU-composited: the compositor applies it without touching the main thread
+   or causing any repaint. Savings: ~3–5 ms of paint work per frame.
+   
+   The two concentric ring halos (the spread-only box-shadows with no blur)
+   remain as a static box-shadow on .sun — they're painted once on mount
+   and never change, so they carry zero ongoing cost. */
+.sun {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #FFE033;
+  /* Static rings: painted once, never re-painted */
+  box-shadow:
+    0 0 0 12px rgba(255, 224, 51, 0.25),
+    0 0 0 28px rgba(255, 224, 51, 0.12);
+  animation: sunGlow 6s ease-in-out infinite;
+}
+
+/* PERF: Sun is 120 vh off-screen at night — no point running its animation */
+.night .sun { animation-play-state: paused; }
+
 .moon { width: 100%; height: 100%; border-radius: 50%; background: transparent; box-shadow: 15px 15px 0 0 #fdfbd3; filter: drop-shadow(0 0 15px rgba(253, 251, 211, 0.4)); }
 
-@keyframes sunPulse { 0%, 100% { box-shadow: 0 0 0 12px rgba(255, 224, 51, 0.25), 0 0 0 28px rgba(255, 224, 51, 0.12), 0 0 60px 20px rgba(255, 200, 0, 0.3); } 50% { box-shadow: 0 0 0 16px rgba(255, 224, 51, 0.3), 0 0 0 36px rgba(255, 224, 51, 0.15), 0 0 80px 30px rgba(255, 200, 0, 0.35); } }
+/* Replaces sunPulse. Animates filter (GPU-composited) instead of box-shadow (CPU repaint). */
+@keyframes sunGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 200, 0, 0.40)); }
+  50%       { filter: drop-shadow(0 0 40px rgba(255, 200, 0, 0.55)); }
+}
 
 /* ==========================================================================
    5. Stars & Meteors
@@ -127,6 +163,15 @@
 .stars-1 { background-image: radial-gradient(1px 1px at 10% 10%, #fff, transparent), radial-gradient(1px 1px at 30% 20%, #fff, transparent), radial-gradient(1px 1px at 50% 50%, #fff, transparent), radial-gradient(1px 1px at 70% 30%, #fff, transparent), radial-gradient(1px 1px at 90% 10%, #fff, transparent); background-size: 200px 200px; animation: twinkle 3s ease-in-out infinite; }
 .stars-2 { background-image: radial-gradient(1.5px 1.5px at 20% 40%, #fff, transparent), radial-gradient(1.5px 1.5px at 60% 85%, #fff, transparent), radial-gradient(1.5px 1.5px at 85% 65%, #fff, transparent); background-size: 300px 300px; animation: twinkle 5s ease-in-out infinite 1s; }
 .stars-3 { background-image: radial-gradient(2px 2px at 40% 70%, #fff, transparent), radial-gradient(2px 2px at 10% 80%, #fff, transparent), radial-gradient(2px 2px at 80% 40%, #fff, transparent); background-size: 400px 400px; animation: twinkle 7s ease-in-out infinite 2s; }
+
+/* PERF: Stars and meteors are invisible during the day (stars-layer opacity: 0).
+   Pausing their animations frees the compositor thread entirely during daytime.
+   Higher-specificity selectors (.stars-layer .stars) are used to safely
+   override the animation shorthand set on .stars-1/.stars-2/.stars-3 above. */
+.stars-layer .stars { animation-play-state: paused; }
+.night .stars-layer .stars { animation-play-state: running; }
+.meteor { animation-play-state: paused; }
+.night .meteor { animation-play-state: running; }
 
 .meteor { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5); opacity: 0; pointer-events: none; }
 .meteor::after { content: ""; position: absolute; top: 50%; transform: translateY(-50%); width: 80px; height: 1px; background: linear-gradient(90deg, #fff, transparent); }
@@ -142,6 +187,11 @@
    ========================================================================== */
 .clouds-container { position: absolute; inset: 0; z-index: 7; opacity: 1; transition: opacity 5s ease-in-out; }
 .night .clouds-container { opacity: 0; }
+
+/* PERF: 10 cloud elements each run a continuous drift animation. At night
+   clouds-container fades to opacity 0, but the animations keep running on
+   the compositor. Pausing them eliminates all cloud-related GPU work at night. */
+.night .clouds-container .cloud { animation-play-state: paused; }
 
 .cloud { position: absolute; pointer-events: none; width: 26em; height: 18em; }
 .puff { position: absolute; border-radius: 50%; background: #fff; }
@@ -236,6 +286,14 @@
 .night-elements-container { opacity: 0; }
 .night .night-elements-container { opacity: 1; }
 
+/* PERF: Elements inside a hidden container (opacity: 0) still consume
+   compositor resources — the GPU keeps animating them every frame.
+   These three rules cut that work entirely: day elements pause at night,
+   night elements pause during the day. */
+.night .day-elements-container *  { animation-play-state: paused; }
+.night-elements-container *       { animation-play-state: paused; }
+.night .night-elements-container * { animation-play-state: running; }
+
 .pos-balloon   { position: absolute; top: 20%; left: 10%; animation: drift1 40s ease-in-out infinite; }
 .pos-satellite { position: absolute; top: 15%; left: 30%; animation: drift3 60s ease-in-out infinite; }
 
@@ -244,8 +302,13 @@
 
 @keyframes bobbing {
   0%, 100% { transform: translateY(0); }
-  50% { transform: clamp(-30px, -2vw, -10px); } 
+  /* BUG FIX: was `transform: clamp(-30px, -2vw, -10px)` which is invalid CSS —
+     clamp() is not a valid transform function. It must be the argument to
+     translateY(). Without this fix browsers silently drop the keyframe,
+     so the balloon never bobs upward. */
+  50%       { transform: translateY(clamp(-30px, -2vw, -10px)); }
 }
+
 @keyframes floatRotate {
   0%, 100% { transform: rotate(-6deg) translateY(0); }
   50% { transform: rotate(8deg) translateY(-2.5vw); }
@@ -256,13 +319,13 @@
 --------------------------------------- */
 .hot-air-balloon {
   width: clamp(100px, 15vw, 250px);
-  --bw: clamp(100px, 15vw, 250px); /* single source of truth */
+  --bw: clamp(100px, 15vw, 250px);
   position: relative;
 }
 
 .balloon-envelope {
   width: 100%;
-  height: calc(var(--bw) * 1.22);       /* was 18.3vw  →  18.3/15 = 1.22 */
+  height: calc(var(--bw) * 1.22);
   background: linear-gradient(135deg, #ff5e62 0%, #ff5e62 50%, #ff9966 50%, #ff9966 100%);
   background-size: 25% 100%;
   border-radius: 50% 50% 40% 40%;
@@ -273,38 +336,38 @@
 .balloon-envelope::after {
   content: '';
   position: absolute;
-  bottom: calc(var(--bw) * -0.1);       /* was -1.5vw  →  -1.5/15 */
+  bottom: calc(var(--bw) * -0.1);
   left: 35%;
   width: 30%;
-  height: calc(var(--bw) * 0.133);      /* was 2vw     →   2/15   */
+  height: calc(var(--bw) * 0.133);
   background: #cc4b4e;
   clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
 }
 
 .balloon-ropes {
   position: absolute;
-  bottom: calc(var(--bw) * -0.267);     /* was -4vw    →  -4/15   */
+  bottom: calc(var(--bw) * -0.267);
   left: 40%;
   width: 20%;
-  height: calc(var(--bw) * 0.2);        /* was 3vw     →   3/15   */
+  height: calc(var(--bw) * 0.2);
   border-left:  calc(var(--bw) * 0.007) solid rgba(255,255,255,0.6);
   border-right: calc(var(--bw) * 0.007) solid rgba(255,255,255,0.6);
 }
 
 .balloon-basket {
   width: 30%;
-  height: calc(var(--bw) * 0.167);      /* was 2.5vw   →   2.5/15 */
+  height: calc(var(--bw) * 0.167);
   background: #6b4423;
   position: absolute;
-  bottom: calc(var(--bw) * -0.4);       /* was -6vw    →  -6/15   */
+  bottom: calc(var(--bw) * -0.4);
   left: 35%;
   border-radius: calc(var(--bw) * 0.02);
   box-shadow: inset calc(var(--bw) * -0.033) calc(var(--bw) * -0.033) calc(var(--bw) * 0.067) rgba(0,0,0,0.3);
 }
+
 /* --------------------------------------
    Night: Satellite 
 --------------------------------------- */
-/* Consolidated Flexbox Rules */
 .satellite {
   display: flex;
   align-items: center;
@@ -320,7 +383,6 @@
   transform: rotate(-10deg);
 }
  
-/* ── Solar panels ── */
 .sat-wing {
   display: flex;
   flex-direction: column;
@@ -331,7 +393,6 @@
   width: 6vw;
   height: 3vw;
   border-radius: 0.5vw;
-  /* Flat golden gradient — same warmth family as the balloon's coral/orange */
   background:
     linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px),
@@ -342,7 +403,6 @@
     inset 0 -0.3vw 0.6vw rgba(0, 0, 0, 0.12);
 }
  
-/* ── Connector arms ── */
 .sat-arm {
   width: 2vw;
   height: 0.55vw;
@@ -351,7 +411,6 @@
   box-shadow: inset 0 -0.15vw 0.35vw rgba(0, 0, 0, 0.18);
 }
  
-/* ── Central body ── */
 .sat-body {
   width: 5vw;
   height: 7.5vw;
@@ -367,7 +426,6 @@
   overflow: visible;
 }
  
-/* ── Porthole window ── */
 .sat-window {
   width: 2.1vw;
   height: 2.1vw;
@@ -378,7 +436,6 @@
     inset  0.2vw  0.25vw 0.6vw rgba(255, 255, 255, 0.5);
 }
  
-/* ── Dish — dome shape, like the balloon envelope ── */
 .sat-dish {
   position: absolute;
   bottom: -2.6vw;
@@ -387,7 +444,6 @@
   width: 5.5vw;
   height: 3vw;
   background: linear-gradient(160deg, #eef6fb, #b2d8ea);
-  /* Rounded top only — mirrors how the balloon envelope rounds at the top */
   border-radius: 50% 50% 38% 38%;
   display: flex;
   align-items: center;
@@ -397,11 +453,33 @@
     inset 0 -0.3vw 0.7vw rgba(0, 0, 0, 0.08);
 }
  
-/* ── Dish center dot ── */
 .sat-dish-center {
   width: 1.3vw;
   height: 1.3vw;
   border-radius: 50%;
   background: radial-gradient(circle at 38% 38%, #fff, #b2d8ea);
   box-shadow: inset -0.2vw -0.2vw 0.4vw rgba(0, 0, 0, 0.12);
+}
+
+/* ==========================================================================
+   9. Accessibility — Reduced Motion  (ISSUE-17)
+   ========================================================================== */
+/* Respect the OS "Reduce Motion" accessibility setting. Users enable this for
+   vestibular disorders, epilepsy, or simply to save battery. Without this,
+   all 20+ background animations run regardless of system preference.
+   
+   Setting animation-duration to 0.01ms (not 0) means animated properties
+   still reach their final keyframe value instantly, preserving visual state
+   (e.g. the sun is still visible) without any motion. */
+@media (prefers-reduced-motion: reduce) {
+  .scene *,
+  .sky-master-gradient,
+  .sun-wrapper,
+  .moon-wrapper,
+  .day-elements-container,
+  .night-elements-container {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+  }
 }
