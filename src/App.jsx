@@ -2,18 +2,17 @@ import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 're
 import Header from './components/Header';
 import Hero from './components/Hero.jsx';
 import GreetingBoy from './components/GreetingBoy.jsx';
-import Loader from './components/Loader.jsx';
 
 import './App.css';
 import './styles/bgandswitch.css';
 
-const AboutMe     = lazy(() => import('./components/AboutMe.jsx'));
-const Background  = lazy(() => import('./components/Background.jsx'));
-const Contacts    = lazy(() => import('./components/Contacts.jsx'));
+const AboutMe      = lazy(() => import('./components/AboutMe.jsx'));
+const Background   = lazy(() => import('./components/Background.jsx'));
+const Contacts     = lazy(() => import('./components/Contacts.jsx'));
 const CustomCursor = lazy(() => import('./components/CustomCursor.jsx'));
-const Navbar      = lazy(() => import('./components/Navbar.jsx'));
-const Projects    = lazy(() => import('./components/Projects.jsx'));
-const Skills      = lazy(() => import('./components/Skills.jsx'));
+const Navbar       = lazy(() => import('./components/Navbar.jsx'));
+const Projects     = lazy(() => import('./components/Projects.jsx'));
+const Skills       = lazy(() => import('./components/Skills.jsx'));
 
 const Analytics = lazy(() =>
   import('@vercel/analytics/react').then(m => ({ default: m.Analytics }))
@@ -23,11 +22,15 @@ const SpeedInsights = lazy(() =>
   import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights }))
 );
 
+// Contacts statically imports Globe.jsx, which pulls in three.js + three-globe
+// (~2-3 MB parsed, per the audit). It's deliberately left OUT of preloadAll so
+// it never competes for bandwidth/main-thread time with the chunks that
+// actually matter for first paint. It loads later, on scroll proximity, via
+// the LazyMount wrapper below.
 const preloadAll = () =>
   Promise.all([
     import('./components/Background.jsx'),
     import('./components/AboutMe.jsx'),
-    import('./components/Contacts.jsx'),
     import('./components/CustomCursor.jsx'),
     import('./components/Navbar.jsx'),
     import('./components/Projects.jsx'),
@@ -35,6 +38,35 @@ const preloadAll = () =>
     import('@vercel/analytics/react'),
     import('@vercel/speed-insights/react'),
   ]);
+
+// ─── Defers mounting (and therefore the dynamic import) of a heavy section
+// until it's within `rootMargin` of the viewport — code-splitting via the
+// same IntersectionObserver pattern you use for scroll-triggered effects. ───
+const LazyMount = ({ children, rootMargin = '500px', placeholderHeight = '60vh' }) => {
+  const ref = useRef(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (show || !ref.current) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShow(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin }
+    );
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, [show, rootMargin]);
+
+  return (
+    <div ref={ref}>
+      {show ? children : <div style={{ minHeight: placeholderHeight }} />}
+    </div>
+  );
+};
 
 // ─── Inner shell rendered once isReady is true ───────────────────────────────
 // Isolated so its useLayoutEffect fires right when *this* tree commits to DOM.
@@ -56,7 +88,17 @@ const AppContent = ({ isDark, onToggle, onDOMCommitted }) => {
         <Hero isDark={isDark} />
         <AboutMe isDark={isDark} />
         <Skills isDark={isDark} />
-        <Contacts isDark={isDark} />
+
+        {/* Own boundary + own visibility gate: the three.js/Globe chunk can
+            take a while on slower connections. Isolating it here means it
+            never blanks Hero/AboutMe/Skills/Navbar while it loads, and it
+            doesn't even start downloading until the user nears it. */}
+        <LazyMount>
+          <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
+            <Contacts isDark={isDark} />
+          </Suspense>
+        </LazyMount>
+
         <Projects isDark={isDark} />
       </main>
       <Navbar isDark={isDark} />
@@ -92,7 +134,6 @@ const App = () => {
   return (
     <div className={`app-wrapper ${isPreload ? 'preload' : ''} ${isDark ? 'night' : ''}`}>
 
-      {/* Loader is always rendered until it fully fades out itself */}
       {showLoader && (
         <div
           className={`loader-container ${isDark ? 'dark-mode' : 'light-mode'} ${dissolve ? 'water-dissolve' : ''}`}
@@ -106,9 +147,6 @@ const App = () => {
         </div>
       )}
 
-      {/* AppContent mounts when all chunks are loaded.
-          Its useLayoutEffect fires before the browser paints,
-          triggering the dissolve at the exact frame content is committed. */}
       {isReady && (
         <AppContent
           isDark={isDark}
