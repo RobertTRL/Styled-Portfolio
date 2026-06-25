@@ -48,9 +48,13 @@ export function GithubCalendar({
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
-    const [hoveredDate, setHoveredDate] = React.useState(null);
-    const [hoveredCount, setHoveredCount] = React.useState(null);
-    const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
+
+    // ISSUE-05 FIX: Replace 3 separate state vars with one combined object.
+    // Before: setHoveredDate + setHoveredCount + setMousePos = 3 re-renders per hover.
+    // After:  setHovered({ date, count, x, y })           = 1 re-render per hover.
+    // Also fixes the original bug where onMouseLeave never cleared mousePos.
+    const [hovered, setHovered] = React.useState(null); // null | { date, count, x, y }
+
     const containerRef = React.useRef(null);
 
     React.useEffect(() => {
@@ -80,8 +84,6 @@ export function GithubCalendar({
         return () => controller.abort();
     }, [username]);
 
-    // Scale the calendar down on small screens so tile shape and gaps
-    // stay proportional rather than distorting or overflowing.
     React.useEffect(() => {
         const el = containerRef.current;
         if (!el) return;
@@ -97,15 +99,17 @@ export function GithubCalendar({
 
             el.style.setProperty("--gc-scale", scale);
 
-            // Correct the wrapper height after CSS scale shrinks the element
-            // (transform: scale does not affect layout flow)
             parent.style.height =
                 scale < 1 ? `${el.scrollHeight * scale}px` : "";
         });
 
         observer.observe(el.parentElement);
         return () => observer.disconnect();
-    }, [data]); // re-run once data loads so naturalWidth is accurate
+    }, [data]);
+
+    // Stable reference — not recreated on every render.
+    // Also clears the full hovered object (fixes the original mousePos leak).
+    const handleMouseLeave = React.useCallback(() => setHovered(null), []);
 
     if (error) {
         return <div className={cx("gc-error", className)}>Error: {error}</div>;
@@ -147,20 +151,18 @@ export function GithubCalendar({
 
                 <div
                     className="gc-grid"
-                    onMouseLeave={() => {
-                        setHoveredDate(null);
-                        setHoveredCount(null);
-                    }}
+                    onMouseLeave={handleMouseLeave}
                     aria-label={`GitHub contribution calendar for ${username}`}
                 >
-                    {hoveredDate && (
+                    {/* Tooltip reads from the single hovered object */}
+                    {hovered && (
                         <div
                             className="gc-tooltip"
-                            style={{ left: mousePos.x, top: mousePos.y - 40 }}
+                            style={{ left: hovered.x, top: hovered.y - 40 }}
                         >
-                            <span className="gc-tooltip-count">{hoveredCount}</span>
+                            <span className="gc-tooltip-count">{hovered.count}</span>
                             <span className="gc-tooltip-label">
-                                contributions on {hoveredDate}
+                                contributions on {hovered.date}
                             </span>
                         </div>
                     )}
@@ -188,18 +190,17 @@ export function GithubCalendar({
                                     <div
                                         key={day.date}
                                         onMouseEnter={(e) => {
-                                            setHoveredDate(day.date);
-                                            setHoveredCount(day.contributionCount);
+                                            // ISSUE-05 FIX: ONE setState call → ONE re-render.
+                                            // Was: setHoveredDate + setHoveredCount + setMousePos (3 calls).
                                             const rect =
                                                 e.currentTarget.getBoundingClientRect();
                                             const parentRect =
                                                 e.currentTarget.offsetParent?.getBoundingClientRect() ??
                                                 { left: 0, top: 0 };
-                                            setMousePos({
-                                                x:
-                                                    rect.left -
-                                                    parentRect.left +
-                                                    rect.width / 2,
+                                            setHovered({
+                                                date: day.date,
+                                                count: day.contributionCount,
+                                                x: rect.left - parentRect.left + rect.width / 2,
                                                 y: rect.top - parentRect.top,
                                             });
                                         }}
