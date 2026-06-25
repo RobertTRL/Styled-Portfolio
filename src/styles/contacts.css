@@ -198,10 +198,6 @@
   transform: translateY(-3px);
 }
 
-.contact-link.copied {
-  border-color: var(--badge-dot);
-}
-
 .link-left {
   display: flex;
   flex-direction: column;
@@ -240,10 +236,6 @@
 
 .contact-link:hover .link-symbol {
   transform: translate(2px, -2px);
-}
-
-.contact-link.copied .link-symbol {
-  color: var(--badge-dot);
 }
 
 /* ── Responsive ── */
