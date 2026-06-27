@@ -30,7 +30,7 @@ const CONTACT_LINKS = [
   {
     id:     'email',
     label:  'Email',
-    sub:    EMAIL,
+    sub:    'Send me an email',
     href:   '#',
     symbol: '→',
     action: 'copy',
@@ -38,7 +38,7 @@ const CONTACT_LINKS = [
   {
     id:     'phone',
     label:  'Phone',
-    sub:    PHONE_NUMBER,
+    sub:    'Let\'s have a nice chat',
     href:   `tel:${PHONE_DIALABLE}`,
     symbol: '↓',
     action: 'phone',
