@@ -121,7 +121,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 8vw, 8rem) clamp(2rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 8vw, 8rem) 0;
   position: relative;
   z-index: 2;
 }
@@ -167,8 +167,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  margin-bottom: clamp(3rem, 6vw, 5rem);
   position: relative;
   z-index: 2;
   overflow: hidden;
