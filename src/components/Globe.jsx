@@ -15,14 +15,46 @@ const MAX_DPR                = 1.5; // caps render resolution on high-DPI screen
 
 /* ── Arc data radiating from Nakuru, Kenya (-0.303, 36.080) ── */
 const ARCS = [
-  { order: 1, startLat: -0.303, startLng: 36.080, endLat:  51.505, endLng:  -0.090, arcAlt: 0.40, color: "#06b6d4" }, // London
-  { order: 2, startLat: -0.303, startLng: 36.080, endLat:  40.713, endLng: -74.006, arcAlt: 0.50, color: "#06b6d4" }, // New York
-  { order: 3, startLat: -0.303, startLng: 36.080, endLat:  48.856, endLng:   2.352, arcAlt: 0.35, color: "#818cf8" }, // Paris
-  { order: 4, startLat: -0.303, startLng: 36.080, endLat:  35.689, endLng: 139.692, arcAlt: 0.55, color: "#06b6d4" }, // Tokyo
-  { order: 5, startLat: -0.303, startLng: 36.080, endLat: -33.868, endLng: 151.209, arcAlt: 0.60, color: "#818cf8" }, // Sydney
-  { order: 6, startLat: -0.303, startLng: 36.080, endLat:   1.352, endLng: 103.820, arcAlt: 0.42, color: "#06b6d4" }, // Singapore
-  { order: 7, startLat: -0.303, startLng: 36.080, endLat:  37.774, endLng: -122.42, arcAlt: 0.50, color: "#818cf8" }, // San Francisco
-  { order: 8, startLat: -0.303, startLng: 36.080, endLat:   6.524, endLng:   3.379, arcAlt: 0.20, color: "#06b6d4" }, // Lagos
+  // ── Existing (Paris removed — it collided with London) ──
+  { order: 1,  startLat: -0.303, startLng: 36.080, endLat:  51.505, endLng:  -0.090, arcAlt: 0.40, color: "#06b6d4" }, // London
+  { order: 2,  startLat: -0.303, startLng: 36.080, endLat:  40.713, endLng: -74.006, arcAlt: 0.50, color: "#06b6d4" }, // New York
+  { order: 3,  startLat: -0.303, startLng: 36.080, endLat:  35.689, endLng: 139.692, arcAlt: 0.55, color: "#06b6d4" }, // Tokyo
+  { order: 4,  startLat: -0.303, startLng: 36.080, endLat: -33.868, endLng: 151.209, arcAlt: 0.60, color: "#818cf8" }, // Sydney
+  { order: 5,  startLat: -0.303, startLng: 36.080, endLat:   1.352, endLng: 103.820, arcAlt: 0.42, color: "#06b6d4" }, // Singapore
+  { order: 6,  startLat: -0.303, startLng: 36.080, endLat:  37.774, endLng: -122.42, arcAlt: 0.50, color: "#818cf8" }, // San Francisco
+  { order: 7,  startLat: -0.303, startLng: 36.080, endLat:   6.524, endLng:   3.379, arcAlt: 0.20, color: "#06b6d4" }, // Lagos
+
+  // ── Africa ──
+  { order: 8,  startLat: -0.303, startLng: 36.080, endLat:  30.044, endLng:  31.235, arcAlt: 0.30, color: "#818cf8" }, // Cairo
+  { order: 9,  startLat: -0.303, startLng: 36.080, endLat:  33.573, endLng:  -7.589, arcAlt: 0.35, color: "#06b6d4" }, // Casablanca
+  { order: 10, startLat: -0.303, startLng: 36.080, endLat:   9.145, endLng:  40.489, arcAlt: 0.25, color: "#818cf8" }, // Addis Ababa
+  { order: 11, startLat: -0.303, startLng: 36.080, endLat: -26.204, endLng:  28.047, arcAlt: 0.30, color: "#06b6d4" }, // Johannesburg
+
+  // ── South America (previously empty) ──
+  { order: 12, startLat: -0.303, startLng: 36.080, endLat: -23.550, endLng: -46.633, arcAlt: 0.45, color: "#818cf8" }, // São Paulo
+  { order: 13, startLat: -0.303, startLng: 36.080, endLat: -34.603, endLng: -58.381, arcAlt: 0.50, color: "#06b6d4" }, // Buenos Aires
+  { order: 14, startLat: -0.303, startLng: 36.080, endLat:   4.711, endLng: -74.072, arcAlt: 0.55, color: "#818cf8" }, // Bogotá
+  { order: 15, startLat: -0.303, startLng: 36.080, endLat: -12.046, endLng: -77.043, arcAlt: 0.55, color: "#06b6d4" }, // Lima
+  { order: 16, startLat: -0.303, startLng: 36.080, endLat: -33.447, endLng: -70.673, arcAlt: 0.50, color: "#818cf8" }, // Santiago
+
+  // ── Middle East ──
+  { order: 17, startLat: -0.303, startLng: 36.080, endLat:  25.204, endLng:  55.270, arcAlt: 0.30, color: "#06b6d4" }, // Dubai
+  { order: 18, startLat: -0.303, startLng: 36.080, endLat:  41.008, endLng:  28.978, arcAlt: 0.35, color: "#818cf8" }, // Istanbul
+
+  // ── Europe ──
+  { order: 19, startLat: -0.303, startLng: 36.080, endLat:  52.520, endLng:  13.405, arcAlt: 0.35, color: "#06b6d4" }, // Berlin
+  { order: 20, startLat: -0.303, startLng: 36.080, endLat:  41.902, endLng:  12.496, arcAlt: 0.35, color: "#818cf8" }, // Rome
+  { order: 21, startLat: -0.303, startLng: 36.080, endLat:  55.756, endLng:  37.618, arcAlt: 0.35, color: "#06b6d4" }, // Moscow
+
+  // ── Asia ──
+  { order: 22, startLat: -0.303, startLng: 36.080, endLat:  39.904, endLng: 116.407, arcAlt: 0.40, color: "#818cf8" }, // Beijing
+  { order: 23, startLat: -0.303, startLng: 36.080, endLat:  19.076, endLng:  72.877, arcAlt: 0.30, color: "#06b6d4" }, // Mumbai
+  { order: 24, startLat: -0.303, startLng: 36.080, endLat:  13.756, endLng: 100.502, arcAlt: 0.35, color: "#818cf8" }, // Bangkok
+  { order: 25, startLat: -0.303, startLng: 36.080, endLat:  37.566, endLng: 126.978, arcAlt: 0.45, color: "#06b6d4" }, // Seoul
+
+  // ── North America & Oceania ──
+  { order: 26, startLat: -0.303, startLng: 36.080, endLat:  19.433, endLng: -99.133, arcAlt: 0.55, color: "#818cf8" }, // Mexico City
+  { order: 27, startLat: -0.303, startLng: 36.080, endLat: -36.848, endLng: 174.763, arcAlt: 0.55, color: "#06b6d4" }, // Auckland
 ];
 
 function genRandomNumbers(min, max, count) {
