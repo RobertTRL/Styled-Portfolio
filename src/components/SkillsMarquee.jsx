@@ -177,7 +177,7 @@ MarqueeRow.displayName = 'MarqueeRow';
 export default function SkillsMarquee({ images }) {
   return (
     <div className="marquee-wrapper">
-      <MarqueeRow images={images} direction="left" speed={100} rowId="r1" />
+      <MarqueeRow images={images} direction="left" speed={60} rowId="r1" />
     </div>
   );
 }
