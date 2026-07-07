@@ -1,7 +1,7 @@
 /* ─── Navbar container ─────────────────────────────────────────────────────── */
 #glass-nav {
   position: fixed;
-  bottom: 44px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
@@ -268,7 +268,14 @@
     letter-spacing: -0.02em;
   }
 }
- 
+
+@media (max-width: 1100px) {
+  #glass-nav {
+    top: auto;
+    bottom: 44px;
+  }
+}
+
 #glass-nav,
 #glass-nav * {
   -webkit-tap-highlight-color: transparent;
