@@ -1,30 +1,64 @@
 /* ═══════════════════════════════════════════════
    About Section — updated layout
    left column  : watermark + description
-   right column : OrbitCardStack
+   right column : profile card (GlareWrapper)
    ═══════════════════════════════════════════════ */
 
 /* ── Theme Variables ── */
 .about-section.dark-mode {
-  --text-main:  #ffffff;
-  --text-sub:   rgba(255, 255, 255, 0.55);
-  --text-label: rgba(255, 255, 255, 0.35);
-  --bg-color:   transparent;
-  --bg-glow:    rgba(100, 120, 255, 0.07);
-  --accent:     #a5b4fc;
-  --divider:    rgba(255, 255, 255, 0.12);
-  --watermark:  rgba(255, 255, 255, 0.04);
+  --text-main:          #ffffff;
+  --text-sub:           rgba(255, 255, 255, 0.55);
+  --text-label:         rgba(255, 255, 255, 0.35);
+  --bg-color:           transparent;
+  --bg-glow:            rgba(100, 120, 255, 0.07);
+  --accent:             #a5b4fc;
+  --divider:            rgba(255, 255, 255, 0.10);
+  --watermark:          rgba(255, 255, 255, 0.04);
+  --item-bg:            rgba(255, 255, 255, 0.06);
+  --item-hover-bg:      #0A0A0A;
+  --item-border:        rgba(255, 255, 255, 0.12);
+  --fade-color:         #000000;
+
+  /* ── Card component tokens ── */
+  --card-bg:            #0A0A0A;
+  --card-border:        rgba(255, 255, 255, 0.10);
+  --card-shadow:        0 4px 24px rgba(0, 0, 0, 0.30);
+  --card-title:         #ffffff;
+  --card-period-color:  #a5b4fc;
+  --card-period-border: rgba(165, 180, 252, 0.65);
+  --card-sub:           rgba(255, 255, 255, 0.35);
+  --card-desc:          rgba(255, 255, 255, 0.55);
+  --card-credential:    rgba(255, 255, 255, 0.30);
+  --card-code-color:    #a5b4fc;
+  --card-code-bg:       rgba(165, 180, 252, 0.08);
 }
 
 .about-section.light-mode {
-  --text-main:  #0f172a;
-  --text-sub:   #475569;
-  --text-label: #94a3b8;
-  --bg-color:   transparent;
-  --bg-glow:    rgba(30, 58, 138, 0.04);
-  --accent:     #4f46e5;
-  --divider:    rgba(15, 23, 42, 0.10);
-  --watermark:  rgba(15, 23, 42, 0.12);
+  --text-main:          #0f172a;
+  --text-sub:           #475569;
+  --text-label:         #94a3b8;
+  --bg-color:           transparent;
+  --bg-glow:            rgba(30, 58, 138, 0.04);
+  --accent:             #4f46e5;
+  --divider:            rgba(15, 23, 42, 0.10);
+  --watermark:          rgba(15, 23, 42, 0.12);
+  --item-bg:            rgba(15, 23, 42, 0.04);
+  --item-hover-bg:      #ffffff;
+  --item-border:        rgba(15, 23, 42, 0.10);
+  --fade-color:         #f8fafc;
+
+  /* ── Card component tokens — dark base so glare overlay has contrast ── */
+  --card-bg:            #14142a;
+  --card-border:        rgba(255, 255, 255, 0.09);
+  --card-shadow:        0 4px 32px rgba(0, 0, 0, 0.40);
+  --card-title:         #f0efff;
+  --card-period-color:  #a5b4fc;
+  --card-period-border: rgba(165, 180, 252, 0.60);
+  --card-sub:           rgba(230, 228, 255, 0.38);
+  --card-desc:          rgba(230, 228, 255, 0.58);
+  --card-credential:    rgba(230, 228, 255, 0.30);
+  --card-code-color:    #a5b4fc;
+  --card-code-bg:       rgba(165, 180, 252, 0.10);
 }
 
 /* ── Section layout ── */
@@ -67,21 +101,20 @@
 
 /* ── Left column (watermark + text) ── */
 .about-left {
-  flex: 1;
+  flex: 0.95;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  min-width: 0;          /* allow shrinking inside flex */
+  min-width: 0;
 }
 
-/* ── Right column (card stack) ── */
+/* ── Right column (profile card) ── */
 .about-right {
-  flex: 1;
+  flex: 1.15;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 0;
-  min-height: 520px;     /* give the card stack vertical room */
 }
 
 /* ── Watermark ── */
@@ -114,7 +147,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 0;           /* padding removed — watermark is now above, not beside */
+  padding: 0;
 }
 
 /* ── Section label ── */
@@ -213,6 +246,53 @@
 }
 
 /* ═══════════════════════════════════════════════
+   Profile card (inside GlareWrapper)
+   ═══════════════════════════════════════════════ */
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.75vw, 1.5rem);
+
+  width: clamp(420px, 36vw, 620px);
+  max-width: 100%;
+  aspect-ratio: 5 / 7;
+
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 2rem;
+  box-shadow: var(--card-shadow);
+
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card-title {
+  margin: 0;
+  text-align: center;
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 900;
+  color: var(--card-title);
+  transition: color 0.3s ease;
+}
+
+/* The large nested image box — takes up almost all remaining card space */
+.profile-card-image-frame {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+
+.profile-card-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ═══════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
@@ -259,7 +339,10 @@
 
   .about-right {
     width: 100%;
-    min-height: 420px;
+  }
+
+  .profile-card {
+    width: clamp(380px, 62vw, 500px);
   }
 }
 
@@ -278,8 +361,8 @@
     margin-bottom: 1.5rem;
   }
 
-  .about-right {
-    min-height: 360px;
+  .profile-card {
+    width: clamp(320px, 82vw, 440px);
   }
 }
 

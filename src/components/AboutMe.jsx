@@ -2,7 +2,7 @@ import '../styles/about.css';
 import smilingEmoji from '../assets/smiling-emoji.webp';
 import wavingHandSign from '../assets/waving-hand-sign.webp';
 import { useInView } from '../hooks/useInView';
-import { CardStack } from './CardStack.jsx';
+import GlareWrapper from './GlareWrapper';
 
 export default function AboutMe({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
@@ -48,9 +48,20 @@ export default function AboutMe({ isDark }) {
           </div>
         </div>
 
-        {/* ── Right column: card stack ── */}
+        {/* ── Right column: profile card ── */}
         <div className="about-right">
-          <CardStack />
+          <GlareWrapper className="profile-glare-wrapper">
+            <div className="profile-card">
+              <h3 className="profile-card-title">Robert Toroitich</h3>
+              <div className="profile-card-image-frame">
+                <img
+                  src="/images/fullbody.webp"
+                  alt="Robert Toroitich"
+                  className="profile-card-image"
+                />
+              </div>
+            </div>
+          </GlareWrapper>
         </div>
       </div>
     </section>
