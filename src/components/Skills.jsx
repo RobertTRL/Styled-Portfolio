@@ -1,6 +1,5 @@
 import '../styles/skills.css';
 import SkillsMarquee from './SkillsMarquee';
-import GlareWrapper  from './GlareWrapper';
 import { useInView } from '../hooks/useInView';
 
 import InDesign       from '../assets/Adobe-InDesign-Logo.webp';
@@ -100,34 +99,26 @@ export default function Skills({ isDark }) {
             <h3 className="col-heading">Education &amp; Certifications</h3>
 
             {EDUCATION.map((item, i) => (
-              /*
-                GlareWrapper replaces the bare <div className="card">.
-                The .card class now lives INSIDE the wrapper — this keeps
-                your existing card styles intact and lets GlareWrapper
-                own the shape, tilt, and foil overlays.
-              */
-              <GlareWrapper key={i} className="glare-card-spacing">
-                <div className="card">
-                  <div className="card-top">
-                    <span className="card-title">
-                      {item.type === 'education' ? item.degree : item.name}
-                    </span>
-                    <span className="card-period">{item.period}</span>
-                  </div>
-                  <p className="card-sub">{item.institution}</p>
-                  {item.description && (
-                    Array.isArray(item.description) ? (
-                      <ul className="card-desc-list">
-                        {item.description.map((point, j) => (
-                          <li key={j} className="card-desc">{point}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="card-desc">{item.description}</p>
-                    )
-                  )}
+              <div key={i} className="card">
+                <div className="card-top">
+                  <span className="card-title">
+                    {item.type === 'education' ? item.degree : item.name}
+                  </span>
+                  <span className="card-period">{item.period}</span>
                 </div>
-              </GlareWrapper>
+                <p className="card-sub">{item.institution}</p>
+                {item.description && (
+                  Array.isArray(item.description) ? (
+                    <ul className="card-desc-list">
+                      {item.description.map((point, j) => (
+                        <li key={j} className="card-desc">{point}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="card-desc">{item.description}</p>
+                  )
+                )}
+              </div>
             ))}
           </div>
 
@@ -135,22 +126,20 @@ export default function Skills({ isDark }) {
           {/* <div className="edu-cert-col">
             <h3 className="col-heading">Experience</h3>
             {EXPERIENCE.map((item, i) => (
-              <GlareWrapper key={i} className="glare-card-spacing">
-                <div className="card">
-                  <div className="card-top">
-                    <span className="card-title">{item.role}</span>
-                    <span className="card-period">{item.period}</span>
-                  </div>
-                  <p className="card-sub">{item.company}</p>
-                  {item.description && (
-                    <ul className="card-desc-list">
-                      {item.description.map((point, j) => (
-                        <li key={j} className="card-desc">{point}</li>
-                      ))}
-                    </ul>
-                  )}
+              <div key={i} className="card">
+                <div className="card-top">
+                  <span className="card-title">{item.role}</span>
+                  <span className="card-period">{item.period}</span>
                 </div>
-              </GlareWrapper>
+                <p className="card-sub">{item.company}</p>
+                {item.description && (
+                  <ul className="card-desc-list">
+                    {item.description.map((point, j) => (
+                      <li key={j} className="card-desc">{point}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             ))}
           </div> */}
 

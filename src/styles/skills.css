@@ -13,10 +13,12 @@
   --item-border:        rgba(255, 255, 255, 0.12);
   --fade-color:         #000000;
 
-  /* ── Card component tokens ── */
+  /* ── Card component tokens — extracted from ShowcaseCard's dark surface ── */
   --card-bg:            #0A0A0A;
-  --card-border:        rgba(255, 255, 255, 0.10);
-  --card-shadow:        0 4px 24px rgba(0, 0, 0, 0.30);
+  --card-border:        rgba(255, 255, 255, 0.04);
+  --card-shadow:        0 25px 50px -12px rgba(0, 0, 0, 0.45);
+  --card-shadow-hover:  0 40px 80px -20px rgba(0, 0, 0, 0.6);
+  --card-border-hover:  rgba(255, 255, 255, 0.15);
   --card-title:         #ffffff;
   --card-period-color:  #a5b4fc;
   --card-period-border: rgba(165, 180, 252, 0.65);
@@ -41,18 +43,20 @@
   --item-border:        rgba(15, 23, 42, 0.10);
   --fade-color:         #f8fafc;
 
-  /* ── Card component tokens — dark base so glare overlay has contrast ── */
-  --card-bg:            #14142a;
-  --card-border:        rgba(255, 255, 255, 0.09);
-  --card-shadow:        0 4px 32px rgba(0, 0, 0, 0.40);
-  --card-title:         #f0efff;
-  --card-period-color:  #a5b4fc;
-  --card-period-border: rgba(165, 180, 252, 0.60);
-  --card-sub:           rgba(230, 228, 255, 0.38);
-  --card-desc:          rgba(230, 228, 255, 0.58);
-  --card-credential:    rgba(230, 228, 255, 0.30);
-  --card-code-color:    #a5b4fc;
-  --card-code-bg:       rgba(165, 180, 252, 0.10);
+  /* ── Card component tokens — extracted from ShowcaseCard's light surface ── */
+  --card-bg:            #F3F5F7;
+  --card-border:        #D6DCE5;
+  --card-shadow:        0 10px 30px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --card-shadow-hover:  0 40px 80px -20px rgba(15, 23, 42, 0.12);
+  --card-border-hover:  rgba(15, 23, 42, 0.18);
+  --card-title:         #111827;
+  --card-period-color:  var(--accent);
+  --card-period-border: rgba(79, 70, 229, 0.45);
+  --card-sub:           #4B5563;
+  --card-desc:          var(--text-sub);
+  --card-credential:    #6B7280;
+  --card-code-color:    var(--accent);
+  --card-code-bg:       rgba(79, 70, 229, 0.08);
 }
 
 /* ── Section layout ── */
@@ -177,7 +181,7 @@
   width: 100%;
   overflow: hidden;
   gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  position: relative; /* containing block for the hidden measurement clone */
+  position: relative;
 }
 
 .marquee-track {
@@ -188,7 +192,6 @@
   will-change: transform;
 }
 
-/* ── Marquee Items — no bg, no border, no hover ── */
 .marquee-item {
   display: flex;
   align-items: center;
@@ -223,6 +226,12 @@
   gap: clamp(2rem, 4vw, 4rem);
 }
 
+.edu-cert-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
 .col-heading {
   font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   font-size: clamp(0.85rem, 1.125vw, 0.96rem);
@@ -243,18 +252,24 @@
   font-size: 0.9em;
 }
 
+/* ── Card — chrome extracted from ShowcaseCard, hover is plain CSS ── */
 .card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
+  border-radius: 1.25rem;
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
   box-shadow: var(--card-shadow);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: box-shadow 0.2s ease;
+  transition:
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease,
+    background-color 0.3s ease;
 }
 
-.glare-card-spacing {
-  margin-bottom: 1rem;
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--card-border-hover);
 }
 
 .card-top {
@@ -266,7 +281,7 @@
 }
 
 .card-title {
-  font-family: Helvetica, sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: clamp(0.9rem, 1.4vw, 1.05rem);
   font-weight: 700;
   color: var(--card-title);
@@ -275,7 +290,7 @@
 }
 
 .card-period {
-  font-family: Helvetica, sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -289,7 +304,7 @@
 }
 
 .card-sub {
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: clamp(0.8rem, 1.2vw, 0.9rem);
   color: var(--card-sub);
   margin: 0 0 0.75rem;
@@ -297,7 +312,7 @@
 }
 
 .card-desc {
-  font-family: "Libre Baskerville", serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.8rem;
   color: var(--card-desc);
   line-height: 1.7;
@@ -306,6 +321,7 @@
 }
 
 .card-credential {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.78rem;
   color: var(--card-credential);
   margin: 0.5rem 0 0;
