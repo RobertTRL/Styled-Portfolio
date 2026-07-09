@@ -47,7 +47,7 @@
   --item-border:        rgba(15, 23, 42, 0.10);
   --fade-color:         #f8fafc;
 
-  /* ── Card component tokens — dark base so glare overlay has contrast ── */
+  /* ── Card component tokens — dark base ensure glare overlay has contrast ── */
   --card-bg:            #14142a;
   --card-border:        rgba(255, 255, 255, 0.09);
   --card-shadow:        0 4px 32px rgba(0, 0, 0, 0.40);
