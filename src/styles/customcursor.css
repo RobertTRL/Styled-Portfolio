@@ -1,9 +1,9 @@
-/* ─── Hide the native cursor everywhere ─── */
+/* ─── Hide the native cursor everywhere ───
 *,
 *::before,
 *::after {
   cursor: none !important;
-}
+} */
  
 /* ─── Cursor wrapper ─── */
 .custom-cursor {

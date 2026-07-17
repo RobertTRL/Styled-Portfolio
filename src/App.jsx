@@ -81,7 +81,6 @@ const AppContent = ({ isDark, onToggle, onDOMCommitted }) => {
   return (
     <Suspense fallback={null}>
       <GreetingBoy isDark={isDark} isLoading={false} />
-      <CustomCursor isDark={isDark} />
       <Background />
       <Header isDark={isDark} onToggle={onToggle} />
       <main className="items" id="content">
