@@ -9,7 +9,6 @@ import './styles/bgandswitch.css';
 const AboutMe      = lazy(() => import('./components/AboutMe.jsx'));
 const Background   = lazy(() => import('./components/Background.jsx'));
 const Contacts     = lazy(() => import('./components/Contacts.jsx'));
-const CustomCursor = lazy(() => import('./components/CustomCursor.jsx'));
 const Navbar       = lazy(() => import('./components/Navbar.jsx'));
 const Projects     = lazy(() => import('./components/Projects.jsx'));
 const Skills       = lazy(() => import('./components/Skills.jsx'));
