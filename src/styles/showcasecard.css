@@ -27,45 +27,11 @@
   cursor: pointer;
   user-select: none;
 
-  transform-style: preserve-3d;
-
-  animation: sc-card-entry 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
-
-  transition:
-    background-color 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.4s ease,
-    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.3s ease;
 }
 
-/* Card lift + scale on hover. If tilt is enabled, the more specific
-   .sc-tilt-enabled:hover rule further down overrides this with the
-   perspective/rotate version instead. */
 .sc-card:hover {
   transform: scale(1.02);
-}
-
-/* CSS-only stand-in for the old mouse-tracked rotateX/rotateY.
-   Direction is fixed rather than cursor-relative; magnitude comes from
-   the --sc-tilt custom property (set inline from the maxTilt prop). */
-.sc-tilt-enabled:hover {
-  transform:
-    perspective(1000px)
-    rotateX(calc(var(--sc-tilt, 12deg) / -2.4))
-    rotateY(calc(var(--sc-tilt, 12deg) / 2))
-    translateY(-6px)
-    scale(1.02);
-}
-
-@keyframes sc-card-entry {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* =========================================================
@@ -76,12 +42,7 @@
 .sc-compact-card-dark {
   background: var(--sc-dark-bg);
   border: 1px solid rgba(255,255,255,0.04);
-  box-shadow:
-    0 25px 50px -12px rgba(0,0,0,0.45);
-}
-
-.sc-card-dark:hover {
-  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.45);
 }
 
 /* =========================================================
@@ -92,14 +53,9 @@
 .sc-compact-card-light {
   background: var(--sc-light-bg);
   border: 1px solid var(--sc-light-border);
-
   box-shadow:
     0 10px 30px rgba(15, 23, 42, 0.06),
     0 2px 8px rgba(15, 23, 42, 0.04);
-}
-
-.sc-card-light:hover {
-  box-shadow: 0 40px 80px -20px rgba(15,23,42,0.12);
 }
 
 /* =========================================================
@@ -125,45 +81,7 @@
   width: 80%;
   height: 80%;
   object-fit: contain;
-
-  transition: transform 0.6s ease-out;
 }
-
-/* base image zoom on hover */
-.sc-card:hover .sc-hero-img {
-  transform: scale(1.04);
-}
-
-/* stronger zoom + slight lift when enableParallax is set, standing in
-   for the old cursor-tracked parallax offset */
-.sc-card:hover .sc-parallax-enabled .sc-hero-img {
-  transform: scale(1.06) translateY(-4px);
-}
-
-/* .sc-gradient-overlay {
-  position: absolute;
-  inset: 0;
-}
-
-.sc-gradient-overlay-dark {
-  background:
-    linear-gradient(
-      to top,
-      rgba(10,10,10,0.95),
-      transparent,
-      transparent
-    );
-}
-
-.sc-gradient-overlay-light {
-  background:
-    linear-gradient(
-      to top,
-      rgba(243,245,247,0.92),
-      transparent,
-      transparent
-    );
-} */
 
 /* =========================================================
    TAGLINE
@@ -179,8 +97,6 @@
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: -0.02em;
-
-  animation: sc-fade-in-up 0.5s ease-out 0.2s backwards;
 }
 
 .sc-tagline-dark {
@@ -212,8 +128,6 @@
   letter-spacing: -0.03em;
 
   margin: 0 0 0.75rem 0;
-
-  animation: sc-fade-in-up 0.5s ease-out 0.3s backwards;
 }
 
 .sc-heading-dark {
@@ -231,8 +145,6 @@
   line-height: 1.65;
 
   margin: 0 0 1.5rem 0;
-
-  animation: sc-fade-in-up 0.5s ease-out 0.4s backwards;
 }
 
 .sc-description-dark {
@@ -243,17 +155,6 @@
   color: var(--sc-light-muted);
 }
 
-@keyframes sc-fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* =========================================================
    CTA
 ========================================================= */
@@ -261,7 +162,6 @@
 .sc-cta {
   position: relative;
 
-  overflow: hidden;
   cursor: pointer;
 
   border-radius: 999px;
@@ -272,36 +172,17 @@
   font-size: 0.875rem;
   font-weight: 600;
 
-  animation: sc-fade-in-up 0.5s ease-out 0.5s backwards;
-
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    color 0.3s ease,
-    transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 .sc-cta:hover {
   transform: scale(1.05);
 }
 
-.sc-cta:active {
-  transform: scale(0.98);
-}
-
-.sc-cta:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
 .sc-cta-dark {
   background: rgba(38,38,38,0.8);
   color: #E5E5E5;
   border: 1px solid rgba(64,64,64,0.5);
-}
-
-.sc-cta-dark:hover {
-  border-color: rgba(82,82,82,0.8);
 }
 
 .sc-cta-light {
@@ -311,62 +192,12 @@
   backdrop-filter: blur(8px);
 }
 
-.sc-cta-light:hover {
-  background: #DCE3EA;
-  border-color: #C9D3DF;
-}
-
-.sc-cta-shine {
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,255,255,0.15),
-      transparent
-    );
-
-  transform: translateX(-100%);
-}
-
-/* one-shot sweep on hover, replacing the isHovered-driven animate() call */
-.sc-cta:hover .sc-cta-shine {
-  animation: sc-cta-shine-sweep 0.6s ease-in-out;
-}
-
-@keyframes sc-cta-shine-sweep {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(200%);
-  }
-}
-
-.sc-cta-text {
-  position: relative;
-  z-index: 5;
-}
-
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .sc-footer {
   padding: 1rem;
-
-  animation: sc-fade-in 0.5s ease-out 0.6s backwards;
-}
-
-@keyframes sc-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .sc-footer-dark {
@@ -390,24 +221,14 @@
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
-
-  transition: color 0.3s ease;
 }
 
 .sc-brand-dark {
   color: var(--sc-dark-muted);
 }
 
-.sc-brand-dark:hover {
-  color: #ffffff;
-}
-
 .sc-brand-light {
   color: #374151;
-}
-
-.sc-brand-light:hover {
-  color: #111827;
 }
 
 .sc-services {
@@ -420,28 +241,14 @@
 .sc-service {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.8rem;
-
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.sc-service:hover {
-  transform: scale(1.05);
 }
 
 .sc-service-dark {
   color: var(--sc-dark-dim);
 }
 
-.sc-service-dark:hover {
-  color: #ffffff;
-}
-
 .sc-service-light {
   color: var(--sc-light-dim);
-}
-
-.sc-service-light:hover {
-  color: #111827;
 }
 
 .sc-divider {
@@ -453,24 +260,13 @@
   justify-content: center;
 
   flex-shrink: 0;
-
-  transform-origin: center center;
-  will-change: transform;
-
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.sc-divider:hover {
-  transform: rotate(180deg);
 }
 
 .sc-divider-inner {
   display: flex;
   align-items: center;
   justify-content: center;
-
   line-height: 1;
-  transform-origin: center center;
 }
 
 .sc-divider-dark {
@@ -479,36 +275,6 @@
 
 .sc-divider-light {
   color: rgba(17,24,39,0.28);
-}
-
-/* =========================================================
-   BORDER GLOW
-========================================================= */
-
-.sc-border-glow {
-  position: absolute;
-  inset: 0;
-
-  border-radius: 1.5rem;
-  pointer-events: none;
-
-  transition: box-shadow 0.3s ease;
-}
-
-.sc-border-glow-dark {
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-}
-
-.sc-card-dark:hover .sc-border-glow-dark {
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
-}
-
-.sc-border-glow-light {
-  box-shadow: inset 0 0 0 1px rgba(17,24,39,0.04);
-}
-
-.sc-card-light:hover .sc-border-glow-light {
-  box-shadow: inset 0 0 0 1px rgba(17,24,39,0.08);
 }
 
 /* =========================================================
@@ -525,24 +291,11 @@
 
   cursor: pointer;
 
-  transition:
-    background-color 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease,
-    transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .sc-compact-card:hover {
-  transform: translateY(-4px) scale(1.02);
-}
-
-.sc-compact-card:active {
-  transform: scale(0.98);
-}
-
-.sc-compact-card:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  transform: scale(1.02);
 }
 
 .sc-compact-image {
@@ -553,19 +306,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.sc-compact-image .sc-hero-img {
-  transition: transform 0.4s ease-out;
-}
-
-.sc-compact-card:hover .sc-hero-img {
-  transform: scale(1.08);
-}
-
-.sc-compact-gradient {
-  position: absolute;
-  inset: 0;
 }
 
 .sc-compact-content {
@@ -614,17 +354,6 @@
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-
-  opacity: 0;
-  transform: translateX(-10px);
-
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.sc-compact-card:hover .sc-compact-icon,
-.sc-compact-card:focus-visible .sc-compact-icon {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 .sc-compact-icon-dark {
@@ -633,33 +362,6 @@
 
 .sc-compact-icon-light {
   color: #4B5563;
-}
-
-/* =========================================================
-   HOVER GLOW
-========================================================= */
-
-.sc-hover-glow {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;
-
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.sc-card:hover .sc-hover-glow {
-  opacity: 1;
-}
-
-/* Fixed gradient position stands in for the old cursor-tracked glowX/glowY */
-.sc-hover-glow-dark {
-  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 50%);
-}
-
-.sc-hover-glow-light {
-  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.7) 0%, transparent 55%);
 }
 
 /* =========================================================
@@ -722,25 +424,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sc-card,
-  .sc-tagline,
-  .sc-heading,
-  .sc-description,
   .sc-cta,
-  .sc-cta-shine,
-  .sc-footer,
-  .sc-hero-img,
-  .sc-hover-glow,
-  .sc-divider,
-  .sc-border-glow,
-  .sc-compact-card,
-  .sc-compact-icon,
-  .sc-service {
-    animation: none !important;
+  .sc-compact-card {
     transition: none !important;
   }
 
   .sc-card:hover,
-  .sc-tilt-enabled:hover,
+  .sc-cta:hover,
   .sc-compact-card:hover {
     transform: none !important;
   }

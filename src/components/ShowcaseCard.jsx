@@ -11,9 +11,6 @@ function ShowcaseCard({
     brandName,
     services = [],
     className = "",
-    enableTilt = true,
-    maxTilt = 12,
-    enableParallax = true,
     isDark = true,
     Ctalink,
 }) {
@@ -23,24 +20,8 @@ function ShowcaseCard({
         if (Ctalink) window.open(Ctalink, "_blank", "noopener,noreferrer")
     }
 
-    // Only property still needed from JS: how strong the CSS-driven tilt
-    // should be. Everything else is a plain className toggle now.
-    const cardStyle = enableTilt ? { "--sc-tilt": `${maxTilt}deg` } : undefined
-
     return (
-        <div
-            className={`sc-card ${isDark ? "sc-card-dark" : "sc-card-light"} ${
-                enableTilt ? "sc-tilt-enabled" : ""
-            } ${className}`}
-            style={cardStyle}
-        >
-            {/* Glow Overlay - fades in on hover via CSS, no cursor tracking */}
-            <div
-                className={`sc-hover-glow ${
-                    isDark ? "sc-hover-glow-dark" : "sc-hover-glow-light"
-                }`}
-            />
-
+        <div className={`sc-card ${isDark ? "sc-card-dark" : "sc-card-light"} ${className}`}>
             {/* Image */}
             <div className="sc-image-container">
                 {tagline && (
@@ -53,19 +34,9 @@ function ShowcaseCard({
                     </div>
                 )}
 
-                <div
-                    className={`sc-hero-img-wrapper ${
-                        enableParallax ? "sc-parallax-enabled" : ""
-                    }`}
-                >
+                <div className="sc-hero-img-wrapper">
                     <img src={imageUrl} alt={imageAlt} className="sc-hero-img" />
                 </div>
-
-                <div
-                    className={`sc-gradient-overlay ${
-                        isDark ? "sc-gradient-overlay-dark" : "sc-gradient-overlay-light"
-                    }`}
-                />
             </div>
 
             {/* Content */}
@@ -94,8 +65,7 @@ function ShowcaseCard({
                         onClick={onCtaClick}
                         className={`sc-cta ${isDark ? "sc-cta-dark" : "sc-cta-light"}`}
                     >
-                        <span className="sc-cta-shine" />
-                        <span className="sc-cta-text">{ctaText}</span>
+                        {ctaText}
                     </button>
                 )}
             </div>
@@ -142,13 +112,6 @@ function ShowcaseCard({
                     </div>
                 </div>
             )}
-
-            {/* Border Glow */}
-            <div
-                className={`sc-border-glow ${
-                    isDark ? "sc-border-glow-dark" : "sc-border-glow-light"
-                }`}
-            />
         </div>
     )
 }
@@ -182,7 +145,6 @@ function ShowcaseCardCompact({
         >
             <div className="sc-compact-image">
                 <img src={imageUrl} alt={imageAlt} className="sc-hero-img" />
-                <div className="sc-compact-gradient" />
             </div>
 
             <div className="sc-compact-content">
