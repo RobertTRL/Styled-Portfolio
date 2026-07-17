@@ -31,7 +31,6 @@ const preloadAll = () =>
   Promise.all([
     import('./components/Background.jsx'),
     import('./components/AboutMe.jsx'),
-    import('./components/CustomCursor.jsx'),
     import('./components/Navbar.jsx'),
     import('./components/Projects.jsx'),
     import('./components/Skills.jsx'),
