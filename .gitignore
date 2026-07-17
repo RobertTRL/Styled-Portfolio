@@ -17,6 +17,11 @@ src/styles/projectscrolleffect.css
 src/components/CustomCursor.jsx
 src/styles/customcursor.css 
 
+src/assets/default-cursor.svg
+src/assets/not-allowed.svg
+src/assets/v2.svg
+src/assets/icons8-hand-cursor.svg
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
