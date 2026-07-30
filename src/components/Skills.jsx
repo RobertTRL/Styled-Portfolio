@@ -33,7 +33,13 @@ const EDUCATION = [
     degree:        'Electrical and Electronics Engineering',
     institution: 'Jomo Kenyatta University of Agriculture and Technology',
     period:      '2026 - 2031',
-    type: 'education'
+    type: 'education',
+    description : [
+      'Mastered core electrical and electronics engineering principles across circuit theory, digital logic, electromagnetics, and signal processing — reinforced through hands-on labs at every stage.',
+      'Developed practical circuit design and analysis skills using simulation tools including filter design, amplifier analysis, and control systems.',
+      'Built embedded systems and microcontroller-based projects using platforms like Arduino, ESP32, and PIC, integrating sensors, actuators, and real-time control logic.',
+      'Completed a full capstone project spanning circuit design, embedded programming, and power electronics, solving a real-world engineering problem from concept to prototype.',
+    ], 
   },
   {
     name:        'Software Engineering',
