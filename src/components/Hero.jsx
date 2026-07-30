@@ -25,7 +25,7 @@ export default function Hero({ isDark }) {
       <div className="main-text-wrapper">
         <h1 className="main-text">
           I focus on making<br />
-          <span className="serif-word">immersive</span> experiences.
+          <span className="serif-word">pragmatic</span> solutions.
         </h1>
       </div>
 
