@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import '../styles/projects.css';
-import { GithubCalendar } from './GithubCalendar';
 import { ShowcaseCard, ShowcaseCardCompact } from '../components/ShowcaseCard.jsx';
 import { useInView } from '../hooks/useInView.js';
 import data from '../data/db.json';
@@ -70,15 +69,6 @@ export default function Projects({ isDark }) {
           <span className="serif-word">ingenuity</span> in action.
         </h2>
         <div className="projects-divider" />
-      </div>
-
-      <div className="github-calendar">
-        <GithubCalendar
-          username="RobertTRL"
-          isDark={isDark}
-          colorSchema="green"
-          shape="rounded"
-        />
       </div>
 
       <div className="projects-content">
