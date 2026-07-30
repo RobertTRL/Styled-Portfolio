@@ -20,19 +20,43 @@
     },
     {
       "id": 3,
-      "title": "Simple Dictionary Website",
-      "image": "/images/dictionary-img.webp",
-      "description": "A sleek, responsive dictionary SPA with real-time lexicon queries, asynchronous API integration for word definitions and phonetics, and an optimized client-side search engine.",
-      "services": ["JavaScript", "Free Dictionary API"],
-      "Ctalink" : "https://github.com/RobertTRL/Wordly-SPA"
-    },
-    {
-      "id": 4,
       "title": "Coffee Shop Page",
       "image": "/images/coffee-shop.webp",
       "description": "A fully interactive React SPA configured as a mock full-stack environment, featuring a local REST API powered by json-server for real-time CRUD operation simulation.",
       "services": ["React", "JSON-server"],
       "Ctalink" : "https://github.com/RobertTRL/Module-3-Summative-Lab"
+    },
+    {
+    "id": 4,
+    "title": "Productivity Notes API",
+    "image": "/images/productivity.webp",
+    "description": "A secure Flask REST API for personal note-taking, featuring JWT-based authentication so each user can only access and manage their own notes, with full CRUD routes and paginated results.",
+    "services": ["Python", "Flask", "SQLAlchemy", "JWT"],
+    "Ctalink": "https://github.com/RobertTRL/Module-5-Productivity-Lab"
+    },
+    {
+      "id": 5,
+      "title": "Workout Tracker API",
+      "image": "/images/workout.webp",
+      "description": "A Flask and SQLAlchemy REST API for logging workouts and exercises, using a many-to-many join table to track the reps, sets, and duration of each exercise performed within a given workout.",
+      "services": [ "Python", "Flask", "SQLAlchemy", "Marshmallow"],
+      "Ctalink": "https://github.com/RobertTRL/Module-5-Workout-Lab"
+    },
+    {
+      "id": 6,
+      "title": "Inventory Management System",
+      "image": "/images/inventory.webp",
+      "description": "A Flask REST API paired with a CLI frontend for managing food product inventory, supporting manual entry or automatic barcode lookups via the OpenFoodFacts API, backed by a full pytest suite with mocked HTTP responses.",
+      "services": ["Python", "Flask", "Argparse", "Pytest"],
+      "Ctalink": "https://github.com/RobertTRL/Module-5-Inventory-Lab"
+    },
+    {
+      "id": 7,
+      "title": "Python CLI Project Manager",
+      "image": "/images/project.webp",
+      "description": "An object-oriented command-line app for managing users, projects, and tasks, using custom persistence classes to serialize data to and from a local JSON file, all driven through argparse-based subcommands.",
+      "services": ["Python", "Argparse"],
+      "Ctalink": "https://github.com/RobertTRL/Module-4-Summative-Lab"
     }
   ],
 
