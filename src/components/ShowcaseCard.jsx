@@ -1,9 +1,6 @@
-import React, { useRef, useState, useCallback } from "react"
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import React, { useState } from "react"
+import { motion } from "framer-motion"
 import "../styles/showcasecard.css"
-
-// FIX: moved outside the component so it's not recreated on every render
-const SPRING_CONFIG = { damping: 25, stiffness: 150 }
 
 function ShowcaseCard({
     tagline,
@@ -15,86 +12,21 @@ function ShowcaseCard({
     brandName,
     services = [],
     className = "",
-    enableTilt = false,
-    maxTilt = 0,
-    enableParallax = false,
     isDark = true,
     Ctalink
 }) {
-    const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
 
-    const mouseX = useMotionValue(0)
-    const mouseY = useMotionValue(0)
-
-    const rotateX = useSpring(
-        useTransform(mouseY, [-0.5, 0.5], [maxTilt, -maxTilt]),
-        SPRING_CONFIG
-    )
-
-    const rotateY = useSpring(
-        useTransform(mouseX, [-0.5, 0.5], [-maxTilt, maxTilt]),
-        SPRING_CONFIG
-    )
-
-    const parallaxX = useSpring(
-        useTransform(mouseX, [-0.5, 0.5], [-15, 15]),
-        SPRING_CONFIG
-    )
-
-    const parallaxY = useSpring(
-        useTransform(mouseY, [-0.5, 0.5], [-15, 15]),
-        SPRING_CONFIG
-    )
-
-    const glowX = useSpring(
-        useTransform(mouseX, [-0.5, 0.5], [0, 100]),
-        SPRING_CONFIG
-    )
-
-    const glowY = useSpring(
-        useTransform(mouseY, [-0.5, 0.5], [0, 100]),
-        SPRING_CONFIG
-    )
-
-    const handleMouseMove = useCallback(
-        (e) => {
-            if (!cardRef.current || !enableTilt) return
-
-            const rect = cardRef.current.getBoundingClientRect()
-            const x = (e.clientX - rect.left) / rect.width - 0.5
-            const y = (e.clientY - rect.top) / rect.height - 0.5
-
-            mouseX.set(x)
-            mouseY.set(y)
-        },
-        [mouseX, mouseY, enableTilt]
-    )
-
-    // FIX: replaced void ternary expression with a clean if statement
     const onCtaClick = () => {
         if (Ctalink) window.open(Ctalink, "_blank")
     }
 
     const handleMouseEnter = () => setIsHovered(true)
-
-    const handleMouseLeave = () => {
-        setIsHovered(false)
-        mouseX.set(0)
-        mouseY.set(0)
-    }
+    const handleMouseLeave = () => setIsHovered(false)
 
     return (
         <motion.div
-            ref={cardRef}
             className={`sc-card ${isDark ? "sc-card-dark" : "sc-card-light"} ${className}`}
-            style={{
-                transformStyle: "preserve-3d",
-                perspective: 1000,
-                rotateX: enableTilt ? rotateX : 0,
-                rotateY: enableTilt ? rotateY : 0,
-            }}
-            onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             initial={{ opacity: 0, y: 40 }}
@@ -110,20 +42,6 @@ function ShowcaseCard({
                     : "0 40px 80px -20px rgba(15,23,42,0.12)",
             }}
         >
-            {/* Glow Overlay */}
-            <motion.div
-                className="sc-hover-glow"
-                style={{
-                    zIndex: 10,
-                    pointerEvents: "none",
-                    background: isDark
-                        ? `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.08) 0%, transparent 50%)`
-                        : `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.7) 0%, transparent 55%)`,
-                }}
-                animate={{ opacity: isHovered ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
-            />
-
             {/* Image */}
             <div className="sc-image-container">
                 {tagline && (
@@ -137,25 +55,13 @@ function ShowcaseCard({
                     </motion.div>
                 )}
 
-                <motion.div
-                    className="sc-hero-img-wrapper"
-                    style={{
-                        x: enableParallax ? parallaxX : 0,
-                        y: enableParallax ? parallaxY : 0,
-                    }}
-                >
-                    <motion.img
+                <div className="sc-hero-img-wrapper">
+                    <img
                         src={imageUrl}
                         alt={imageAlt}
                         className="sc-hero-img"
-                        initial={{ scale: 1 }}
-                        animate={{ scale: isHovered ? 1.04 : 1 }}
-                        transition={{
-                            duration: 0.6,
-                            ease: "easeOut",
-                        }}
                     />
-                </motion.div>
+                </div>
 
                 <div
                     className={`sc-gradient-overlay ${
@@ -308,12 +214,10 @@ function ShowcaseCardCompact({
             transition={{ duration: 0.3 }}
         >
             <div className="sc-compact-image">
-                <motion.img
+                <img
                     src={imageUrl}
                     alt={imageAlt}
                     className="sc-hero-img"
-                    animate={{ scale: isHovered ? 1.08 : 1 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
                 />
                 <div className="sc-compact-gradient" />
             </div>
