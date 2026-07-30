@@ -9,6 +9,8 @@ import JavascriptIcon from '../assets/icons8-javascript-100.webp';
 import ReactIcon      from '../assets/icons8-react-100.webp';
 import Illustrator    from '../assets/Adobe_Illustrator_CC_icon.webp';
 import PythonIcon     from '../assets/icons8-python-100.webp';
+import FlaskIcon      from '../assets/Flask.svg'
+import NodeJSicon     from '../assets/icons8-node-js-96.webp'
 
 const SKILL_IMAGES = [
   { src: JavascriptIcon, alt: 'JavaScript'  },
@@ -18,6 +20,8 @@ const SKILL_IMAGES = [
   { src: Illustrator,    alt: 'Illustrator' },
   { src: InDesign,       alt: 'Indesign'    },
   { src: Claude,         alt: 'Claude'      },
+  { src: FlaskIcon,      alt: 'Flask'       },
+  { src: NodeJSicon,     alt: 'Node.js'     },
 ];
 
 const EDUCATION = [
