@@ -111,8 +111,6 @@ export default function Projects({ isDark }) {
                     services={project.services ?? []}
                     isDark={isDark}
                     Ctalink={project.Ctalink}
-                    enableParallax={i}
-                    enableTilt={i}
                   />
                 ) : (
                   <ShowcaseCardCompact

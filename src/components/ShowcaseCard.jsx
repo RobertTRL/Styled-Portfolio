@@ -15,9 +15,9 @@ function ShowcaseCard({
     brandName,
     services = [],
     className = "",
-    enableTilt = true,
-    maxTilt = 12,
-    enableParallax = true,
+    enableTilt = false,
+    maxTilt = 0,
+    enableParallax = false,
     isDark = true,
     Ctalink
 }) {
