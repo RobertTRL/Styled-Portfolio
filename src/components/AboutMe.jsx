@@ -40,10 +40,10 @@ export default function AboutMe({ isDark }) {
             <p className="about-text">
               I'm <span className="highlight name">Robert Toroitich</span>, a{' '}
               <span className="highlight role">Full-Stack Software Engineer</span> and{' '}
-              <span className="highlight role">Graphic Designer</span>. I especially
-              focus on building detailed, pragmatic and immersive{' '}
+              <span className="highlight role">Electrical Engineering Student</span>. I especially
+              focus on solving real problems pragmatically and building immersive{' '}
               <span className="highlight exp">web experiences</span>.
-              Walk with me as I turn your ideas into production-ready websites.
+              Walk with me as I develop solutions to your problems via code.
             </p>
           </div>
         </div>
