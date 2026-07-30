@@ -32,7 +32,7 @@ function ShowcaseCard({
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-                duration: 0.6,
+                duration: 0.2,
                 ease: [0.25, 0.46, 0.45, 0.94],
             }}
             whileHover={{
@@ -49,7 +49,7 @@ function ShowcaseCard({
                         className={`sc-tagline ${isDark ? "sc-tagline-dark" : "sc-tagline-light"}`}
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
+                        transition={{ delay: 0.2, duration: 0.25 }}
                     >
                         {tagline}
                     </motion.div>
@@ -76,7 +76,7 @@ function ShowcaseCard({
                     className={`sc-heading ${isDark ? "sc-heading-dark" : "sc-heading-light"}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
+                    transition={{ delay: 0.3, duration: 0.25 }}
                 >
                     {heading}
                 </motion.h2>
@@ -86,7 +86,7 @@ function ShowcaseCard({
                         className={`sc-description ${isDark ? "sc-description-dark" : "sc-description-light"}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.5 }}
+                        transition={{ delay: 0.4, duration: 0.25 }}
                     >
                         {description}
                     </motion.p>
@@ -98,7 +98,7 @@ function ShowcaseCard({
                         className={`sc-cta ${isDark ? "sc-cta-dark" : "sc-cta-light"}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 0.5 }}
+                        transition={{ delay: 0.5, duration: 0.25 }}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -110,7 +110,7 @@ function ShowcaseCard({
                                     : { translateX: "-100%" }
                             }
                             transition={{
-                                duration: 0.6,
+                                duration: 0.3,
                                 ease: "easeInOut",
                             }}
                         />
@@ -125,7 +125,7 @@ function ShowcaseCard({
                     className={`sc-footer ${isDark ? "sc-footer-dark" : "sc-footer-light"}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
+                    transition={{ delay: 0.6, duration: 0.25 }}
                 >
                     <div className="sc-footer-flex">
                         {brandName && (
@@ -211,7 +211,7 @@ function ShowcaseCardCompact({
             onMouseLeave={() => setIsHovered(false)}
             whileHover={{ scale: 1.02, y: -4 }}
             whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.15 }}
         >
             <div className="sc-compact-image">
                 <img
