@@ -11,11 +11,8 @@ A personal portfolio built from scratch with React and Vite. Designed to be imme
 ## Features
 - **Day / Night theme** — toggle switches between a full daytime and nighttime sky scene, persisted via `localStorage` and synced to `prefers-color-scheme` on first visit; an inline pre-hydration script also sets the correct background color before React mounts, avoiding a flash of the wrong theme
 - **Animated background** — pure-CSS sky with parallax stars, shooting meteors, drifting clouds, a hot-air balloon (day), and a floating satellite (night)
-- **Custom cursor** — context-aware cursor that switches between default, text, click, and not-allowed states; pointer-device detection prevents it rendering on touch screens
 - **Scroll animations** — each section fades in on scroll via a shared `useInView` IntersectionObserver hook
 - **Projects** — tabbed layout across Software Engineering, Graphic Design, 3D & CAD Design, and Electronics; sourced from a local `db.json`, with a "Coming soon" placeholder card shown for any category without entries yet
-- **Card stack** — animated, draggable stack of cards (used in the About section) with responsive scaling and spread based on viewport width
-- **Glare hover effect** — cursor-tracked glare/tilt effect wrapping the skills icons, optimized to batch all CSS custom-property writes into a single style invalidation per frame
 - **Interactive 3D contact globe** — a WebGL globe (Three.js + `@react-three/fiber` + `three-globe`) rendered inside the Contacts section, showing animated arcs radiating from Nakuru, Kenya to cities around the world; lazy-mounted only once it nears the viewport so its ~2-3 MB chunk never competes with first-paint assets
 - **WhatsApp-relayed contact form** — a name/email/message form that opens a pre-filled `wa.me` link instead of requiring a backend
 - **One-click contact copy** — clipboard copy for email, with tap-to-call for phone and direct links out to LinkedIn/GitHub
@@ -52,7 +49,6 @@ src/
 │   ├── CardStack.jsx
 │   ├── ContactForm.jsx
 │   ├── Contacts.jsx
-│   ├── CustomCursor.jsx
 │   ├── GithubCalendar.jsx
 │   ├── GlareWrapper.jsx
 │   ├── Globe.jsx             # 3D contact globe (Three.js / three-globe)
@@ -76,7 +72,6 @@ src/
 │   ├── bgandswitch.css
 │   ├── cardstack.css
 │   ├── contacts.css
-│   ├── customcursor.css
 │   ├── githubcalendar.css
 │   ├── glarewrapper.css
 │   ├── globe.css
