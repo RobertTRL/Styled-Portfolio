@@ -16,6 +16,8 @@ src/components/ProjectScrollEffect.jsx
 src/styles/projectscrolleffect.css
 src/components/CustomCursor.jsx
 src/styles/customcursor.css 
+src/components/GitHubCalendar.jsx
+src/styles/githubcalendar.css
 
 src/assets/default-cursor.svg
 src/assets/not-allowed.svg
