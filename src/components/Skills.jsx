@@ -30,6 +30,12 @@ const SKILL_IMAGES = [
 
 const EDUCATION = [
   {
+    degree:        'Electrical and Electronics Engineering',
+    institution: 'Jomo Kenyatta University of Agriculture and Technology',
+    period:      '2026 - 2031',
+    type: 'education'
+  },
+  {
     name:        'Software Engineering',
     institution: 'Moringa School',
     period:      '2026',
