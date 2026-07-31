@@ -105,6 +105,12 @@
   }
 }
 
+.hero-btn-group {
+  display: inline-flex;     
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .hero-btn {
   background-color: transparent;
   font-family: 'Helvetica Neue', sans-serif;
@@ -114,9 +120,6 @@
   font-weight: 550;
   padding: 0;
   color: var(--btn-text);
-  display: inline-flex;     
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .hero-btn-arrow {
@@ -127,6 +130,35 @@
 @keyframes nudge-down {
   0%, 100% { transform: translateY(0);    opacity: 1;   }
   50%       { transform: translateY(5px); opacity: 0.5; }
+}
+
+.hero-btn-or {
+  font-weight: 400;
+  font-size: 0.95rem;
+  opacity: 0.55;
+  position: relative;
+  top: 1px; /* nudges baseline so it sits at the optical center, not just the geometric middle */
+}
+
+.hero-btn-arrow {
+  display: inline-block;
+}
+
+.hero-btn-arrow-down {
+  animation: nudge-down 1.8s ease-in-out infinite;
+}
+
+.hero-btn-arrow-diagonal {
+  animation: nudge-diagonal 1.8s ease-in-out infinite;
+}
+
+@keyframes nudge-diagonal {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(4px, -4px);
+  }
 }
 
 .hero-btn:hover {

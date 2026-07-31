@@ -20,6 +20,15 @@ export default function Hero({ isDark }) {
     }, 700);
   }
 
+  const handleDownloadResume = () => {
+    const link = document.createElement('a')
+    link.href = '/Robert_Toroitich_CV.pdf'
+    link.download = 'Robert_Toroitich_Resume.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    };
+
   return (
     <div className={`hero-section ${themeClass}`} id="home">
       <div className="main-text-wrapper">
@@ -33,10 +42,17 @@ export default function Hero({ isDark }) {
         Hi there. I'm Robert Toroitich, and you've just landed on my portfolio page!
       </p>
 
+    <div className="hero-btn-group">
       <button className="hero-btn" onClick={scrollToAbout}>
-        View my work
-        <span className="hero-btn-arrow" aria-hidden="true">&darr;</span>
+        View my projects
+        <span className="hero-btn-arrow hero-btn-arrow-down" aria-hidden="true">&darr;</span>
       </button>
+      <span className="hero-btn-or">or</span>
+      <button className="hero-btn" onClick={handleDownloadResume}>
+        Download my CV
+      <span className="hero-btn-arrow hero-btn-arrow-diagonal" aria-hidden="true">↗</span>
+    </button>
+    </div>
     </div>
   );
 }
