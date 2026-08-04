@@ -73,6 +73,10 @@
   transition: color 0.3s ease, background 0.3s ease;
 }
 
+.dark-mode .flask-icon {
+  filter: brightness(0) invert(1);
+}
+
 .skills-section::before {
   content: '';
   position: absolute;
