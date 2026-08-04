@@ -11,7 +11,7 @@ export default function SkillsMarquee({ images, speed = SPEED }) {
   const [trackWidth, setTrackWidth] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  const tripledImages = [...images, ...images, ...images];
+  const quadrupledImages = [...images, ...images, ...images, ...images];
 
   // Measure one full sequence once it's laid out.
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function SkillsMarquee({ images, speed = SPEED }) {
       onMouseLeave={() => setIsPaused(false)}
     >
       <motion.div className="marquee-track" ref={trackRef} style={{ x }}>
-        {tripledImages.map((img, i) => (
+        {quadrupledImages.map((img, i) => (
           <div className="marquee-item" key={i} aria-hidden={i >= images.length || undefined}>
             <img
               src={img.src}
