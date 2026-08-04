@@ -2,7 +2,7 @@
 
 .contact-globe-wrapper {
   position: relative;
-  width: clamp(300px, 60vw, 720px);
+  width: clamp(350px, 80vw, 900px);
   margin: 0 auto;
   padding: 1rem 0 0.5rem;
 }
