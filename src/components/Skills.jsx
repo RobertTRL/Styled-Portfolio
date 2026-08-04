@@ -25,43 +25,7 @@ const SKILL_IMAGES = [
 ];
 
 const EDUCATION = [
-  {
-    degree:        'Electrical and Electronics Engineering',
-    institution: 'Jomo Kenyatta University of Agriculture and Technology',
-    period:      '2026 - 2031',
-    type: 'education',
-    description : [
-      'Mastered core electrical and electronics engineering principles across circuit theory, digital logic, electromagnetics, and signal processing — reinforced through hands-on labs at every stage.',
-      'Developed practical circuit design and analysis skills using simulation tools including filter design, amplifier analysis, and control systems.',
-      'Built embedded systems and microcontroller-based projects using platforms like Arduino, ESP32, and PIC, integrating sensors, actuators, and real-time control logic.',
-      'Completed a full capstone project spanning circuit design, embedded programming, and power electronics, solving a real-world engineering problem from concept to prototype.',
-    ], 
-  },
-  {
-    name:        'Software Engineering',
-    institution: 'Moringa School',
-    period:      '2026',
-    description: [
-      'Mastered full-stack web development across HTML, CSS, JavaScript, React, Python, and Flask — building real-world projects at every stage.',
-      'Developed interactive front-end applications using React, including component-based architecture, state management, and API integration.',
-      'Built secure REST APIs and relational database systems using Flask, SQLAlchemy, and JWT authentication.',
-      'Completed a full-stack capstone project with a React frontend, Flask backend, and a relational database, solving a real business problem.',
-      'Strengthened professional skills through career coaching, mock interviews, and learning soft skills with job-hunting support.',
-    ],
-    type: 'certification',
-  },
-  {
-    name:        'Graphic Design Masterclass',
-    institution: 'Udemy.com',
-    period:      '2026',
-    description: [
-      'Gained a strong foundation in design theory — covering color theory, typography, composition, layout rules, and grid systems.',
-      'Built hands-on projects in Adobe Photoshop, Illustrator, and InDesign through real-world advertising and branding projects.',
-      'Constructed a personal design portfolio of original work produced throughout the course, ready for client and employer presentation.',
-      'Learned to integrate AI tools such as Nano Banana Pro into the design workflow for faster, more creative output.',
-    ],
-    type: 'certification',
-  },
+  
 ];
 
 const EXPERIENCE = [
