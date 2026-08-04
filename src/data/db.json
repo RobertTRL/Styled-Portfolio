@@ -136,5 +136,16 @@
       "Learned to integrate AI tools such as Nano Banana Pro into the design workflow for faster, more creative output."
     ]
   }
+  ],
+  "EXPERIENCE" : [
+    {
+    "role":        "Your Job Title",
+    "company":     "Company Name",
+    "period":      "Month Year - Present",
+    "description": [
+      "Describe a key responsibility or achievement here.",
+      "Add another bullet point highlighting your impact or skills used."
+    ]
+  }
   ]
 }

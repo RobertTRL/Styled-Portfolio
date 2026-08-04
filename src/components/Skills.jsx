@@ -11,6 +11,9 @@ import Illustrator    from '../assets/Adobe_Illustrator_CC_icon.webp';
 import PythonIcon     from '../assets/icons8-python-100.webp';
 import FlaskIcon      from '../assets/Flask.svg'
 import NodeJSicon     from '../assets/icons8-node-js-96.webp'
+import data from '../data/db.json'
+
+const { EDUCATION } = data
 
 const SKILL_IMAGES = [
   { src: JavascriptIcon, alt: 'JavaScript'  },
@@ -24,21 +27,7 @@ const SKILL_IMAGES = [
   { src: NodeJSicon,     alt: 'Node.js'     },
 ];
 
-const EDUCATION = [
-  
-];
-
-const EXPERIENCE = [
-  {
-    role:        'Your Job Title',
-    company:     'Company Name',
-    period:      'Month Year – Present',
-    description: [
-      'Describe a key responsibility or achievement here.',
-      'Add another bullet point highlighting your impact or skills used.',
-    ],
-  },
-];
+const EXPERIENCE = 
 
 export default function Skills({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
