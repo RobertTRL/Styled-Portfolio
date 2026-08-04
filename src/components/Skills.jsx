@@ -15,6 +15,8 @@ import data from '../data/db.json'
 
 const { EDUCATION } = data
 
+const { EXPERIENCE } = data
+
 const SKILL_IMAGES = [
   { src: JavascriptIcon, alt: 'JavaScript'  },
   { src: ReactIcon,      alt: 'React'       },
@@ -26,8 +28,6 @@ const SKILL_IMAGES = [
   { src: FlaskIcon,      alt: 'Flask'       },
   { src: NodeJSicon,     alt: 'Node.js'     },
 ];
-
-const { EXPERIENCE } = data
 
 export default function Skills({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
