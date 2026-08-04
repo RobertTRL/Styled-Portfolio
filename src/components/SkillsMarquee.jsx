@@ -1,3 +1,4 @@
+import { image } from 'framer-motion/client';
 import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
 
 const ANIMATION_CONFIG = { SMOOTH_TAU: 0.25, MIN_COPIES: 2, COPY_HEADROOM: 2 };
@@ -165,7 +166,7 @@ const MarqueeRow = memo(({ images, direction, speed, pauseOnHover, hoverSpeed, r
       >
         {images.map((img, i) => (
           <div className="marquee-item" key={`${rowId}-measure-${i}`}>
-            <img src={img.src} alt="" draggable={false} loading="lazy" decoding="async" />
+            <img src={img.src} alt="" draggable={false} loading="lazy" decoding="async" className={image.className || ''}/>
           </div>
         ))}
       </div>
