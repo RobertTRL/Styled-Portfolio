@@ -98,7 +98,7 @@ function ShowcaseCard({
                         className={`sc-cta ${isDark ? "sc-cta-dark" : "sc-cta-light"}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 0.12 }}
+                        transition={{ delay: 0, duration: 0 }}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -110,7 +110,7 @@ function ShowcaseCard({
                                     : { translateX: "-100%" }
                             }
                             transition={{
-                                duration: 0.3,
+                                duration: 0.1,
                                 ease: "easeInOut",
                             }}
                         />
