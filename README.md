@@ -1,5 +1,5 @@
 # Styled Portfolio
-A personal portfolio built from scratch with React and Vite. Designed to be immersive — featuring a fully animated day/night sky, an interactive 3D globe, and a custom cursor system — while remaining fast and responsive through aggressive code-splitting.
+A personal portfolio built from scratch with React and Vite. Designed to be immersive — featuring a fully animated day/night sky, an interactive 3D globe — while remaining fast and responsive through aggressive code-splitting.
 
 ---
 
@@ -16,7 +16,6 @@ A personal portfolio built from scratch with React and Vite. Designed to be imme
 - **Interactive 3D contact globe** — a WebGL globe (Three.js + `@react-three/fiber` + `three-globe`) rendered inside the Contacts section, showing animated arcs radiating from Nakuru, Kenya to cities around the world; lazy-mounted only once it nears the viewport so its ~2-3 MB chunk never competes with first-paint assets
 - **WhatsApp-relayed contact form** — a name/email/message form that opens a pre-filled `wa.me` link instead of requiring a backend
 - **One-click contact copy** — clipboard copy for email, with tap-to-call for phone and direct links out to LinkedIn/GitHub
-- **GitHub activity calendar** — live contribution graph pulled directly from your GitHub profile
 - **Performance-first loading** — route-level `lazy()` + `Suspense` for every non-critical section, a manual preload pass for lighter chunks, and a scroll-proximity `LazyMount` wrapper that defers the heavy globe chunk until it's actually needed
 - **Vercel Analytics & Speed Insights** — lazy-loaded alongside the rest of the app for real-world traffic and performance monitoring
 
