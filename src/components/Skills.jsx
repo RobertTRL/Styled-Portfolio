@@ -25,7 +25,7 @@ const SKILL_IMAGES = [
   { src: Illustrator,    alt: 'Illustrator' },
   { src: InDesign,       alt: 'Indesign'    },
   { src: Claude,         alt: 'Claude'      },
-  { src: FlaskIcon,      alt: 'Flask'       },
+  { src: FlaskIcon,      alt: 'Flask', className: 'flask-icon'},
   { src: NodeJSicon,     alt: 'Node.js'     },
 ];
 
