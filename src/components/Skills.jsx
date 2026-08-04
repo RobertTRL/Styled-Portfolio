@@ -27,7 +27,7 @@ const SKILL_IMAGES = [
   { src: NodeJSicon,     alt: 'Node.js'     },
 ];
 
-const EXPERIENCE = 
+const { EXPERIENCE } = data
 
 export default function Skills({ isDark }) {
   const themeClass = isDark ? 'dark-mode' : 'light-mode';
