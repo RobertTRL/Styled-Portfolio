@@ -155,9 +155,9 @@ function ShowcaseCard({
                                             <motion.span
                                                 className={`sc-divider ${isDark ? "sc-divider-dark" : "sc-divider-light"}`}
                                                 initial={{ rotate: 0 }}
-                                                whileHover={{ rotate: 180 }}
+                                                whileHover={{ color: isDark ? "#ffffff" : "#111827", scale: 1.05, rotate: 180 }}
                                                 transition={{
-                                                    duration: 0.15,
+                                                    duration: 0.6,
                                                     ease: [0.22, 1, 0.36, 1],
                                                 }}
                                             >
