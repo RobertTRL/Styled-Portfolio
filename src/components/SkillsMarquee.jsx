@@ -3,49 +3,88 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/skills.css";
 
 const SPEED = 60;
+const INITIAL_COPY_COUNT = 4;
 
 export default function SkillsMarquee({ images, speed = SPEED }) {
-  const x = useMotionValue(0);
   const trackRef = useRef(null);
   const controlRef = useRef(null);
-  const [trackWidth, setTrackWidth] = useState(0);
+  const x = useMotionValue(0);
+
+  const [copyCount, setCopyCount] = useState(INITIAL_COPY_COUNT);
+  const [sequenceWidth, setSequenceWidth] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Two copies are enough for a seamless loop.
-  const loopImages = useMemo(() => [...images, ...images], [images]);
+  const repeatedImages = useMemo(
+    () =>
+      Array.from({ length: copyCount }, (_, copyIndex) =>
+        images.map((image, imageIndex) => ({
+          ...image,
+          copyIndex,
+          key: `${copyIndex}-${imageIndex}-${image.src}`,
+        })),
+      ).flat(),
+    [copyCount, images],
+  );
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return undefined;
+    const viewport = track?.parentElement;
+
+    if (!track || !viewport || images.length === 0) return undefined;
 
     const measure = () => {
-      setTrackWidth(track.scrollWidth / 2);
+      const nextSequenceWidth = track.scrollWidth / copyCount;
+      if (!nextSequenceWidth) return;
+
+      // One visible sequence plus one additional full sequence ensures
+      // content remains visible while the first sequence slides away.
+      const neededCopies = Math.max(
+        2,
+        Math.ceil(viewport.clientWidth / nextSequenceWidth) + 1,
+      );
+
+      setSequenceWidth(nextSequenceWidth);
+      setCopyCount((current) =>
+        current === neededCopies ? current : neededCopies,
+      );
     };
 
-    const frame = requestAnimationFrame(measure);
-    const observer = new ResizeObserver(measure);
-    observer.observe(track);
+    const frameId = requestAnimationFrame(measure);
+    const resizeObserver = new ResizeObserver(measure);
+
+    resizeObserver.observe(track);
+    resizeObserver.observe(viewport);
 
     return () => {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
+      cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
     };
-  }, [loopImages]);
+  }, [copyCount, images]);
 
   useEffect(() => {
-    if (!trackWidth || isPaused || speed <= 0) {
+    if (!sequenceWidth || isPaused || speed <= 0) {
       controlRef.current?.stop();
       return undefined;
     }
 
-    const runLeg = () => {
-      if (x.get() <= -trackWidth) x.set(0);
+    let cancelled = false;
 
-      const distanceLeft = trackWidth + x.get();
-      controlRef.current = animate(x, -trackWidth, {
+    const runLeg = () => {
+      if (cancelled) return;
+
+      // Handles a pause/resume exactly at the loop boundary.
+      if (x.get() <= -sequenceWidth) {
+        x.set(0);
+      }
+
+      const distanceLeft = Math.max(sequenceWidth + x.get(), 1);
+
+      controlRef.current = animate(x, -sequenceWidth, {
         duration: distanceLeft / speed,
         ease: "linear",
         onComplete: () => {
+          if (cancelled) return;
+
           x.set(0);
           runLeg();
         },
@@ -55,10 +94,11 @@ export default function SkillsMarquee({ images, speed = SPEED }) {
     runLeg();
 
     return () => {
+      cancelled = true;
       controlRef.current?.stop();
       controlRef.current = null;
     };
-  }, [isPaused, speed, trackWidth, x]);
+  }, [isPaused, sequenceWidth, speed, x]);
 
   return (
     <div
@@ -67,11 +107,11 @@ export default function SkillsMarquee({ images, speed = SPEED }) {
       onMouseLeave={() => setIsPaused(false)}
     >
       <motion.div className="marquee-track" ref={trackRef} style={{ x }}>
-        {loopImages.map((image, index) => (
+        {repeatedImages.map((image) => (
           <div
             className="marquee-item"
-            key={`${image.src}-${index}`}
-            aria-hidden={index >= images.length || undefined}
+            key={image.key}
+            aria-hidden={image.copyIndex > 0 || undefined}
           >
             <img
               src={image.src}
