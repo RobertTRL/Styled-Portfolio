@@ -2,6 +2,17 @@ import React from "react";
 import { motion } from "framer-motion";
 import "../styles/showcasecard.css";
 
+const heroTransition = {
+  opacity: { duration: 0.15 },
+  y: { duration: 0.15, ease: [0.25, 0.46, 0.45, 0.94] },
+  scale: { type: "spring", stiffness: 300, damping: 24, mass: 0.8 },
+};
+
+const compactTransition = {
+  scale: { type: "spring", stiffness: 320, damping: 24, mass: 0.75 },
+  y: { type: "spring", stiffness: 320, damping: 24, mass: 0.75 },
+};
+
 function ShowcaseCard({
   tagline,
   heading,
@@ -26,10 +37,7 @@ function ShowcaseCard({
       } ${className}`}
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.15,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
+      transition={heroTransition}
       whileHover={{ scale: 1.02 }}
     >
       <div className="sc-image-container">
@@ -98,6 +106,14 @@ function ShowcaseCard({
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
+            transition={{
+              scale: {
+                type: "spring",
+                stiffness: 360,
+                damping: 24,
+                mass: 0.65,
+              },
+            }}
           >
             <span className="sc-cta-shine" aria-hidden="true" />
             <span className="sc-cta-text">{ctaText}</span>
@@ -191,7 +207,7 @@ function ShowcaseCardCompact({
       onClick={onClick}
       whileHover={{ scale: 1.02, y: -4 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.1 }}
+      transition={compactTransition}
     >
       <div className="sc-compact-image">
         <img
