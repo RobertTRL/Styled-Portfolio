@@ -1,8 +1,8 @@
-import { motion, useMotionValue, animate } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
-import '../styles/skills.css';
+import { animate, motion, useMotionValue } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import "../styles/skills.css";
 
-const SPEED = 60; // pixels per second
+const SPEED = 60;
 
 export default function SkillsMarquee({ images, speed = SPEED }) {
   const x = useMotionValue(0);
@@ -11,38 +11,54 @@ export default function SkillsMarquee({ images, speed = SPEED }) {
   const [trackWidth, setTrackWidth] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  const quadrupledImages = [...images, ...images, ...images, ...images];
+  // Two copies are enough for a seamless loop.
+  const loopImages = useMemo(() => [...images, ...images], [images]);
 
-  // Measure one full sequence once it's laid out.
   useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      setTrackWidth((trackRef.current?.scrollWidth || 0) / 2);
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [images]);
+    const track = trackRef.current;
+    if (!track) return undefined;
 
-  // Constant-speed loop. Stops in place on hover, resumes from the same x.
+    const measure = () => {
+      setTrackWidth(track.scrollWidth / 2);
+    };
+
+    const frame = requestAnimationFrame(measure);
+    const observer = new ResizeObserver(measure);
+    observer.observe(track);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [loopImages]);
+
   useEffect(() => {
-    if (!trackWidth || isPaused) {
+    if (!trackWidth || isPaused || speed <= 0) {
       controlRef.current?.stop();
-      return;
+      return undefined;
     }
 
     const runLeg = () => {
-      const distanceLeft = trackWidth + x.get(); // x.get() is <= 0
+      if (x.get() <= -trackWidth) x.set(0);
+
+      const distanceLeft = trackWidth + x.get();
       controlRef.current = animate(x, -trackWidth, {
         duration: distanceLeft / speed,
-        ease: 'linear',
+        ease: "linear",
         onComplete: () => {
-          x.set(0); // wraps seamlessly — position 0 looks identical to -trackWidth
+          x.set(0);
           runLeg();
         },
       });
     };
 
     runLeg();
-    return () => controlRef.current?.stop();
-  }, [trackWidth, isPaused, speed, x]);
+
+    return () => {
+      controlRef.current?.stop();
+      controlRef.current = null;
+    };
+  }, [isPaused, speed, trackWidth, x]);
 
   return (
     <div
@@ -51,14 +67,18 @@ export default function SkillsMarquee({ images, speed = SPEED }) {
       onMouseLeave={() => setIsPaused(false)}
     >
       <motion.div className="marquee-track" ref={trackRef} style={{ x }}>
-        {quadrupledImages.map((img, i) => (
-          <div className="marquee-item" key={i} aria-hidden={i >= images.length || undefined}>
+        {loopImages.map((image, index) => (
+          <div
+            className="marquee-item"
+            key={`${image.src}-${index}`}
+            aria-hidden={index >= images.length || undefined}
+          >
             <img
-              src={img.src}
+              src={image.src}
               alt=""
               draggable={false}
               decoding="async"
-              className={img.className || ''}
+              className={image.className || ""}
             />
           </div>
         ))}
