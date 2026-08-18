@@ -1,124 +1,130 @@
-import { useRef, useEffect } from 'react';
-import '../styles/glarewrapper.css';
+import { useEffect, useRef } from "react";
+import "../styles/glarewrapper.css";
 
-/**
- * GlareWrapper — optimised
- * ─────────────────────────────────────────────────────────────────────────────
- * Key changes vs. the original:
- *
- *   1. getBoundingClientRect() is cached on pointerenter and invalidated by a
- *      ResizeObserver + scroll listener — eliminates forced reflow per move.
- *
- *   2. Pointer events are attached natively with { passive: true } so the
- *      browser never blocks the compositor waiting for preventDefault().
- *
- *   3. All six CSS custom-property writes are collapsed into one
- *      el.style.cssText assignment per rAF, producing a single style
- *      invalidation instead of six.
- *
- *   4. Every handler is stable (lives inside useEffect), so React never
- *      re-attaches synthetic listeners and children never re-render due to
- *      changed handler identity.
- */
-export default function GlareWrapper({ children, className = '' }) {
+export default function GlareWrapper({ children, className = "" }) {
   const refElement = useRef(null);
 
   useEffect(() => {
-    const el = refElement.current;
-    if (!el) return;
+    const element = refElement.current;
+    if (!element) return undefined;
 
-    /* ── Mutable state (never triggers React render) ── */
-    let isInside   = false;
-    let raf        = null;
+    let isInside = false;
+    let frameId = null;
     let enterTimer = null;
-    let cachedRect = null;                         // ① cached layout
+    let cachedRect = null;
 
     const ROTATE_FACTOR = 0.4;
 
-    /* ── Cache helpers ── */
-    const refreshRect = () => { cachedRect = el.getBoundingClientRect(); };
+    let glareX = 50;
+    let glareY = 50;
+    let backgroundX = 50;
+    let backgroundY = 50;
+    let rotateX = 0;
+    let rotateY = 0;
 
-    /* ── Flush state → CSS (one write per frame) ── */
-    /* Using a single cssText assignment means ONE style invalidation */
-    let gx = 50, gy = 50, bx = 50, by = 50, rx = 0, ry = 0;
-
-    const commitStyles = () => {
-      el.style.cssText =              // ③ single invalidation
-          el.style.cssText.replace(    // preserve anything we didn't set
-            /--m-x:[^;]*;?|--m-y:[^;]*;?|--r-x:[^;]*;?|--r-y:[^;]*;?|--bg-x:[^;]*;?|--bg-y:[^;]*;?/g, '')
-        + `--m-x:${gx}%;--m-y:${gy}%;--r-x:${rx}deg;--r-y:${ry}deg;`
-        + `--bg-x:${bx}%;--bg-y:${by}%;`;
-      raf = null;
+    const refreshRect = () => {
+      cachedRect = element.getBoundingClientRect();
     };
 
-    /* ─── Pointer handlers (native, passive) ── ② ── */
-    const onMove = (e) => {
+    const commitStyles = () => {
+      element.style.cssText =
+        element.style.cssText.replace(
+          /--m-x:[^;]*;?|--m-y:[^;]*;?|--r-x:[^;]*;?|--r-y:[^;]*;?|--bg-x:[^;]*;?|--bg-y:[^;]*;?/g,
+          "",
+        ) +
+        `--m-x:${glareX}%;--m-y:${glareY}%;--r-x:${rotateX}deg;--r-y:${rotateY}deg;` +
+        `--bg-x:${backgroundX}%;--bg-y:${backgroundY}%;`;
+
+      frameId = null;
+    };
+
+    const onMove = (event) => {
       if (!cachedRect) return;
-      const pctX = ((e.clientX - cachedRect.left) / cachedRect.width)  * 100;
-      const pctY = ((e.clientY - cachedRect.top)  / cachedRect.height) * 100;
-      const dx   = pctX - 50;
-      const dy   = pctY - 50;
 
-      /* Pure math — no DOM reads */
-      bx =  50 + pctX / 4 - 12.5;
-      by =  50 + pctY / 3 - 16.67;
-      rx = -(dx / 3.5) * ROTATE_FACTOR;
-      ry =  (dy / 2)   * ROTATE_FACTOR;
-      gx =  pctX;
-      gy =  pctY;
+      const percentX =
+        ((event.clientX - cachedRect.left) / cachedRect.width) * 100;
+      const percentY =
+        ((event.clientY - cachedRect.top) / cachedRect.height) * 100;
 
-      if (!raf) raf = requestAnimationFrame(commitStyles);
+      const deltaX = percentX - 50;
+      const deltaY = percentY - 50;
+
+      backgroundX = 50 + percentX / 4 - 12.5;
+      backgroundY = 50 + percentY / 3 - 16.67;
+      rotateX = -(deltaX / 3.5) * ROTATE_FACTOR;
+      rotateY = (deltaY / 2) * ROTATE_FACTOR;
+      glareX = percentX;
+      glareY = percentY;
+
+      if (!frameId) {
+        frameId = requestAnimationFrame(commitStyles);
+      }
     };
 
     const onEnter = () => {
       isInside = true;
-      refreshRect();                               // ① one reflow on enter
+      refreshRect();
 
       if (enterTimer) clearTimeout(enterTimer);
-      enterTimer = setTimeout(() => {
+
+      enterTimer = window.setTimeout(() => {
         if (isInside) {
-          el.style.setProperty('--duration', '0s');
-          el.style.setProperty('--opacity',  '1');
+          element.style.setProperty("--duration", "0s");
+          element.style.setProperty("--opacity", "1");
         }
+
         enterTimer = null;
       }, 300);
     };
 
     const onLeave = () => {
-      isInside   = false;
+      isInside = false;
       cachedRect = null;
 
-      if (enterTimer) { clearTimeout(enterTimer); enterTimer = null; }
-      if (raf)        { cancelAnimationFrame(raf); raf = null; }
+      if (enterTimer) {
+        clearTimeout(enterTimer);
+        enterTimer = null;
+      }
 
-      el.style.removeProperty('--duration');
-      el.style.setProperty('--opacity', '0');
-      el.style.setProperty('--r-x', '0deg');
-      el.style.setProperty('--r-y', '0deg');
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      }
+
+      element.style.removeProperty("--duration");
+      element.style.setProperty("--opacity", "0");
+      element.style.setProperty("--r-x", "0deg");
+      element.style.setProperty("--r-y", "0deg");
     };
 
-    /* ── Attach native passive listeners ── */
-    el.addEventListener('pointermove',  onMove,  { passive: true });
-    el.addEventListener('pointerenter', onEnter, { passive: true });
-    el.addEventListener('pointerleave', onLeave, { passive: true });
+    const onScroll = () => {
+      if (isInside) refreshRect();
+    };
 
-    /* ── Invalidate rect cache on resize / scroll ── */
-    const ro = new ResizeObserver(refreshRect);
-    ro.observe(el);
-    /* Nearest scrollable ancestor — capture phase catches all scroll containers */
-    window.addEventListener('scroll', () => { if (isInside) refreshRect(); },
-                            { passive: true, capture: true });
+    const resizeObserver = new ResizeObserver(refreshRect);
 
-    /* ── Cleanup ── */
+    element.addEventListener("pointermove", onMove, { passive: true });
+    element.addEventListener("pointerenter", onEnter, { passive: true });
+    element.addEventListener("pointerleave", onLeave, { passive: true });
+
+    resizeObserver.observe(element);
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
+      capture: true,
+    });
+
     return () => {
-      el.removeEventListener('pointermove',  onMove);
-      el.removeEventListener('pointerenter', onEnter);
-      el.removeEventListener('pointerleave', onLeave);
-      ro.disconnect();
-      if (raf)        cancelAnimationFrame(raf);
+      element.removeEventListener("pointermove", onMove);
+      element.removeEventListener("pointerenter", onEnter);
+      element.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("scroll", onScroll, true);
+
+      resizeObserver.disconnect();
+
+      if (frameId) cancelAnimationFrame(frameId);
       if (enterTimer) clearTimeout(enterTimer);
     };
-  }, []);                                          // ④ runs once, all handlers stable
+  }, []);
 
   return (
     <div ref={refElement} className={`glare-wrapper ${className}`}>
